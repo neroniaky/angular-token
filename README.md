@@ -1,15 +1,14 @@
 # Angular2-Token
+[![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://www.npmjs.com/package/angular2-token)))
+[![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
+[![npm downloads](https://img.shields.io/npm/dt/angular2-token.svg)](https://npmjs.org/angular2-token)
+[![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 ## About
 Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
 
 Angular2-Token is currently in early Alpha. Any contribution is much appreciated.
-
-[![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://www.npmjs.com/package/angular2-token)))
-[![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
-[![npm downloads](https://img.shields.io/npm/dm/angular2-token.svg)](https://npmjs.org/angular2-token)
-[![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 ## Install
 Install Angular2-Token via NPM with
