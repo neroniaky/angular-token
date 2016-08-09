@@ -1,5 +1,4 @@
 # Angular2-Token
-[![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://www.npmjs.com/package/angular2-token)))
 [![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-token.svg)](https://npmjs.org/angular2-token)
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
@@ -20,8 +19,8 @@ npm install angular2-token --save
 1. Import `Angular2TokenService` into your component
     ```javascript
     import { Angular2TokenService } from 'angular2-token';
-
     ```
+
 2. Add `Angular2TokenService` as a provider to your component
     ```javascript
     @Component({
@@ -79,7 +78,11 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 
 #### Example:
 ```javascript
-this._tokenService.login('example@example.com', 'secretPassword', 'ADMIN').subscribe(
+this._tokenService.login(
+    'example@example.com',
+    'secretPassword',
+    'ADMIN'
+).subscribe(
     res => console.log(res),
     error => console.log(error)
 );
@@ -118,7 +121,11 @@ Updates the existing password for the logged in user.
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword('oldPassword', 'newPassword', 'newPassword').subscribe(
+this._tokenService.updatePassword(
+    'oldPassword',
+    'newPassword',
+    'newPassword'
+).subscribe(
     res => console.log(res),
     error => console.log(error)
 );
