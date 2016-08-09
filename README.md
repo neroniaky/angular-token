@@ -1,10 +1,14 @@
 # Angular2-Token
 
 ## About
-Token based authentication service for Angular2. Angular2-Token works best with the
+Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
 
 Angular2-Token is currently in early Alpha. Any contribution is much appreciated.
+
+[![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://www.npmjs.com/package/angular2-token)))
+[![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://www.npmjs.com/package/angular2-token))
+[![npm](https://img.shields.io/npm/dt/express.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)]([![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://www.npmjs.com/package/angular2-token))))
 
 ## Install
 Install Angular2-Token via NPM with
@@ -70,9 +74,10 @@ Once initialized `Angular2TokenService` offers methods for session management an
 ### Log In
 The logIn method is used to sign in the user with email address and password.
 The optional parameter `type` specifies the name of UserType used for this session.
+
 `logIn(email: string, password: string, userType?: string): Observable<Response>`
 
-#### example
+#### Example:
 ```javascript
 this._tokenService.login('example@example.com', 'secretPassword', 'ADMIN').subscribe(
     res => console.log(res),
@@ -81,10 +86,11 @@ this._tokenService.login('example@example.com', 'secretPassword', 'ADMIN').subsc
 ```
 
 ### Log Out
-The logOut destroys the session and deletes the browsers session storage.
+The logOut method destroys session and browsers session storage.
+
 `logOut(): Observable<Response>`
 
-#### example
+#### Example:
 ```javascript
 this._tokenService.logOut().subscribe(
     res => console.log(res),
@@ -94,9 +100,10 @@ this._tokenService.logOut().subscribe(
 
 ### Validate Token
 Validates the current token with the server.
+
 `validateToken(): Observable<Response>`
 
-#### example
+#### Example:
 ```javascript
 this._tokenService.validateToken().subscribe(
     res => console.log(res),
@@ -106,9 +113,10 @@ this._tokenService.validateToken().subscribe(
 
 ### Change Password
 Updates the existing password for the logged in user.
+
 `updatePassword(currentPassword: string, password: string, passwordConfirmation: string): Observable<Response>`
 
-#### example
+#### Example:
 ```javascript
 this._tokenService.updatePassword('oldPassword', 'newPassword', 'newPassword').subscribe(
     res => console.log(res),
@@ -124,7 +132,7 @@ this._tokenService.updatePassword('oldPassword', 'newPassword', 'newPassword').s
 - `delete(path: string): Observable<Response>`
 - `patch(path: string, data: any): Observable<Response>`
 
-#### example
+#### Example:
 ```javascript
 this._tokenService.get('myResource/1').map(res => res.json()).subscribe(
     res => console.log(res),
@@ -133,4 +141,4 @@ this._tokenService.get('myResource/1').map(res => res.json()).subscribe(
 ```
 
 ## License
-The MIT License (see the [LICENSE]() file for the full text)
+The MIT License (see the [LICENSE](https://github.com/neroniaky/angular2-token/blob/master/LICENSE) file for the full text)

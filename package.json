@@ -19,5 +19,14 @@
     "rxjs": "5.0.0-beta.6"
   },
   "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "git+https://github.com/neroniaky/angular2-token.git"
+  },
+  "bugs": {
+    "url": "https://github.com/neroniaky/angular2-token/issues"
+  },
+  "homepage": "https://github.com/neroniaky/angular2-token#readme"
 }
