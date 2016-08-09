@@ -1,0 +1,23 @@
+{
+  "name": "angular2-token",
+  "version": "0.0.1",
+  "description": "Angular2 service for token base authentication",
+  "main": "./angular2-token.js",
+  "typings": "./angular2-token.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "angular2",
+    "devise token auth",
+    "token authentication"
+  ],
+  "peerDependencies": {
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/common": "2.0.0-rc.4",
+    "rxjs": "5.0.0-beta.6"
+  },
+  "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
+  "license": "MIT"
+}

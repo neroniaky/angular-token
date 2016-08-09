@@ -1,0 +1,1 @@
+exports.Angular2TokenService = require('./src/angular2-token.service').Angular2TokenService;
