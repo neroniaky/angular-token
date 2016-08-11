@@ -141,10 +141,15 @@ this._tokenService.updatePassword(
 
 #### Example:
 ```javascript
-this._tokenService.get('myResource/1').map(res => res.json()).subscribe(
+this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
     res => console.log(res),
     error => console.log(error)
 );
+```
+
+## Testing
+```bash
+npm test
 ```
 
 ## License
