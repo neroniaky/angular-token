@@ -30,14 +30,12 @@ export class Angular2TokenService {
     init(options?: Angular2TokenOptions) {
 
         let defaultOptions: Angular2TokenOptions = {
-            apiPath: '/',
+            apiPath: '',
             signInPath: 'auth/sign_in',
             signOutPath: 'auth/sign_out',
             validateTokenPath: 'auth/validate_token',
             updatePasswordPath: 'auth/password',
-            userTypes: [
-                { name: 'USER', path: 'users' }
-            ]
+            userTypes: null
         };
 
         this._options = Object.assign(defaultOptions, options);
@@ -49,7 +47,7 @@ export class Angular2TokenService {
     logIn(email: string, password: string, userType?: string): Observable<Response> {
 
         if (userType == null)
-            this._currentUserType = this._options.userTypes[0];
+            this._currentUserType = null;
         else
             this._currentUserType = this._getUserTypeByName(userType);
 
@@ -58,12 +56,12 @@ export class Angular2TokenService {
             password: password
         });
 
-        return this.post(this._currentUserType.path + '/' + this._options.signInPath, body).map(res => res.json());
+        return this.post(this._constructUserPath() + this._options.signInPath, body).map(res => res.json());
     }
 
     // Log out request and delete storage
     logOut(): Observable<Response> {
-        let logout = this.delete(this._currentUserType.path + '/' + this._options.signOutPath).map(res => res.json());
+        let logout = this.delete(this._constructUserPath() + this._options.signOutPath).map(res => res.json());
 
         localStorage.clear();
         this._currentAuthData = null;
@@ -74,7 +72,7 @@ export class Angular2TokenService {
 
     // Validate token request
     validateToken(): Observable<Response> {
-        return this.get(this._currentUserType.path + '/' + this._options.validateTokenPath).map(res => res.json());
+        return this.get(this._constructUserPath() + this._options.validateTokenPath).map(res => res.json());
     }
 
     // Update password request
@@ -86,36 +84,36 @@ export class Angular2TokenService {
             password_confirmation: passwordConfirmation
         });
 
-        return this.put(this._currentUserType.path + this._options.updatePasswordPath, body).map(res => res.json());
+        return this.put(this._constructUserPath() + this._options.updatePasswordPath, body).map(res => res.json());
     }
 
     // Standard HTTP requests
     get(path: string): Observable<Response> {
-        let response = this._http.get(this._options.apiPath + path, this._constructRequestOptions()).share();
+        let response = this._http.get(this._constructApiPath() + path, this._constructRequestOptions()).share();
         this._handleResponse(response);
         return response;
     }
 
     post(path: string, data: any): Observable<Response> {
-        let response = this._http.post(this._options.apiPath + path, data, this._constructRequestOptions()).share();
+        let response = this._http.post(this._constructApiPath() + path, data, this._constructRequestOptions()).share();
         this._handleResponse(response);
         return response;
     }
 
     put(path: string, data: any): Observable<Response> {
-        let response = this._http.put(this._options.apiPath + path, data, this._constructRequestOptions()).share();
+        let response = this._http.put(this._constructApiPath() + path, data, this._constructRequestOptions()).share();
         this._handleResponse(response);
         return response;
     }
 
     delete(path: string): Observable<Response> {
-        let response = this._http.delete(this._options.apiPath + path, this._constructRequestOptions()).share();
+        let response = this._http.delete(this._constructApiPath() + path, this._constructRequestOptions()).share();
         this._handleResponse(response);
         return response;
     }
 
     patch(path: string, data: any): Observable<Response> {
-        let response = this._http.patch(this._options.apiPath + path, data, this._constructRequestOptions()).share();
+        let response = this._http.patch(this._constructApiPath() + path, data, this._constructRequestOptions()).share();
         this._handleResponse(response);
         return response;
     }
@@ -158,7 +156,7 @@ export class Angular2TokenService {
                 'access-token': this._currentAuthData.accessToken,
                 'client': this._currentAuthData.client,
                 'expiry': this._currentAuthData.expiry,
-                'tokenType': this._currentAuthData.tokenType,
+                'token-type': this._currentAuthData.tokenType,
                 'uid': this._currentAuthData.uid
             });
         }
@@ -195,7 +193,8 @@ export class Angular2TokenService {
         localStorage.setItem('tokenType', authData.tokenType);
         localStorage.setItem('uid', authData.uid);
 
-        localStorage.setItem('userType', this._currentUserType.name);
+        if(this._currentUserType != null)
+            localStorage.setItem('userType', this._currentUserType.name);
     }
 
     // Check if auth data complete
@@ -223,7 +222,6 @@ export class Angular2TokenService {
 
     // Try to load user config from storage
     private _tryLoadAuthData() {
-
         let userType = this._getUserTypeByName(localStorage.getItem('userType'));
         this._getAuthData();
 
@@ -233,8 +231,22 @@ export class Angular2TokenService {
 
     // Match user config by user config name
     private _getUserTypeByName(name: string): UserType {
+        if (name == null || this._options.userTypes == null)
+            return null;
+
         return this._options.userTypes.find(
             userType => userType.name === name
         );
+    }
+
+    private _constructUserPath(): string {
+        if (this._currentUserType == null)
+            return '';
+        else
+            return this._currentUserType.path + '/';
+    }
+
+    private _constructApiPath(): string {
+        return this._options.apiPath + '/';
     }
 }

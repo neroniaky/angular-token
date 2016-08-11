@@ -1,2 +1,7 @@
 node_modules
+
+# Testing
+config
 coverage
+karma.conf.js
+tsconfig.json

@@ -49,9 +49,7 @@ constructor(private _tokenService: Angular2TokenService) {
         signOutPath: 'auth/sign_out',
         validateTokenPath: 'auth/validate_token',
         updatePasswordPath: 'auth/password',
-        userTypes: [
-            { name: 'USER', path: 'users' }
-        ]
+        userTypes: null
     });
 }
 ```
@@ -80,8 +78,7 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 ```javascript
 this._tokenService.login(
     'example@example.com',
-    'secretPassword',
-    'ADMIN'
+    'secretPassword'
 ).subscribe(
     res => console.log(res),
     error => console.log(error)
@@ -147,10 +144,32 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
 );
 ```
 
+### User types
+An Array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
+The user type is selected during login and persists until logout.
+
+#### Example:
+```javascript
+this._tokenService.init({
+    userTypes: [
+        { name: 'ADMIN', path: 'admin'},
+        { name: 'USER', path: 'user')
+    }]
+});
+
+this._tokenService.login(
+    'example@example.com',
+    'secretPassword',
+    'ADMIN'
+)
+```
+
 ## Testing
 ```bash
 npm test
 ```
+## Credits
+Test config files base on [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) by AngularClass
 
 ## License
 The MIT License (see the [LICENSE](https://github.com/neroniaky/angular2-token/blob/master/LICENSE) file for the full text)
