@@ -44,7 +44,7 @@ Configuration options can be passed as `Angular2TokenOptions` via `.init()`
 ```javascript
 constructor(private _tokenService: Angular2TokenService) {
     this._tokenService.init({
-        apiPath: '/',
+        apiPath: '',
         signInPath: 'auth/sign_in',
         signOutPath: 'auth/sign_out',
         validateTokenPath: 'auth/validate_token',
@@ -169,7 +169,7 @@ this._tokenService.login(
 npm test
 ```
 ## Credits
-Test config files base on [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) by AngularClass
+Test config files based on [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) by AngularClass
 
 ## License
 The MIT License (see the [LICENSE](https://github.com/neroniaky/angular2-token/blob/master/LICENSE) file for the full text)
