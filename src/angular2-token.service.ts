@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, Request, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
@@ -30,7 +30,7 @@ export class Angular2TokenService {
     init(options?: Angular2TokenOptions) {
 
         let defaultOptions: Angular2TokenOptions = {
-            apiPath: '',
+            apiPath: null,
             signInPath: 'auth/sign_in',
             signOutPath: 'auth/sign_out',
             validateTokenPath: 'auth/validate_token',
@@ -43,8 +43,30 @@ export class Angular2TokenService {
         this._tryLoadAuthData();
     }
 
-    // Log in request and set storage
-    logIn(email: string, password: string, userType?: string): Observable<Response> {
+    // Register request
+    registerAccount(email: string, password: string, passwordConfirmation: string, userType?: string): Observable<Response> {
+
+        if (userType == null)
+            this._currentUserType = null;
+        else
+            this._currentUserType = this._getUserTypeByName(userType);
+
+        let body = JSON.stringify({
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation
+        });
+
+        return this.post(this._constructUserPath(), body).map(res => res.json());
+    }
+
+    // Delete Account
+    deleteAccount(): Observable<Response> {
+        return this.delete(this._constructUserPath()).map(res => res.json());
+    }
+
+    // Sign in request and set storage
+    signIn(email: string, password: string, userType?: string): Observable<Response> {
 
         if (userType == null)
             this._currentUserType = null;
@@ -59,15 +81,15 @@ export class Angular2TokenService {
         return this.post(this._constructUserPath() + this._options.signInPath, body).map(res => res.json());
     }
 
-    // Log out request and delete storage
-    logOut(): Observable<Response> {
-        let logout = this.delete(this._constructUserPath() + this._options.signOutPath).map(res => res.json());
+    // Sign out request and delete storage
+    signOut(): Observable<Response> {
+        let response = this.delete(this._constructUserPath() + this._options.signOutPath).map(res => res.json());
 
         localStorage.clear();
         this._currentAuthData = null;
         this._currentUserType = null;
 
-        return logout;
+        return response;
     }
 
     // Validate token request
@@ -88,34 +110,24 @@ export class Angular2TokenService {
     }
 
     // Standard HTTP requests
-    get(path: string): Observable<Response> {
-        let response = this._http.get(this._constructApiPath() + path, this._constructRequestOptions()).share();
-        this._handleResponse(response);
-        return response;
+    get(path: string, data?: any): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Get, path, data);
     }
 
     post(path: string, data: any): Observable<Response> {
-        let response = this._http.post(this._constructApiPath() + path, data, this._constructRequestOptions()).share();
-        this._handleResponse(response);
-        return response;
+        return this._sendHttpRequest(RequestMethod.Post, path, data);
     }
 
     put(path: string, data: any): Observable<Response> {
-        let response = this._http.put(this._constructApiPath() + path, data, this._constructRequestOptions()).share();
-        this._handleResponse(response);
-        return response;
+        return this._sendHttpRequest(RequestMethod.Put, path, data);
     }
 
-    delete(path: string): Observable<Response> {
-        let response = this._http.delete(this._constructApiPath() + path, this._constructRequestOptions()).share();
-        this._handleResponse(response);
-        return response;
+    delete(path: string, data?: any): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Delete, path, data);
     }
 
     patch(path: string, data: any): Observable<Response> {
-        let response = this._http.patch(this._constructApiPath() + path, data, this._constructRequestOptions()).share();
-        this._handleResponse(response);
-        return response;
+        return this._sendHttpRequest(RequestMethod.Patch, path, data);
     }
 
     // Check if response is complete and newer, then update storage
@@ -141,16 +153,13 @@ export class Angular2TokenService {
         });
     }
 
-    // Construct options for Anfular HTTP Service request
-    private _constructRequestOptions(): RequestOptions {
+    // Construct and send Http request
+    private _sendHttpRequest(method: RequestMethod, path: string, body?: any): Observable<Response> {
 
-        let headers;
+        let headers     = new Headers({'Content-Type': 'application/json'});
+        let respBody    = "";
 
-        if (this._currentAuthData == null) {
-            headers = new Headers({
-                'Content-Type': 'application/json'
-            });
-        } else {
+        if (this._currentAuthData != null) {
             headers = new Headers({
                 'Content-Type': 'application/json',
                 'access-token': this._currentAuthData.accessToken,
@@ -161,7 +170,19 @@ export class Angular2TokenService {
             });
         }
 
-        return new RequestOptions({ headers: headers });
+        if (body != null)
+            respBody = body;
+
+        let response = this._http.request(new Request({
+            method: method,
+            url: this._constructApiPath() + path,
+            headers: headers,
+            body: respBody
+        })).share();
+
+        this._handleResponse(response);
+
+        return response;
     }
 
     // Try to get auth data from storage. Return null if parameter is missing.
@@ -247,6 +268,9 @@ export class Angular2TokenService {
     }
 
     private _constructApiPath(): string {
-        return this._options.apiPath + '/';
+        if (this._options.apiPath == null)
+            return '';
+        else
+            return this._options.apiPath + '/';
     }
 }

@@ -1,4 +1,4 @@
-import { Http, BaseRequestOptions, Response, ResponseOptions, Headers } from '@angular/http';
+import { Http, BaseRequestOptions, Response, ResponseOptions, Headers, RequestMethod } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { provide } from '@angular/core';
 import { inject, addProviders } from '@angular/core/testing';
@@ -25,6 +25,11 @@ describe('Angular2TokenService', () => {
 		'client': client,
 		'expiry': expiry
 	});
+
+	let signInData = {
+		email: 'test@test.de',
+		password: 'password'
+	}
 
 	beforeEach(() => {
 		// Inject HTTP and Angular2TokenService
@@ -58,27 +63,40 @@ describe('Angular2TokenService', () => {
 		});
 	});
 
-	it('logIn method should send data', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
-
-		let logInData = {
-			email: 'test@test.de',
-			password: 'password'
-		}
+	it('signIn method should post data', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
 		mockBackend.connections.subscribe(
-			c => expect(c.request.getBody()).toEqual(JSON.stringify(logInData))
+			c => {
+				expect(c.request.getBody()).toEqual(JSON.stringify(signInData));
+				expect(c.request.method).toEqual(RequestMethod.Post);
+			}
 		);
 
 		tokenService.init();
-		tokenService.logIn(logInData.email, logInData.password);
+		tokenService.signIn(signInData.email, signInData.password);
 	}));
 
-	it('logIn method should receive headers and set local storage', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+	it('signIn method should send to default url', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
-		let logInData = {
-			email: 'test@test.de',
-			password: 'password'
-		}
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('auth/sign_in')
+		);
+
+		tokenService.init();
+		tokenService.signIn(signInData.email, signInData.password);
+	}));
+
+	it('signIn method should send to configured api path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/auth/sign_in')
+		);
+
+		tokenService.init({apiPath: 'myapi'});
+		tokenService.signIn(signInData.email, signInData.password);
+	}));
+
+	it('signIn method should receive headers and set local storage', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
 		mockBackend.connections.subscribe(
 			c => c.mockRespond(new Response(
@@ -89,13 +107,44 @@ describe('Angular2TokenService', () => {
 		);
 
 		tokenService.init();
-		tokenService.logIn(logInData.email, logInData.password);
+		tokenService.signIn(signInData.email, signInData.password);
 
 		expect(localStorage.getItem('accessToken')).toEqual(accessToken);
 		expect(localStorage.getItem('client')).toEqual(client);
 		expect(localStorage.getItem('expiry')).toEqual(expiry);
 		expect(localStorage.getItem('tokenType')).toEqual(tokenType);
 		expect(localStorage.getItem('uid')).toEqual(uid);
+	}));
+
+	it('signOut method should send delete', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.method).toEqual(RequestMethod.Delete)
+		);
+
+		tokenService.init();
+		tokenService.signOut();
+	}));
+
+	it('signOut method should clear local storage', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+		localStorage.setItem('token-type', tokenType);
+		localStorage.setItem('uid', uid);
+		localStorage.setItem('access-token', accessToken);
+		localStorage.setItem('client', client);
+		localStorage.setItem('expiry', expiry);
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.method).toEqual(RequestMethod.Delete)
+		);
+
+		tokenService.init();
+		tokenService.signOut();
+
+		expect(localStorage.getItem('accessToken')).toBe(null);
+		expect(localStorage.getItem('client')).toBe(null);
+		expect(localStorage.getItem('expiry')).toBe(null);
+		expect(localStorage.getItem('tokenType')).toBe(null);
+		expect(localStorage.getItem('uid')).toBe(null);
 	}));
 
 });

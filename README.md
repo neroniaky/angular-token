@@ -68,15 +68,15 @@ Further information on paths/routes can be found at
 ## Usage
 Once initialized `Angular2TokenService` offers methods for session management and a Angular2 Http-Service wrapper.
 
-### Log In
-The logIn method is used to sign in the user with email address and password.
+### Sign In
+The signIn method is used to sign in the user with email address and password.
 The optional parameter `type` specifies the name of UserType used for this session.
 
-`logIn(email: string, password: string, userType?: string): Observable<Response>`
+`signIn(email: string, password: string, userType?: string): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.login(
+this._tokenService.signIn(
     'example@example.com',
     'secretPassword'
 ).subscribe(
@@ -85,14 +85,14 @@ this._tokenService.login(
 );
 ```
 
-### Log Out
-The logOut method destroys session and browsers session storage.
+### Sign Out
+The signOut method destroys session and browsers session storage.
 
-`logOut(): Observable<Response>`
+`signOut(): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.logOut().subscribe(
+this._tokenService.signOut().subscribe(
     res => console.log(res),
     error => console.log(error)
 );
@@ -130,10 +130,10 @@ this._tokenService.updatePassword(
 
 ### HTTP Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
-- `get(path: string): Observable<Response>`
+- `get(path: string, data?: any): Observable<Response>`
 - `post(path: string, data: any): Observable<Response>`
 - `put(path: string, data: any): Observable<Response>`
-- `delete(path: string): Observable<Response>`
+- `delete(path: string, data?: any): Observable<Response>`
 - `patch(path: string, data: any): Observable<Response>`
 
 #### Example:
@@ -146,7 +146,7 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
 
 ### User types
 An Array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
-The user type is selected during login and persists until logout.
+The user type is selected during sign in and persists until sign out.
 
 #### Example:
 ```javascript
@@ -157,7 +157,7 @@ this._tokenService.init({
     }]
 });
 
-this._tokenService.login(
+this._tokenService.signIn(
     'example@example.com',
     'secretPassword',
     'ADMIN'
