@@ -20,7 +20,7 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     - [`.validateToken()`](#validatetoken)
     - [`.updatePassword()`](#updatepassword)
 - [HTTP Service Wrapper](#http-service-wrapper)
-- [Multiple User types](#multiple-user-types)
+- [Multiple User Types](#multiple-user-types)
 - [Testing](#testing)
 - [Credits](#credits)
 - [License](#license)
@@ -31,21 +31,19 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     npm install angular2-token --save
     ```
 
-2. Import `Angular2TokenService` into your component
+2. Import and add `Angular2TokenService` to your module.
     ```javascript
     import { Angular2TokenService } from 'angular2-token';
-    ```
 
-3. Add `Angular2TokenService` as a provider to your component
-    ```javascript
-    @Component({
-        selector: 'app',
-        providers: [Angular2TokenService],
-        templateUrl: './app.html',
+    @NgModule({
+        imports:      [ BrowserModule ],
+        declarations: [ AppComponent ],
+        providers:    [ Angular2TokenService ],
+        bootstrap:    [ AppComponent ]
     })
     ```
 
-4. Inject `Angular2TokenService` into your component and call `.init()`
+3. Inject `Angular2TokenService` into your component and call `.init()`
     ```javascript
     constructor(private _tokenService: Angular2TokenService) {
         this._tokenService.init();
@@ -198,9 +196,9 @@ The user type is selected during sign in and persists until sign out.
 ```javascript
 this._tokenService.init({
     userTypes: [
-        { name: 'ADMIN', path: 'admin'},
-        { name: 'USER', path: 'user')
-    }]
+        { name: 'ADMIN', path: 'admin' },
+        { name: 'USER', path: 'user' }
+    ]
 });
 
 this._tokenService.signIn(
