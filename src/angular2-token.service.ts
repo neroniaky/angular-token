@@ -30,12 +30,14 @@ export class Angular2TokenService {
     init(options?: Angular2TokenOptions) {
 
         let defaultOptions: Angular2TokenOptions = {
-            apiPath: null,
-            signInPath: 'auth/sign_in',
-            signOutPath: 'auth/sign_out',
-            validateTokenPath: 'auth/validate_token',
-            updatePasswordPath: 'auth/password',
-            userTypes: null
+            apiPath:                null,
+            signInPath:             'auth/sign_in',
+            signOutPath:            'auth/sign_out',
+            registerAccountPath:    'auth',
+            deleteAccountPath:      'auth',
+            validateTokenPath:      'auth/validate_token',
+            updatePasswordPath:     'auth/password',
+            userTypes:              null
         };
 
         this._options = Object.assign(defaultOptions, options);
@@ -57,12 +59,12 @@ export class Angular2TokenService {
             password_confirmation: passwordConfirmation
         });
 
-        return this.post(this._constructUserPath(), body).map(res => res.json());
+        return this.post(this._constructUserPath() + this._options.registerAccountPath, body).map(res => res.json());
     }
 
     // Delete Account
     deleteAccount(): Observable<Response> {
-        return this.delete(this._constructUserPath()).map(res => res.json());
+        return this.delete(this._constructUserPath() + this._options.registerAccountPath).map(res => res.json());
     }
 
     // Sign in request and set storage

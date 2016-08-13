@@ -43,7 +43,7 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     })
     ```
 
-3. Inject `Angular2TokenService` into your component and call `.init()`
+3. Inject `Angular2TokenService` into your component and call `.init()`.
     ```javascript
     constructor(private _tokenService: Angular2TokenService) {
         this._tokenService.init();
@@ -51,18 +51,20 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     ```
 
 ## Configuration
-Configuration options can be passed as `Angular2TokenOptions` via `.init()`
+Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
 
 ### Default Configuration
 ```javascript
 constructor(private _tokenService: Angular2TokenService) {
     this._tokenService.init({
-        apiPath: '',
-        signInPath: 'auth/sign_in',
-        signOutPath: 'auth/sign_out',
-        validateTokenPath: 'auth/validate_token',
-        updatePasswordPath: 'auth/password',
-        userTypes: null
+        apiPath:                null,
+        signInPath:             'auth/sign_in',
+        signOutPath:            'auth/sign_out',
+        registerAccountPath:    'auth',
+        deleteAccountPath:      'auth',
+        validateTokenPath:      'auth/validate_token',
+        updatePasswordPath:     'auth/password',
+        userTypes:              null
     });
 }
 ```
