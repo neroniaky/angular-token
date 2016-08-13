@@ -17,7 +17,10 @@ export interface Angular2TokenOptions {
     signOutPath?: string;
     registerAccountPath?: string,
     deleteAccountPath?: string,
+    emailRegistrationPath?: string,
     validateTokenPath?: string;
     updatePasswordPath?: string;
+    resetPasswordPath?: string;
+    emailPasswordPath?: string;
     userTypes?: UserType[];
 }

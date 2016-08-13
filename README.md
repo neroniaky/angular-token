@@ -60,10 +60,13 @@ constructor(private _tokenService: Angular2TokenService) {
         apiPath:                null,
         signInPath:             'auth/sign_in',
         signOutPath:            'auth/sign_out',
+        validateTokenPath:      'auth/validate_token',
         registerAccountPath:    'auth',
         deleteAccountPath:      'auth',
-        validateTokenPath:      'auth/validate_token',
+        emailRegistrationPath:  window.location.href,
         updatePasswordPath:     'auth/password',
+        resetPasswordPath:      'auth/password',
+        emailPasswordPath:      window.location.href,
         userTypes:              null
     });
 }
@@ -73,10 +76,13 @@ constructor(private _tokenService: Angular2TokenService) {
 - `apiPath?: string` - Sets base path all operations are based on
 - `signInPath?: string` - Sets path for sign in
 - `signOutPath?: string` - Sets path for sign out
+- `validateTokenPath?: string` - Sets path for token validation
 - `registerAccountPath?: string` - Sets path for account registration
 - `deleteAccountPath?: string` - Sets path for account deletion
-- `validateTokenPath?: string` - Sets path for token validation
+- `emailRegistrationPath?: string` - Sets the path user are redirected to after email confirmation for registration
 - `updatePasswordPath?: string` - Sets path for password update
+- `resetPasswordPath?: string` - Sets path for password reset
+- `emailPasswordPath?: string` - Sets the path user are redirected to after email confirmation for password reset
 - `userTypes?: UserTypes[]` - Allows the configuration of multiple user types
 
 Further information on paths/routes can be found at

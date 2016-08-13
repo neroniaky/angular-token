@@ -33,10 +33,13 @@ export class Angular2TokenService {
             apiPath:                null,
             signInPath:             'auth/sign_in',
             signOutPath:            'auth/sign_out',
+            validateTokenPath:      'auth/validate_token',
             registerAccountPath:    'auth',
             deleteAccountPath:      'auth',
-            validateTokenPath:      'auth/validate_token',
+            emailRegistrationPath:  window.location.href,
             updatePasswordPath:     'auth/password',
+            resetPasswordPath:      'auth/password',
+            emailPasswordPath:      window.location.href,
             userTypes:              null
         };
 
@@ -56,7 +59,8 @@ export class Angular2TokenService {
         let body = JSON.stringify({
             email: email,
             password: password,
-            password_confirmation: passwordConfirmation
+            password_confirmation: passwordConfirmation,
+            confirm_success_url: this._options.emailRegistrationPath
         });
 
         return this.post(this._constructUserPath() + this._options.registerAccountPath, body).map(res => res.json());
@@ -109,6 +113,17 @@ export class Angular2TokenService {
         });
 
         return this.put(this._constructUserPath() + this._options.updatePasswordPath, body).map(res => res.json());
+    }
+
+    // Reset password request
+    resetPassword(email: string): Observable<Response> {
+
+        let body = JSON.stringify({
+            email: email,
+            redirect_url: this._options.emailPasswordPath
+        });
+
+        return this.post(this._constructUserPath() + this._options.resetPasswordPath, body).map(res => res.json());
     }
 
     // Standard HTTP requests

@@ -31,6 +31,13 @@ describe('Angular2TokenService', () => {
 		password: 'password'
 	}
 
+	let registerData = {
+		email: 'test@test.de',
+		password: 'password',
+		password_confirmation: 'password',
+		confirm_success_url: window.location.href
+	}
+
 	beforeEach(() => {
 		// Inject HTTP and Angular2TokenService
 		addProviders([
@@ -63,12 +70,15 @@ describe('Angular2TokenService', () => {
 		});
 	});
 
-	it('signIn method should post data', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+	// Testing Default Configuration
+
+	it('signIn method should post data to default url', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
 		mockBackend.connections.subscribe(
 			c => {
 				expect(c.request.getBody()).toEqual(JSON.stringify(signInData));
 				expect(c.request.method).toEqual(RequestMethod.Post);
+				expect(c.request.url).toEqual('auth/sign_in');
 			}
 		);
 
@@ -76,15 +86,34 @@ describe('Angular2TokenService', () => {
 		tokenService.signIn(signInData.email, signInData.password);
 	}));
 
-	it('signIn method should send to default url', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+	it('signOut method should delete to default url', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
 		mockBackend.connections.subscribe(
-			c => expect(c.request.url).toEqual('auth/sign_in')
+			c => {
+				expect(c.request.method).toEqual(RequestMethod.Delete);
+				expect(c.request.url).toEqual('auth/sign_out');
+			}
 		);
 
 		tokenService.init();
-		tokenService.signIn(signInData.email, signInData.password);
+		tokenService.signOut();
 	}));
+
+	it('registerAccount should post data to default url', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => {
+				expect(c.request.getBody()).toEqual(JSON.stringify(registerData));
+				expect(c.request.method).toEqual(RequestMethod.Post);
+				expect(c.request.url).toEqual('auth');
+			}
+		);
+
+		tokenService.init();
+		tokenService.registerAccount(registerData.email, registerData.password, registerData.password_confirmation);
+	}));
+
+	// Testing Configured Configuration
 
 	it('signIn method should send to configured api path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
@@ -92,9 +121,11 @@ describe('Angular2TokenService', () => {
 			c => expect(c.request.url).toEqual('myapi/auth/sign_in')
 		);
 
-		tokenService.init({apiPath: 'myapi'});
+		tokenService.init({ apiPath: 'myapi' });
 		tokenService.signIn(signInData.email, signInData.password);
 	}));
+
+	// Testing Token handling
 
 	it('signIn method should receive headers and set local storage', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
@@ -114,16 +145,6 @@ describe('Angular2TokenService', () => {
 		expect(localStorage.getItem('expiry')).toEqual(expiry);
 		expect(localStorage.getItem('tokenType')).toEqual(tokenType);
 		expect(localStorage.getItem('uid')).toEqual(uid);
-	}));
-
-	it('signOut method should send delete', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
-
-		mockBackend.connections.subscribe(
-			c => expect(c.request.method).toEqual(RequestMethod.Delete)
-		);
-
-		tokenService.init();
-		tokenService.signOut();
 	}));
 
 	it('signOut method should clear local storage', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
