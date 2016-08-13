@@ -7,21 +7,36 @@
 Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
 
-Angular2-Token is currently in early Alpha. Any contribution is much appreciated.
+Angular2-Token is currently in Alpha. Any contribution is much appreciated.
 
-## Install
-Install Angular2-Token via NPM with
-```bash
-npm install angular2-token --save
-```
+## Content
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Service Methods](#methods)
+    - [`.signIn()`](#signin)
+    - [`.signOut()`](#signout)
+    - [`.registerAccount()`](#registeraccount)
+    - [`.deleteAccount()`](#deleteaccount)
+    - [`.validateToken()`](#validatetoken)
+    - [`.updatePassword()`](#updatepassword)
+- [HTTP Service Wrapper](#http-service-wrapper)
+- [Multiple User types](#multiple-user-types)
+- [Testing](#testing)
+- [Credits](#credits)
+- [License](#license)
 
-## Setup
-1. Import `Angular2TokenService` into your component
+## Installation
+1. Install Angular2-Token via NPM with
+    ```bash
+    npm install angular2-token --save
+    ```
+
+2. Import `Angular2TokenService` into your component
     ```javascript
     import { Angular2TokenService } from 'angular2-token';
     ```
 
-2. Add `Angular2TokenService` as a provider to your component
+3. Add `Angular2TokenService` as a provider to your component
     ```javascript
     @Component({
         selector: 'app',
@@ -30,7 +45,7 @@ npm install angular2-token --save
     })
     ```
 
-3. Inject `Angular2TokenService` into your component and call `.init()`
+4. Inject `Angular2TokenService` into your component and call `.init()`
     ```javascript
     constructor(private _tokenService: Angular2TokenService) {
         this._tokenService.init();
@@ -65,10 +80,10 @@ constructor(private _tokenService: Angular2TokenService) {
 Further information on paths/routes can be found at
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth#usage-tldr)
 
-## Usage
-Once initialized `Angular2TokenService` offers methods for session management and a Angular2 Http-Service wrapper.
+## Service Methods
+Once initialized `Angular2TokenService` offers methods for session management.
 
-### Sign In
+### .signIn()
 The signIn method is used to sign in the user with email address and password.
 The optional parameter `type` specifies the name of UserType used for this session.
 
@@ -77,15 +92,15 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 #### Example:
 ```javascript
 this._tokenService.signIn(
-    'example@example.com',
-    'secretPassword'
+    'example@example.org',
+    'password'
 ).subscribe(
     res => console.log(res),
     error => console.log(error)
 );
 ```
 
-### Sign Out
+### .signOut()
 The signOut method destroys session and browsers session storage.
 
 `signOut(): Observable<Response>`
@@ -98,7 +113,37 @@ this._tokenService.signOut().subscribe(
 );
 ```
 
-### Validate Token
+### .registerAccount()
+Sends a new user registration request to the Server.
+
+`registerAccount(email: string, password: string, passwordConfirmation: string, userType?: string): Observable<Response>`
+
+#### Example:
+```javascript
+this._tokenService.registerAccount(
+    'example@example.org',
+    'password',
+    'password'
+).subscribe(
+    res => console.log(res),
+    error => console.log(error)
+);
+```
+
+### .deleteAccount()
+Deletes the account for the signed in user.
+
+`deleteAccount(): Observable<Response>`
+
+#### Example:
+```javascript
+this._tokenService.deleteAccount().subscribe(
+    res => console.log(res),
+    error => console.log(error)
+);
+```
+
+### .validateToken()
 Validates the current token with the server.
 
 `validateToken(): Observable<Response>`
@@ -111,8 +156,8 @@ this._tokenService.validateToken().subscribe(
 );
 ```
 
-### Change Password
-Updates the existing password for the logged in user.
+### .updatePassword()
+Updates the password for the logged in user.
 
 `updatePassword(currentPassword: string, password: string, passwordConfirmation: string): Observable<Response>`
 
@@ -128,7 +173,7 @@ this._tokenService.updatePassword(
 );
 ```
 
-### HTTP Wrapper
+## HTTP Service Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
 - `get(path: string, data?: any): Observable<Response>`
 - `post(path: string, data: any): Observable<Response>`
@@ -144,9 +189,10 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
 );
 ```
 
-### User types
+## Multiple User Types
 An Array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
 The user type is selected during sign in and persists until sign out.
+`.currentUser` returns the currently logged in user.
 
 #### Example:
 ```javascript
@@ -162,12 +208,15 @@ this._tokenService.signIn(
     'secretPassword',
     'ADMIN'
 )
+
+this._tokenService.currentUser; // ADMIN
 ```
 
 ## Testing
 ```bash
 npm test
 ```
+
 ## Credits
 Test config files based on [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) by AngularClass
 
