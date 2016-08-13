@@ -70,12 +70,14 @@ constructor(private _tokenService: Angular2TokenService) {
 ```
 
 ### Configuration Options
-- `apiPath (?string)`: Sets base path all operations are based on
-- `signInPath (?string)`: Sets sign_in path
-- `signOutPath (?string)`: Sets sign_out path
-- `validateTokenPath (?string)`: Sets validate_token path
-- `updatePasswordPath (?string)`: Sets password path
-- `userTypes (?UserTypes[])`: Allows the configuration of multiple user types
+- `apiPath?: string` - Sets base path all operations are based on
+- `signInPath?: string` - Sets path for sign in
+- `signOutPath?: string` - Sets path for sign out
+- `registerAccountPath?: string` - Sets path for account registration
+- `deleteAccountPath?: string` - Sets path for account deletion
+- `validateTokenPath?: string` - Sets path for token validation
+- `updatePasswordPath?: string` - Sets path for password update
+- `userTypes?: UserTypes[]` - Allows the configuration of multiple user types
 
 Further information on paths/routes can be found at
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth#usage-tldr)
