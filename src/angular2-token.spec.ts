@@ -2,6 +2,7 @@ import { Http, BaseRequestOptions, Response, ResponseOptions, Headers, RequestMe
 import { MockBackend } from '@angular/http/testing';
 import { provide } from '@angular/core';
 import { inject, addProviders } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { Angular2TokenService } from './';
 
@@ -43,6 +44,7 @@ describe('Angular2TokenService', () => {
 		addProviders([
 			BaseRequestOptions,
 			MockBackend,
+			Router,
 			provide(Http, {
 				useFactory:
 				function (backend, defaultOptions) {

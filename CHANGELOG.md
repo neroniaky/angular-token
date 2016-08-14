@@ -1,5 +1,13 @@
 # Change Log
 
+## v0.0.6 & v0.0.5
+**Features:**
+- Added `resetPassword()` for user password reset
+
+**Breaking changes:**
+- Changed structure of `Angular2TokenOptions`
+- Changed parameters of `.updatePassword()`
+
 ## v0.0.4
 **Features:**
 - Added `registerAccount()` for account registration

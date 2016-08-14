@@ -4,23 +4,27 @@ export interface UserType {
 }
 
 export interface AuthData {
-    accessToken: string;
-    client: string;
-    expiry: string;
-    tokenType: string;
-    uid: string;
+    accessToken:    string;
+    client:         string;
+    expiry:         string;
+    tokenType:      string;
+    uid:            string;
 }
 
 export interface Angular2TokenOptions {
-    apiPath?: string;
-    signInPath?: string;
-    signOutPath?: string;
-    registerAccountPath?: string,
-    deleteAccountPath?: string,
-    emailRegistrationPath?: string,
-    validateTokenPath?: string;
-    updatePasswordPath?: string;
-    resetPasswordPath?: string;
-    emailPasswordPath?: string;
-    userTypes?: UserType[];
+    apiPath?:                       string;
+    signInPath?:                    string;
+    signOutPath?:                   string;
+    validateTokenPath?:             string;
+
+    deleteAccountPath?:             string;
+    registerAccountPath?:           string;
+    registerAccountCallback?:       string;
+
+    updatePasswordPath?:            string;
+
+    resetPasswordPath?:             string;
+    resetPasswordCallback?:         string;
+
+    userTypes?:                     UserType[];
 }

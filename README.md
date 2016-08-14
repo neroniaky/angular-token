@@ -19,6 +19,7 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     - [`.deleteAccount()`](#deleteaccount)
     - [`.validateToken()`](#validatetoken)
     - [`.updatePassword()`](#updatepassword)
+    - [`.resetPassword()`](#resetpassword)
 - [HTTP Service Wrapper](#http-service-wrapper)
 - [Multiple User Types](#multiple-user-types)
 - [Testing](#testing)
@@ -36,7 +37,11 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     import { Angular2TokenService } from 'angular2-token';
 
     @NgModule({
-        imports:      [ BrowserModule ],
+        imports: [
+            BrowserModule,
+            HttpModule,
+            RouterModule
+        ],
         declarations: [ AppComponent ],
         providers:    [ Angular2TokenService ],
         bootstrap:    [ AppComponent ]
@@ -57,17 +62,21 @@ Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
 ```javascript
 constructor(private _tokenService: Angular2TokenService) {
     this._tokenService.init({
-        apiPath:                null,
-        signInPath:             'auth/sign_in',
-        signOutPath:            'auth/sign_out',
-        validateTokenPath:      'auth/validate_token',
-        registerAccountPath:    'auth',
-        deleteAccountPath:      'auth',
-        emailRegistrationPath:  window.location.href,
-        updatePasswordPath:     'auth/password',
-        resetPasswordPath:      'auth/password',
-        emailPasswordPath:      window.location.href,
-        userTypes:              null
+        apiPath:                    null,
+        signInPath:                 'auth/sign_in',
+        signOutPath:                'auth/sign_out',
+        validateTokenPath:          'auth/validate_token',
+
+        registerAccountPath:        'auth',
+        deleteAccountPath:          'auth',
+        registerAccountCallback:    window.location.href,
+
+        updatePasswordPath:         'auth/password',
+
+        resetPasswordPath:          'auth/password',
+        resetPasswordCallback:      window.location.href,
+
+        userTypes:                  null
     });
 }
 ```
@@ -79,10 +88,10 @@ constructor(private _tokenService: Angular2TokenService) {
 - `validateTokenPath?: string` - Sets path for token validation
 - `registerAccountPath?: string` - Sets path for account registration
 - `deleteAccountPath?: string` - Sets path for account deletion
-- `emailRegistrationPath?: string` - Sets the path user are redirected to after email confirmation for registration
+- `registerAccountCallback?: string` - Sets the path user are redirected to after email confirmation for registration
 - `updatePasswordPath?: string` - Sets path for password update
 - `resetPasswordPath?: string` - Sets path for password reset
-- `emailPasswordPath?: string` - Sets the path user are redirected to after email confirmation for password reset
+- `resetPasswordCallback?: string` - Sets the path user are redirected to after email confirmation for password reset
 - `userTypes?: UserTypes[]` - Allows the configuration of multiple user types
 
 Further information on paths/routes can be found at
@@ -167,19 +176,35 @@ this._tokenService.validateToken().subscribe(
 ### .updatePassword()
 Updates the password for the logged in user.
 
-`updatePassword(currentPassword: string, password: string, passwordConfirmation: string): Observable<Response>`
+`updatePassword(password: string, passwordConfirmation: string, currentPassword?: string, userType?: string): Observable<Response>`
 
 #### Example:
 ```javascript
 this._tokenService.updatePassword(
-    'oldPassword',
     'newPassword',
-    'newPassword'
+    'newPassword',
+    'oldPassword'
 ).subscribe(
     res => console.log(res),
     error => console.log(error)
 );
 ```
+
+### .resetPassword()
+Request a password reset from the server.
+
+`resetPassword(email: string, userType?: string): Observable<Response>`
+
+#### Example:
+```javascript
+this._tokenService.updatePassword(
+    'example@example.org',
+).subscribe(
+    res => console.log(res),
+    error => console.log(error)
+);
+```
+
 
 ## HTTP Service Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
