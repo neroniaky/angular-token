@@ -2,7 +2,7 @@ import { Http, BaseRequestOptions, Response, ResponseOptions, Headers, RequestMe
 import { MockBackend } from '@angular/http/testing';
 import { provide } from '@angular/core';
 import { inject, addProviders } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, RouterOutletMap, RouterState } from '@angular/router';
 
 import { Angular2TokenService } from './';
 
@@ -39,19 +39,19 @@ describe('Angular2TokenService', () => {
 		confirm_success_url: window.location.href
 	}
 
+	class Mock { }
+
 	beforeEach(() => {
 		// Inject HTTP and Angular2TokenService
 		addProviders([
 			BaseRequestOptions,
 			MockBackend,
-			Router,
-			provide(Http, {
-				useFactory:
-				function (backend, defaultOptions) {
-					return new Http(backend, defaultOptions);
-				},
+			{ provide: Router, useClass: Mock },
+			{
+				provide: Http,
+				useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions) },
 				deps: [MockBackend, BaseRequestOptions]
-			}),
+			},
 			Angular2TokenService
 		]);
 
@@ -115,16 +115,76 @@ describe('Angular2TokenService', () => {
 		tokenService.registerAccount(registerData.email, registerData.password, registerData.password_confirmation);
 	}));
 
-	// Testing Configured Configuration
+	// Testing Custom Configuration
 
-	it('signIn method should send to configured api path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+	it('Methods should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
 		mockBackend.connections.subscribe(
-			c => expect(c.request.url).toEqual('myapi/auth/sign_in')
+			c => expect(c.request.url).toEqual('myapi/myauth/mysignin')
 		);
 
-		tokenService.init({ apiPath: 'myapi' });
+		tokenService.init({ apiPath: 'myapi', signInPath: 'myauth/mysignin' });
 		tokenService.signIn(signInData.email, signInData.password);
+	}));
+
+	it('signOut should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/myauth/mysignout')
+		);
+
+		tokenService.init({ apiPath: 'myapi', signOutPath: 'myauth/mysignout' });
+		tokenService.signOut();
+	}));
+
+	it('registerAccount should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/myauth/myregister')
+		);
+
+		tokenService.init({ apiPath: 'myapi', registerAccountPath: 'myauth/myregister' });
+		tokenService.registerAccount('example@example.org', 'password', 'password');
+	}));
+
+	it('deleteAccount should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/myauth/mydelete')
+		);
+
+		tokenService.init({ apiPath: 'myapi', deleteAccountPath: 'myauth/mydelete' });
+		tokenService.deleteAccount();
+	}));
+
+	it('validateToken should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/myauth/myvalidate')
+		);
+
+		tokenService.init({ apiPath: 'myapi', validateTokenPath: 'myauth/myvalidate' });
+		tokenService.validateToken();
+	}));
+
+	it('updatePasswordPath should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/myauth/myupdate')
+		);
+
+		tokenService.init({ apiPath: 'myapi', updatePasswordPath: 'myauth/myupdate' });
+		tokenService.updatePassword('password', 'password');
+	}));
+
+	it('resetPasswordPath should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => expect(c.request.url).toEqual('myapi/myauth/myreset')
+		);
+
+		tokenService.init({ apiPath: 'myapi', resetPasswordPath: 'myauth/myreset' });
+		tokenService.resetPassword('emxaple@example.org');
 	}));
 
 	// Testing Token handling

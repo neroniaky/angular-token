@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.0
+**Features:**
+- Added tests
+
 ## v0.0.6 & v0.0.5
 **Features:**
 - Added `resetPassword()` for user password reset

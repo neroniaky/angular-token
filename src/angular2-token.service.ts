@@ -76,7 +76,7 @@ export class Angular2TokenService {
 
     // Delete Account
     deleteAccount(): Observable<Response> {
-        return this.delete(this._constructUserPath() + this._options.registerAccountPath).map(res => res.json());
+        return this.delete(this._constructUserPath() + this._options.deleteAccountPath).map(res => res.json());
     }
 
     // Sign in request and set storage
@@ -246,21 +246,23 @@ export class Angular2TokenService {
     // Try to get auth data from url parameters. Return null if parameter is missing.
     private _getAuthDataFromParams() {
 
-        this._router.routerState.queryParams.subscribe(params => {
+        if (this._router.routerState != null) { // Fix for Testing, has to be removed later
+            this._router.routerState.queryParams.subscribe(params => {
 
-            let authData: AuthData = {
-                accessToken: params['token'],
-                client: params['client_id'],
-                expiry: params['expiry'],
-                tokenType: 'Bearer',
-                uid: params['uid']
-            };
+                let authData: AuthData = {
+                    accessToken: params['token'],
+                    client: params['client_id'],
+                    expiry: params['expiry'],
+                    tokenType: 'Bearer',
+                    uid: params['uid']
+                };
 
-            if (this._checkIfComplete(authData))
-                this._currentAuthData = authData;
-            else
-                this._currentAuthData = null;
-        });
+                if (this._checkIfComplete(authData))
+                    this._currentAuthData = authData;
+                else
+                    this._currentAuthData = null;
+            });
+        }
     }
 
 
