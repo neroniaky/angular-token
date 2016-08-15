@@ -32,8 +32,11 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     npm install angular2-token --save
     ```
 
-2. Import and add `Angular2TokenService` to your module.
+2. Import and add `Angular2TokenService` to your main module. `Angular2TokenService` depends on `HttpModule` and `RouterModule`, so make sure you imported them too.
     ```javascript
+    import { HttpModule } from '@angular/http';
+    import { RouterModule } from '@angular/router';
+
     import { Angular2TokenService } from 'angular2-token';
 
     @NgModule({
@@ -48,7 +51,7 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     })
     ```
 
-3. Inject `Angular2TokenService` into your component and call `.init()`.
+3. Inject `Angular2TokenService` into your main component and call `.init()`.
     ```javascript
     constructor(private _tokenService: Angular2TokenService) {
         this._tokenService.init();
@@ -72,7 +75,6 @@ constructor(private _tokenService: Angular2TokenService) {
         registerAccountCallback:    window.location.href,
 
         updatePasswordPath:         'auth/password',
-
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
@@ -92,7 +94,7 @@ constructor(private _tokenService: Angular2TokenService) {
 - `updatePasswordPath?: string` - Sets path for password update
 - `resetPasswordPath?: string` - Sets path for password reset
 - `resetPasswordCallback?: string` - Sets the path user are redirected to after email confirmation for password reset
-- `userTypes?: UserTypes[]` - Allows the configuration of multiple user types
+- `userTypes?: UserTypes[]` - Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types))
 
 Further information on paths/routes can be found at
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth#usage-tldr)
@@ -110,23 +112,23 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 ```javascript
 this._tokenService.signIn(
     'example@example.org',
-    'password'
+    'secretPassword'
 ).subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
 ### .signOut()
-The signOut method destroys session and browsers session storage.
+The signOut method destroys session and session storage.
 
 `signOut(): Observable<Response>`
 
 #### Example:
 ```javascript
 this._tokenService.signOut().subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
@@ -139,11 +141,11 @@ Sends a new user registration request to the Server.
 ```javascript
 this._tokenService.registerAccount(
     'example@example.org',
-    'password',
-    'password'
+    'secretPassword',
+    'secretPassword'
 ).subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
@@ -155,8 +157,8 @@ Deletes the account for the signed in user.
 #### Example:
 ```javascript
 this._tokenService.deleteAccount().subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
@@ -168,8 +170,8 @@ Validates the current token with the server.
 #### Example:
 ```javascript
 this._tokenService.validateToken().subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
@@ -185,8 +187,8 @@ this._tokenService.updatePassword(
     'newPassword',
     'oldPassword'
 ).subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
@@ -200,11 +202,10 @@ Request a password reset from the server.
 this._tokenService.updatePassword(
     'example@example.org',
 ).subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
-
 
 ## HTTP Service Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
@@ -217,13 +218,13 @@ this._tokenService.updatePassword(
 #### Example:
 ```javascript
 this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
-    res => console.log(res),
-    error => console.log(error)
+    res =>      console.log(res),
+    error =>    console.log(error)
 );
 ```
 
 ## Multiple User Types
-An Array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
+An array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
 The user type is selected during sign in and persists until sign out.
 `.currentUser` returns the currently logged in user.
 
