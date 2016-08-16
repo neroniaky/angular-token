@@ -226,7 +226,7 @@ export class Angular2TokenService {
         return response;
     }
 
-    // Try to get auth data from storage. Return null if parameter is missing.
+    // Try to get auth data from storage.
     private _getAuthDataFromStorage() {
 
         let authData: AuthData = {
@@ -239,11 +239,9 @@ export class Angular2TokenService {
 
         if (this._checkIfComplete(authData))
             this._currentAuthData = authData;
-        else
-            this._currentAuthData = null;
     }
 
-    // Try to get auth data from url parameters. Return null if parameter is missing.
+    // Try to get auth data from url parameters.
     private _getAuthDataFromParams() {
 
         if (this._router.routerState != null) { // Fix for Testing, has to be removed later
@@ -259,8 +257,6 @@ export class Angular2TokenService {
 
                 if (this._checkIfComplete(authData))
                     this._currentAuthData = authData;
-                else
-                    this._currentAuthData = null;
             });
         }
     }
