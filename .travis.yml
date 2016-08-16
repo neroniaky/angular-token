@@ -1,7 +1,17 @@
+language: node_js
 node_js:
   - "4"
   - "5"
   - "node"
+
+addons:
+apt:
+  sources:
+    - google-chrome
+  packages:
+    - google-chrome-stable
+    - google-chrome-beta
+
 before_install:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
