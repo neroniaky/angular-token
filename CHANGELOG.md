@@ -1,5 +1,14 @@
 # Change Log
 
+## v0.1.2
+**Features:**
+- Added `requestOptions` to parameter to all HTTP wrapper methods
+- Added getter method `currentUserData`
+
+**Breaking changes:**
+- Changed `updatePasswordPath` in default options to `'auth'`
+- Changed name of getter method `currentUser` to `currentUserType`
+
 ## v0.1.0
 **Features:**
 - Added tests

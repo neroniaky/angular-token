@@ -1,6 +1,6 @@
 {
   "name": "angular2-token",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Angular2 service for token based authentication",
   "main": "./angular2-token.js",
   "typings": "./angular2-token.d.ts",
@@ -31,7 +31,7 @@
     "ie-shim": "^0.1.0",
     "rxjs": "5.0.0-beta.6",
     "typescript": "^2.0.0-beta",
-    "zone.js": "~0.6.12",
+    "zone.js": "0.6.13",
 
     "@types/core-js": "^0.9.28",
     "@types/hammerjs": "^2.0.28",

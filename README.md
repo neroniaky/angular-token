@@ -1,4 +1,5 @@
 # Angular2-Token
+[![Join the chat at https://gitter.im/lynndylanhurley/devise_token_auth](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angular2-token/Lobby)
 [![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-token.svg)](https://npmjs.org/angular2-token)
 [![Build Status](https://travis-ci.org/neroniaky/angular2-token.svg?branch=master)](https://travis-ci.org/neroniaky/angular2-token)
@@ -9,6 +10,9 @@ Token based authentication service for Angular2 with multiple user support. Angu
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
 
 Angular2-Token is currently in Alpha. Any contribution is much appreciated.
+
+## Live Demo
+You can try out Angular2-Token [here](https://angular2-token.herokuapp.com/).
 
 ## Content
 - [Installation](#installation)
@@ -59,6 +63,13 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
     }
     ```
 
+4. If you are using CORS in your Rails API make sure that `Access-Control-Expose-Headers` includes `access-token`, `expiry`, `token-type`, `uid`, and `client`.
+For the rack-cors gem this can be done by adding the following to its config.
+More information can be found [here](https://github.com/lynndylanhurley/devise_token_auth#cors)
+    ```ruby
+    :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client']
+    ```
+
 ## Configuration
 Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
 
@@ -75,7 +86,7 @@ constructor(private _tokenService: Angular2TokenService) {
         deleteAccountPath:          'auth',
         registerAccountCallback:    window.location.href,
 
-        updatePasswordPath:         'auth/password',
+        updatePasswordPath:         'auth',
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
@@ -210,11 +221,11 @@ this._tokenService.updatePassword(
 
 ## HTTP Service Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
-- `get(path: string, data?: any): Observable<Response>`
-- `post(path: string, data: any): Observable<Response>`
-- `put(path: string, data: any): Observable<Response>`
-- `delete(path: string, data?: any): Observable<Response>`
-- `patch(path: string, data: any): Observable<Response>`
+- `get(path: string, requestOptions?: RequestOptions): Observable<Response>`
+- `post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
+- `put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
+- `delete(path: string, requestOptions?: RequestOptions): Observable<Response>`
+- `patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
 
 #### Example:
 ```javascript

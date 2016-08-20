@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, Request, RequestMethod } from '@angular/http';
+import {
+    Http,
+    Response,
+    Headers,
+    Request,
+    RequestMethod,
+    RequestOptions
+} from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/map';
 
 import {
     UserType,
@@ -14,16 +20,21 @@ import {
 @Injectable()
 export class Angular2TokenService {
 
-    get currentUser(): string {
+    get currentUserType(): string {
         if (this._currentUserType != null)
             return this._currentUserType.name;
         else
             return null;
     }
 
+    get currentUserData(): string {
+        return this._currentUserData;
+    }
+
     private _options: Angular2TokenOptions;
     private _currentUserType: UserType;
     private _currentAuthData: AuthData;
+    private _currentUserData: any;
 
     constructor(
         private _http: Http,
@@ -43,7 +54,7 @@ export class Angular2TokenService {
             deleteAccountPath:          'auth',
             registerAccountCallback:    window.location.href,
 
-            updatePasswordPath:         'auth/password',
+            updatePasswordPath:         'auth',
 
             resetPasswordPath:          'auth/password',
             resetPasswordCallback:      window.location.href,
@@ -71,12 +82,12 @@ export class Angular2TokenService {
             confirm_success_url: this._options.registerAccountCallback
         });
 
-        return this.post(this._constructUserPath() + this._options.registerAccountPath, body).map(res => res.json());
+        return this.post(this._constructUserPath() + this._options.registerAccountPath, body);
     }
 
     // Delete Account
     deleteAccount(): Observable<Response> {
-        return this.delete(this._constructUserPath() + this._options.deleteAccountPath).map(res => res.json());
+        return this.delete(this._constructUserPath() + this._options.deleteAccountPath);
     }
 
     // Sign in request and set storage
@@ -92,23 +103,32 @@ export class Angular2TokenService {
             password: password
         });
 
-        return this.post(this._constructUserPath() + this._options.signInPath, body).map(res => res.json());
+        let observ = this.post(this._constructUserPath() + this._options.signInPath, body);
+
+        observ.subscribe(res => this._currentUserData = res.json().data, error => null);
+
+        return observ;
     }
 
     // Sign out request and delete storage
     signOut(): Observable<Response> {
-        let response = this.delete(this._constructUserPath() + this._options.signOutPath).map(res => res.json());
+        let observ = this.delete(this._constructUserPath() + this._options.signOutPath);
 
         localStorage.clear();
         this._currentAuthData = null;
         this._currentUserType = null;
+        this._currentUserData = null;
 
-        return response;
+        return observ;
     }
 
     // Validate token request
     validateToken(): Observable<Response> {
-        return this.get(this._constructUserPath() + this._options.validateTokenPath).map(res => res.json());
+        let observ = this.get(this._constructUserPath() + this._options.validateTokenPath);
+
+        observ.subscribe(res => this._currentUserData = res.json().data, error => null);
+
+        return observ;
     }
 
     // Update password request
@@ -132,7 +152,7 @@ export class Angular2TokenService {
             });
         }
 
-        return this.put(this._constructUserPath() + this._options.updatePasswordPath, body).map(res => res.json());
+        return this.put(this._constructUserPath() + this._options.updatePasswordPath, body);
     }
 
     // Reset password request
@@ -148,28 +168,28 @@ export class Angular2TokenService {
             redirect_url: this._options.resetPasswordCallback
         });
 
-        return this.post(this._constructUserPath() + this._options.resetPasswordPath, body).map(res => res.json());
+        return this.post(this._constructUserPath() + this._options.resetPasswordPath, body);
     }
 
     // Standard HTTP requests
-    get(path: string, data?: any): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Get, path, data);
+    get(path: string, requestOptions?: RequestOptions): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Get, path, null, requestOptions);
     }
 
-    post(path: string, data: any): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Post, path, data);
+    post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Post, path, data, requestOptions);
     }
 
-    put(path: string, data: any): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Put, path, data);
+    put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Put, path, data, requestOptions);
     }
 
-    delete(path: string, data?: any): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Delete, path, data);
+    delete(path: string, requestOptions?: RequestOptions): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Delete, path, null, requestOptions);
     }
 
-    patch(path: string, data: any): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Patch, path, data);
+    patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
+        return this._sendHttpRequest(RequestMethod.Patch, path, data, requestOptions);
     }
 
     // Check if response is complete and newer, then update storage
@@ -195,31 +215,51 @@ export class Angular2TokenService {
     }
 
     // Construct and send Http request
-    private _sendHttpRequest(method: RequestMethod, path: string, body?: any): Observable<Response> {
+    private _sendHttpRequest(
+        method: RequestMethod,
+        path: string,
+        body?: any,
+        requestOptions?: RequestOptions
+    ): Observable<Response> {
 
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let respBody = "";
+        let headers: Headers;
+        let baseRequestOptions: RequestOptions;
+        let mergedRequestOptions: RequestOptions;
 
-        if (this._currentAuthData != null) {
+        // Set Headers
+        if (this._currentAuthData != null)
             headers = new Headers({
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
                 'access-token': this._currentAuthData.accessToken,
                 'client': this._currentAuthData.client,
                 'expiry': this._currentAuthData.expiry,
                 'token-type': this._currentAuthData.tokenType,
                 'uid': this._currentAuthData.uid
             });
-        }
+        else
+            headers = new Headers({
+                'Content-Type': 'application/json' // ToDo: Add to RequestOptions if available
+            });
 
-        if (body != null)
-            respBody = body;
+        // Set Body to empty if null
+        if (body == null)
+            body = ""
 
-        let response = this._http.request(new Request({
+        // Construct Default Request Options
+        baseRequestOptions = new RequestOptions({
             method: method,
             url: this._constructApiPath() + path,
             headers: headers,
-            body: respBody
-        })).share();
+            body: body
+        })
+
+        // Merge standard and custom RequestOptions
+        if (requestOptions != null)
+            mergedRequestOptions = baseRequestOptions.merge(requestOptions);
+        else
+            mergedRequestOptions = baseRequestOptions;
+
+        let response = this._http.request(new Request(mergedRequestOptions)).share();
 
         this._handleResponse(response);
 
@@ -309,6 +349,9 @@ export class Angular2TokenService {
         let userType = this._getUserTypeByName(localStorage.getItem('userType'));
         this._getAuthDataFromStorage();
         this._getAuthDataFromParams();
+
+        if (this._currentAuthData != null)
+            this.validateToken();
 
         if (userType != null)
             this._currentUserType = userType;
