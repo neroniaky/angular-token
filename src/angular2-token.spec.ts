@@ -194,7 +194,8 @@ describe('Angular2TokenService', () => {
 		mockBackend.connections.subscribe(
 			c => c.mockRespond(new Response(
 				new ResponseOptions({
-					headers: tokenHeaders
+					headers: tokenHeaders,
+					body: { email: 'test@email.com' }
 				})
 			))
 		);
