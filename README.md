@@ -1,4 +1,6 @@
 # Angular2-Token
+
+[![Join the chat at https://gitter.im/angular2-token/Lobby](https://badges.gitter.im/angular2-token/Lobby.svg)](https://gitter.im/angular2-token/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-token.svg)](https://npmjs.org/angular2-token)
 [![Build Status](https://travis-ci.org/neroniaky/angular2-token.svg?branch=master)](https://travis-ci.org/neroniaky/angular2-token)
