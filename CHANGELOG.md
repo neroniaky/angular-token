@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.3
+**Bugfixes:**
+- Removes deprecated RouterState.queryParam for ActivatedRoute.params (fixes [#5](https://github.com/neroniaky/angular2-token/issues/5))
+
 ## v0.1.2
 **Features:**
 - Added `requestOptions` to parameter to all HTTP wrapper methods

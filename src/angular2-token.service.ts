@@ -7,7 +7,7 @@ import {
     RequestMethod,
     RequestOptions
 } from '@angular/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 
@@ -38,7 +38,7 @@ export class Angular2TokenService {
 
     constructor(
         private _http: Http,
-        private _router: Router
+        private _activatedRoute: ActivatedRoute
     ) { }
 
     // Inital configuration
@@ -284,20 +284,20 @@ export class Angular2TokenService {
     // Try to get auth data from url parameters.
     private _getAuthDataFromParams() {
 
-        if (this._router.routerState != null) { // Fix for Testing, has to be removed later
-            this._router.routerState.queryParams.subscribe(params => {
+        if (this._activatedRoute.params != null) { // Fix for Testing, has to be removed later
 
-                let authData: AuthData = {
-                    accessToken: params['token'],
-                    client: params['client_id'],
-                    expiry: params['expiry'],
-                    tokenType: 'Bearer',
-                    uid: params['uid']
-                };
+            let params = this._activatedRoute.params;
 
-                if (this._checkIfComplete(authData))
-                    this._currentAuthData = authData;
-            });
+            let authData: AuthData = {
+                accessToken: params['token'],
+                client: params['client_id'],
+                expiry: params['expiry'],
+                tokenType: 'Bearer',
+                uid: params['uid']
+            };
+
+            if (this._checkIfComplete(authData))
+                this._currentAuthData = authData;
         }
     }
 

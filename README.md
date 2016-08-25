@@ -14,6 +14,8 @@ Angular2-Token is currently in Alpha. Any contribution is much appreciated.
 ## Live Demo
 You can try out Angular2-Token [here](https://angular2-token.herokuapp.com/).
 
+The repository can be found [here](https://github.com/neroniaky/angular2-token-example).
+
 ## Content
 - [Installation](#installation)
 - [Configuration](#configuration)
