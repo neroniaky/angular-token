@@ -1,8 +1,12 @@
 # Change Log
 
+## v0.1.4
+**Bugfixes:**
+- Added packaged library to npm package for systemjs support (fixes [#6](https://github.com/neroniaky/angular2-token/issues/6))
+
 ## v0.1.3
 **Bugfixes:**
-- Removes deprecated RouterState.queryParam for ActivatedRoute.params (fixes [#5](https://github.com/neroniaky/angular2-token/issues/5))
+- Removes deprecated RouterState.queryParams for ActivatedRoute.params (fixes [#5](https://github.com/neroniaky/angular2-token/issues/5))
 
 ## v0.1.2
 **Features:**

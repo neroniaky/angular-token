@@ -1,2 +1,4 @@
+# Library directories
 node_modules
 coverage
+lib

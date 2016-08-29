@@ -1,7 +1,12 @@
+src
 node_modules
 
 # Testing
 config
 coverage
 karma.conf.js
+
+# Config Files
+.travis.yml
+.gitignore
 tsconfig.json
