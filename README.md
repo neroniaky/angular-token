@@ -1,3 +1,5 @@
+![Angular2-Token](assets/angular2-token-logo.png)
+
 # Angular2-Token
 [![Join the chat at https://gitter.im/lynndylanhurley/devise_token_auth](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angular2-token/Lobby)
 [![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
