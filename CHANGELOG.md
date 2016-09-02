@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.5
+**Bugfixes:**
+- Fix broken sourcemap paths in npm package
+
 ## v0.1.4
 **Features:**
 - Added packaged library to npm package for systemjs support (fixes [#6](https://github.com/neroniaky/angular2-token/issues/6))

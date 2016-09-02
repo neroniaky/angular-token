@@ -3,7 +3,7 @@ import { MockBackend } from '@angular/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterOutletMap, RouterState } from '@angular/router';
 
-import { Angular2TokenService } from './';
+import { Angular2TokenService } from './angular2-token.service';
 
 describe('Angular2TokenService', () => {
 

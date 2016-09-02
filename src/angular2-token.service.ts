@@ -15,7 +15,7 @@ import {
     UserType,
     AuthData,
     Angular2TokenOptions
-} from './';
+} from './angular2-token.model';
 
 @Injectable()
 export class Angular2TokenService {
