@@ -59,7 +59,11 @@ export class Angular2TokenService {
             resetPasswordPath:          'auth/password',
             resetPasswordCallback:      window.location.href,
 
-            userTypes:                  null
+            userTypes:                  null,
+
+            oAuthPaths: {
+                github:                 'auth/github'
+            }
         };
 
         this._options = Object.assign(defaultOptions, options);
@@ -108,6 +112,17 @@ export class Angular2TokenService {
         observ.subscribe(res => this._currentUserData = res.json().data, error => null);
 
         return observ;
+    }
+
+    signInOAuth(oAuthType: string) {
+
+        let oAuthPath: string;
+
+        if (oAuthType == 'github') {
+            oAuthPath = this._options.oAuthPaths.github
+        }
+
+        window.open(this._constructUserPath() + oAuthPath);
     }
 
     // Sign out request and delete storage

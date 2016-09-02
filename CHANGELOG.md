@@ -1,8 +1,9 @@
 # Change Log
 
 ## v0.1.4
-**Bugfixes:**
+**Features:**
 - Added packaged library to npm package for systemjs support (fixes [#6](https://github.com/neroniaky/angular2-token/issues/6))
+- Update Dependencies to Angular2 RC6
 
 ## v0.1.3
 **Bugfixes:**
