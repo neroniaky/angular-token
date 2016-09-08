@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.6
+**Bugfixes:**
+- Added route guard support for CanActivate
+
 ## v0.1.5
 **Bugfixes:**
 - Fix broken sourcemap paths in npm package

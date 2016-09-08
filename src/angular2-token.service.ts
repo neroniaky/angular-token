@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable }       from '@angular/core';
+import { CanActivate }      from '@angular/router';
 import {
     Http,
     Response,
@@ -7,8 +8,8 @@ import {
     RequestMethod,
     RequestOptions
 } from '@angular/http';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute }   from '@angular/router';
+import { Observable }       from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 
 import {
@@ -18,7 +19,7 @@ import {
 } from './angular2-token.model';
 
 @Injectable()
-export class Angular2TokenService {
+export class Angular2TokenService implements CanActivate {
 
     get currentUserType(): string {
         if (this._currentUserType != null)
@@ -40,6 +41,13 @@ export class Angular2TokenService {
         private _http: Http,
         private _activatedRoute: ActivatedRoute
     ) { }
+
+    canActivate() {
+        if (this._currentUserData)
+            return true;
+        else
+            return false;
+    }
 
     // Inital configuration
     init(options?: Angular2TokenOptions) {

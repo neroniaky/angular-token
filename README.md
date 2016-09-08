@@ -31,6 +31,7 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
     - [`.resetPassword()`](#resetpassword)
 - [HTTP Service Wrapper](#http-service-wrapper)
 - [Multiple User Types](#multiple-user-types)
+- [Route Guards](#route-guards)
 - [Testing](#testing)
 - [Credits](#credits)
 - [License](#license)
@@ -260,6 +261,24 @@ this._tokenService.signIn(
 )
 
 this._tokenService.currentUser; // ADMIN
+```
+
+## Route Guards
+Angular2-Token implements the `CanActivate` interface, so it can directly be used
+as a route guard. It currently does not distinguish between user types.
+
+#### Example:
+```javascript
+const routerConfig: Routes = [
+    { 
+        path: '', 
+        component: PublicComponent 
+    }, {
+        path: 'restricted', 
+        component: RestrictedComponent, 
+        canActivate: [Angular2TokenService] 
+    }
+];
 ```
 
 ## Testing
