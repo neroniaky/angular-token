@@ -286,6 +286,15 @@ const routerConfig: Routes = [
 npm test
 ```
 
+## Development
+If the package is installed from Github specified in the package.json, you need to build the package locally.
+
+```bash
+cd ./node_modules/angular2-token;
+npm i;
+npm run build;
+```
+
 ## Credits
 Test config files based on [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) by AngularClass
 
