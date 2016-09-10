@@ -34,7 +34,7 @@
     "@angular/platform-server": "2.0.0-rc.6",
     "ie-shim": "^0.1.0",
     "typescript": "^2.0.0",
-    "zone.js": "0.6.17",
+    "zone.js": "0.6.18",
 
     "@types/core-js": "^0.9.28",
     "@types/hammerjs": "^2.0.28",
