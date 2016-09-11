@@ -33,13 +33,14 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
 - [Multiple User Types](#multiple-user-types)
 - [Route Guards](#route-guards)
 - [Testing](#testing)
+- [Development](#development)
 - [Credits](#credits)
 - [License](#license)
 
 ## Installation
 1. Install Angular2-Token via NPM with
     ```bash
-    npm install angular2-token --save
+    npm install angular2-token
     ```
 
 2. Import and add `Angular2TokenService` to your main module. `Angular2TokenService` depends on `HttpModule` and `RouterModule`, so make sure you imported them too.
@@ -290,9 +291,9 @@ npm test
 If the package is installed from Github specified in the package.json, you need to build the package locally.
 
 ```bash
-cd ./node_modules/angular2-token;
-npm i;
-npm run build;
+cd ./node_modules/angular2-token
+npm install
+npm run build
 ```
 
 ## Credits

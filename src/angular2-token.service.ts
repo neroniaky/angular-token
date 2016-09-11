@@ -264,10 +264,6 @@ export class Angular2TokenService implements CanActivate {
                 'Content-Type': 'application/json' // ToDo: Add to RequestOptions if available
             });
 
-        // Set Body to empty if null
-        if (body == null)
-            body = ""
-
         // Construct Default Request Options
         baseRequestOptions = new RequestOptions({
             method: method,
