@@ -15,7 +15,8 @@ import 'rxjs/add/operator/share';
 import {
     UserType,
     AuthData,
-    Angular2TokenOptions
+    Angular2TokenOptions,
+    HttpRequestOptions
 } from './angular2-token.model';
 
 @Injectable()
@@ -196,54 +197,66 @@ export class Angular2TokenService implements CanActivate {
 
     // Standard HTTP requests
     get(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Get, path, null, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Get,
+            path:           path,
+            requestOptions: requestOptions
+        });
     }
 
     post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Post, path, data, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Post,
+            path:           path,
+            body:           data,
+            requestOptions: requestOptions
+        });
     }
 
     put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Put, path, data, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Put,
+            path:           path,
+            body:           data,
+            requestOptions: requestOptions
+        });
     }
 
     delete(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Delete, path, null, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Delete,
+            path:           path,
+            requestOptions: requestOptions
+        });
     }
 
     patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Patch, path, data, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Patch,
+            path:           path,
+            body:           data,
+            requestOptions: requestOptions
+        });
     }
 
-    // Check if response is complete and newer, then update storage
-    private _handleResponse(response: Observable<Response>) {
+    head(path: string, requestOptions?: RequestOptions): Observable<Response> {
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Head,
+            path:           path,
+            requestOptions: requestOptions
+        });
+    }
 
-        response.subscribe(res => {
-
-            let headers = res.headers;
-
-            let authData: AuthData = {
-                accessToken: headers.get('access-token'),
-                client: headers.get('client'),
-                expiry: headers.get('expiry'),
-                tokenType: headers.get('token-type'),
-                uid: headers.get('uid')
-            };
-
-            this._setAuthData(authData);
-
-        }, error => {
-            console.log('Session Service: Error Fetching Response');
+    options(path: string, requestOptions?: RequestOptions): Observable<Response> {
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Options,
+            path:           path,
+            requestOptions: requestOptions
         });
     }
 
     // Construct and send Http request
-    private _sendHttpRequest(
-        method: RequestMethod,
-        path: string,
-        body?: any,
-        requestOptions?: RequestOptions
-    ): Observable<Response> {
+    sendHttpRequest(options: HttpRequestOptions): Observable<Response> { 
 
         let headers: Headers;
         let baseRequestOptions: RequestOptions;
@@ -266,15 +279,15 @@ export class Angular2TokenService implements CanActivate {
 
         // Construct Default Request Options
         baseRequestOptions = new RequestOptions({
-            method: method,
-            url: this._constructApiPath() + path,
+            method: options.requestMethod,
+            url: this._constructApiPath() + options.path,
             headers: headers,
-            body: body
+            body: options.body
         })
 
         // Merge standard and custom RequestOptions
-        if (requestOptions != null)
-            mergedRequestOptions = baseRequestOptions.merge(requestOptions);
+        if (options.requestOptions != null)
+            mergedRequestOptions = baseRequestOptions.merge(options.requestOptions);
         else
             mergedRequestOptions = baseRequestOptions;
 
@@ -283,6 +296,28 @@ export class Angular2TokenService implements CanActivate {
         this._handleResponse(response);
 
         return response;
+    }
+
+    // Check if response is complete and newer, then update storage
+    private _handleResponse(response: Observable<Response>) {
+
+        response.subscribe(res => {
+
+            let headers = res.headers;
+
+            let authData: AuthData = {
+                accessToken: headers.get('access-token'),
+                client: headers.get('client'),
+                expiry: headers.get('expiry'),
+                tokenType: headers.get('token-type'),
+                uid: headers.get('uid')
+            };
+
+            this._setAuthData(authData);
+
+        }, error => {
+            console.log('Session Service: Error Fetching Response');
+        });
     }
 
     // Try to get auth data from storage.

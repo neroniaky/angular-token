@@ -30,6 +30,7 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
     - [`.updatePassword()`](#updatepassword)
     - [`.resetPassword()`](#resetpassword)
 - [HTTP Service Wrapper](#http-service-wrapper)
+    - [`.sendHttpRequest()`](#sendhttprequest)
 - [Multiple User Types](#multiple-user-types)
 - [Route Guards](#route-guards)
 - [Testing](#testing)
@@ -226,12 +227,14 @@ this._tokenService.updatePassword(
 ```
 
 ## HTTP Service Wrapper
-`Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
+`Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing. 
 - `get(path: string, requestOptions?: RequestOptions): Observable<Response>`
 - `post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
 - `put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
 - `delete(path: string, requestOptions?: RequestOptions): Observable<Response>`
 - `patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
+- `head(path: string, requestOptions?: RequestOptions): Observable<Response>`
+- `options(path: string, requestOptions?: RequestOptions): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -239,6 +242,21 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
+```
+
+### .sendHttpRequest()
+More customized request can be send with the `.sendHttpRequest()`-function. All previous Http wrappers use this function.
+
+`sendHttpRequest(options: HttpRequestOptions): Observable<Response>`
+
+#### Example:
+```javascript
+this.sendHttpRequest({
+    requestMethod:  RequestMethod.Post,
+    path:           'my-resource/1',
+    data:           mydata
+    requestOptions: myRequestOptions
+});
 ```
 
 ## Multiple User Types
