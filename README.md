@@ -102,18 +102,17 @@ constructor(private _tokenService: Angular2TokenService) {
 }
 ```
 
-### Configuration Options
-| Options                             | Description
-| ----------------------------------- | --------------------------------------------- |
-| `apiPath?: string`                  | Sets base path all operations are based on |
-| `signInPath?: string`               | Sets path for sign in |
-| `signOutPath?: string`              | Sets path for sign out |
-| `validateTokenPath?: string`        | Sets path for token validation |
-| `registerAccountPath?: string`      | Sets path for account registration |
-| `deleteAccountPath?: string`        | Sets path for account deletion |
+| Options                             | Description                                     |
+| ----------------------------------- | ----------------------------------------------- |
+| `apiPath?: string`                  | Sets base path all operations are based on      |
+| `signInPath?: string`               | Sets path for sign in                           |
+| `signOutPath?: string`              | Sets path for sign out                          |
+| `validateTokenPath?: string`        | Sets path for token validation                  |
+| `registerAccountPath?: string`      | Sets path for account registration              |
+| `deleteAccountPath?: string`        | Sets path for account deletion                  |
 | `registerAccountCallback?: string`  | Sets the path user are redirected to after email confirmation for registration |
-| `updatePasswordPath?: string`       | Sets path for password update |
-| `resetPasswordPath?: string`        | Sets path for password reset |
+| `updatePasswordPath?: string`       | Sets path for password update                   |
+| `resetPasswordPath?: string`        | Sets path for password reset                    |
 | `resetPasswordCallback?: string`    | Sets the path user are redirected to after email confirmation for password reset |
 | `userTypes?: UserTypes[]`           | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
 
