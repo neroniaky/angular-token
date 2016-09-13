@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.1.7
+**Features:**
+- Added .head() and .options() HTTP-wrapper
+- Added general HTTP-wrapper .sendHttpRequest()
+
 ## v0.1.6
 **Bugfixes:**
 - Added route guard support for CanActivate
