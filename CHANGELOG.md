@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.8 & v0.1.9
+**Features:**
+- Updated Dependencies to Angular2 Final
+
 ## v0.1.7
 **Features:**
 - Added .head() and .options() HTTP-wrapper
