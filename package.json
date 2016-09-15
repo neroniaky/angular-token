@@ -46,7 +46,7 @@
 
     "awesome-typescript-loader": "^2.2.1",
     "source-map-loader": "^0.1.5",
-    "istanbul-instrumenter-loader": "^0.2.0",
+    "istanbul-instrumenter-loader": "^1.0.0",
 
     "protractor": "4.0.7",
 
