@@ -1,10 +1,9 @@
 import { Http, BaseRequestOptions, Response, ResponseOptions, Headers, RequestMethod } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { provide } from '@angular/core';
-import { inject, addProviders } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterOutletMap, RouterState } from '@angular/router';
 
-import { Angular2TokenService } from './';
+import { Angular2TokenService } from './angular2-token.service';
 
 describe('Angular2TokenService', () => {
 
@@ -43,17 +42,19 @@ describe('Angular2TokenService', () => {
 
 	beforeEach(() => {
 		// Inject HTTP and Angular2TokenService
-		addProviders([
-			BaseRequestOptions,
-			MockBackend,
-			{ provide: ActivatedRoute, useClass: Mock },
-			{
-				provide: Http,
-				useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions) },
-				deps: [MockBackend, BaseRequestOptions]
-			},
-			Angular2TokenService
-		]);
+		TestBed.configureTestingModule({
+			providers: [
+				BaseRequestOptions,
+				MockBackend,
+				{ provide: ActivatedRoute, useClass: Mock },
+				{
+					provide: Http,
+					useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions) },
+					deps: [MockBackend, BaseRequestOptions]
+				},
+				Angular2TokenService
+			]
+		});
 
 		// Fake Local Storage
 		var store = {};

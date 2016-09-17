@@ -1,1 +1,5 @@
-exports.Angular2TokenService = require('./lib/angular2-token.service').Angular2TokenService;
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./lib/angular2-token.service'));

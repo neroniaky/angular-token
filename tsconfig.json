@@ -11,7 +11,8 @@
       "suppressImplicitAnyIndexErrors": true
   },
   "files": [
-      "src/angular2-token.service.ts"
+      "src/angular2-token.service.ts",
+      "src/angular2-token.model.ts"
   ],
   "exclude": [
       "node_modules"

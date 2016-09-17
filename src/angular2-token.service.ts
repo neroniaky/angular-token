@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable }       from '@angular/core';
+import { CanActivate }      from '@angular/router';
 import {
     Http,
     Response,
@@ -7,18 +8,19 @@ import {
     RequestMethod,
     RequestOptions
 } from '@angular/http';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute }   from '@angular/router';
+import { Observable }       from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 
 import {
     UserType,
     AuthData,
-    Angular2TokenOptions
-} from './';
+    Angular2TokenOptions,
+    HttpRequestOptions
+} from './angular2-token.model';
 
 @Injectable()
-export class Angular2TokenService {
+export class Angular2TokenService implements CanActivate {
 
     get currentUserType(): string {
         if (this._currentUserType != null)
@@ -41,6 +43,13 @@ export class Angular2TokenService {
         private _activatedRoute: ActivatedRoute
     ) { }
 
+    canActivate() {
+        if (this._currentUserData)
+            return true;
+        else
+            return false;
+    }
+
     // Inital configuration
     init(options?: Angular2TokenOptions) {
 
@@ -59,7 +68,11 @@ export class Angular2TokenService {
             resetPasswordPath:          'auth/password',
             resetPasswordCallback:      window.location.href,
 
-            userTypes:                  null
+            userTypes:                  null,
+
+            oAuthPaths: {
+                github:                 'auth/github'
+            }
         };
 
         this._options = Object.assign(defaultOptions, options);
@@ -108,6 +121,17 @@ export class Angular2TokenService {
         observ.subscribe(res => this._currentUserData = res.json().data, error => null);
 
         return observ;
+    }
+
+    signInOAuth(oAuthType: string) {
+
+        let oAuthPath: string;
+
+        if (oAuthType == 'github') {
+            oAuthPath = this._options.oAuthPaths.github
+        }
+
+        window.open(this._constructUserPath() + oAuthPath);
     }
 
     // Sign out request and delete storage
@@ -173,23 +197,105 @@ export class Angular2TokenService {
 
     // Standard HTTP requests
     get(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Get, path, null, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Get,
+            path:           path,
+            requestOptions: requestOptions
+        });
     }
 
     post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Post, path, data, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Post,
+            path:           path,
+            body:           data,
+            requestOptions: requestOptions
+        });
     }
 
     put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Put, path, data, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Put,
+            path:           path,
+            body:           data,
+            requestOptions: requestOptions
+        });
     }
 
     delete(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Delete, path, null, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Delete,
+            path:           path,
+            requestOptions: requestOptions
+        });
     }
 
     patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this._sendHttpRequest(RequestMethod.Patch, path, data, requestOptions);
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Patch,
+            path:           path,
+            body:           data,
+            requestOptions: requestOptions
+        });
+    }
+
+    head(path: string, requestOptions?: RequestOptions): Observable<Response> {
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Head,
+            path:           path,
+            requestOptions: requestOptions
+        });
+    }
+
+    options(path: string, requestOptions?: RequestOptions): Observable<Response> {
+        return this.sendHttpRequest({
+            requestMethod:  RequestMethod.Options,
+            path:           path,
+            requestOptions: requestOptions
+        });
+    }
+
+    // Construct and send Http request
+    sendHttpRequest(options: HttpRequestOptions): Observable<Response> { 
+
+        let headers: Headers;
+        let baseRequestOptions: RequestOptions;
+        let mergedRequestOptions: RequestOptions;
+
+        // Set Headers
+        if (this._currentAuthData != null)
+            headers = new Headers({
+                'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
+                'access-token': this._currentAuthData.accessToken,
+                'client': this._currentAuthData.client,
+                'expiry': this._currentAuthData.expiry,
+                'token-type': this._currentAuthData.tokenType,
+                'uid': this._currentAuthData.uid
+            });
+        else
+            headers = new Headers({
+                'Content-Type': 'application/json' // ToDo: Add to RequestOptions if available
+            });
+
+        // Construct Default Request Options
+        baseRequestOptions = new RequestOptions({
+            method: options.requestMethod,
+            url: this._constructApiPath() + options.path,
+            headers: headers,
+            body: options.body
+        })
+
+        // Merge standard and custom RequestOptions
+        if (options.requestOptions != null)
+            mergedRequestOptions = baseRequestOptions.merge(options.requestOptions);
+        else
+            mergedRequestOptions = baseRequestOptions;
+
+        let response = this._http.request(new Request(mergedRequestOptions)).share();
+
+        this._handleResponse(response);
+
+        return response;
     }
 
     // Check if response is complete and newer, then update storage
@@ -212,58 +318,6 @@ export class Angular2TokenService {
         }, error => {
             console.log('Session Service: Error Fetching Response');
         });
-    }
-
-    // Construct and send Http request
-    private _sendHttpRequest(
-        method: RequestMethod,
-        path: string,
-        body?: any,
-        requestOptions?: RequestOptions
-    ): Observable<Response> {
-
-        let headers: Headers;
-        let baseRequestOptions: RequestOptions;
-        let mergedRequestOptions: RequestOptions;
-
-        // Set Headers
-        if (this._currentAuthData != null)
-            headers = new Headers({
-                'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
-                'access-token': this._currentAuthData.accessToken,
-                'client': this._currentAuthData.client,
-                'expiry': this._currentAuthData.expiry,
-                'token-type': this._currentAuthData.tokenType,
-                'uid': this._currentAuthData.uid
-            });
-        else
-            headers = new Headers({
-                'Content-Type': 'application/json' // ToDo: Add to RequestOptions if available
-            });
-
-        // Set Body to empty if null
-        if (body == null)
-            body = ""
-
-        // Construct Default Request Options
-        baseRequestOptions = new RequestOptions({
-            method: method,
-            url: this._constructApiPath() + path,
-            headers: headers,
-            body: body
-        })
-
-        // Merge standard and custom RequestOptions
-        if (requestOptions != null)
-            mergedRequestOptions = baseRequestOptions.merge(requestOptions);
-        else
-            mergedRequestOptions = baseRequestOptions;
-
-        let response = this._http.request(new Request(mergedRequestOptions)).share();
-
-        this._handleResponse(response);
-
-        return response;
     }
 
     // Try to get auth data from storage.

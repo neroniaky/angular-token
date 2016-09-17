@@ -1,8 +1,26 @@
 # Change Log
 
-## v0.1.4
+## v0.1.8 & v0.1.9
+**Features:**
+- Updated Dependencies to Angular2 Final
+
+## v0.1.7
+**Features:**
+- Added .head() and .options() HTTP-wrapper
+- Added general HTTP-wrapper .sendHttpRequest()
+
+## v0.1.6
 **Bugfixes:**
+- Added route guard support for CanActivate
+
+## v0.1.5
+**Bugfixes:**
+- Fix broken sourcemap paths in npm package
+
+## v0.1.4
+**Features:**
 - Added packaged library to npm package for systemjs support (fixes [#6](https://github.com/neroniaky/angular2-token/issues/6))
+- Update Dependencies to Angular2 RC6
 
 ## v0.1.3
 **Bugfixes:**

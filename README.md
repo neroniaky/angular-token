@@ -1,3 +1,5 @@
+![Angular2-Token](assets/angular2-token-logo.png)
+
 # Angular2-Token
 [![Join the chat at https://gitter.im/lynndylanhurley/devise_token_auth](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angular2-token/Lobby)
 [![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
@@ -28,15 +30,18 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
     - [`.updatePassword()`](#updatepassword)
     - [`.resetPassword()`](#resetpassword)
 - [HTTP Service Wrapper](#http-service-wrapper)
+    - [`.sendHttpRequest()`](#sendhttprequest)
 - [Multiple User Types](#multiple-user-types)
+- [Route Guards](#route-guards)
 - [Testing](#testing)
+- [Development](#development)
 - [Credits](#credits)
 - [License](#license)
 
 ## Installation
 1. Install Angular2-Token via NPM with
     ```bash
-    npm install angular2-token --save
+    npm install angular2-token
     ```
 
 2. Import and add `Angular2TokenService` to your main module. `Angular2TokenService` depends on `HttpModule` and `RouterModule`, so make sure you imported them too.
@@ -97,18 +102,19 @@ constructor(private _tokenService: Angular2TokenService) {
 }
 ```
 
-### Configuration Options
-- `apiPath?: string` - Sets base path all operations are based on
-- `signInPath?: string` - Sets path for sign in
-- `signOutPath?: string` - Sets path for sign out
-- `validateTokenPath?: string` - Sets path for token validation
-- `registerAccountPath?: string` - Sets path for account registration
-- `deleteAccountPath?: string` - Sets path for account deletion
-- `registerAccountCallback?: string` - Sets the path user are redirected to after email confirmation for registration
-- `updatePasswordPath?: string` - Sets path for password update
-- `resetPasswordPath?: string` - Sets path for password reset
-- `resetPasswordCallback?: string` - Sets the path user are redirected to after email confirmation for password reset
-- `userTypes?: UserTypes[]` - Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types))
+| Options                             | Description                                     |
+| ----------------------------------- | ----------------------------------------------- |
+| `apiPath?: string`                  | Sets base path all operations are based on      |
+| `signInPath?: string`               | Sets path for sign in                           |
+| `signOutPath?: string`              | Sets path for sign out                          |
+| `validateTokenPath?: string`        | Sets path for token validation                  |
+| `registerAccountPath?: string`      | Sets path for account registration              |
+| `deleteAccountPath?: string`        | Sets path for account deletion                  |
+| `registerAccountCallback?: string`  | Sets the path user are redirected to after email confirmation for registration |
+| `updatePasswordPath?: string`       | Sets path for password update                   |
+| `resetPasswordPath?: string`        | Sets path for password reset                    |
+| `resetPasswordCallback?: string`    | Sets the path user are redirected to after email confirmation for password reset |
+| `userTypes?: UserTypes[]`           | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
 
 Further information on paths/routes can be found at
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth#usage-tldr)
@@ -222,12 +228,14 @@ this._tokenService.updatePassword(
 ```
 
 ## HTTP Service Wrapper
-`Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
+`Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing. 
 - `get(path: string, requestOptions?: RequestOptions): Observable<Response>`
 - `post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
 - `put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
 - `delete(path: string, requestOptions?: RequestOptions): Observable<Response>`
 - `patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
+- `head(path: string, requestOptions?: RequestOptions): Observable<Response>`
+- `options(path: string, requestOptions?: RequestOptions): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -235,6 +243,21 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
+```
+
+### .sendHttpRequest()
+More customized requests can be send with the `.sendHttpRequest()`-function. It is used by all Http wrappers.
+
+`sendHttpRequest(options: HttpRequestOptions): Observable<Response>`
+
+#### Example:
+```javascript
+this.sendHttpRequest({
+    requestMethod:  RequestMethod.Post,
+    path:           'my-resource/1',
+    data:           mydata
+    requestOptions: myRequestOptions
+});
 ```
 
 ## Multiple User Types
@@ -260,9 +283,36 @@ this._tokenService.signIn(
 this._tokenService.currentUser; // ADMIN
 ```
 
+## Route Guards
+Angular2-Token implements the `CanActivate` interface, so it can directly be used
+as a route guard. It currently does not distinguish between user types.
+
+#### Example:
+```javascript
+const routerConfig: Routes = [
+    { 
+        path: '', 
+        component: PublicComponent 
+    }, {
+        path: 'restricted', 
+        component: RestrictedComponent, 
+        canActivate: [Angular2TokenService] 
+    }
+];
+```
+
 ## Testing
 ```bash
 npm test
+```
+
+## Development
+If the package is installed from Github specified in the package.json, you need to build the package locally.
+
+```bash
+cd ./node_modules/angular2-token
+npm install
+npm run build
 ```
 
 ## Credits

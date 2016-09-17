@@ -1,3 +1,8 @@
+import {
+    RequestMethod,
+    RequestOptions
+} from '@angular/http';
+
 export interface UserType {
     name: string;
     path: string;
@@ -11,20 +16,33 @@ export interface AuthData {
     uid:            string;
 }
 
+export interface OAuthPaths {
+    github?:    string;
+}
+
 export interface Angular2TokenOptions {
-    apiPath?:                       string;
-    signInPath?:                    string;
-    signOutPath?:                   string;
-    validateTokenPath?:             string;
+    apiPath?:                   string;
+    signInPath?:                string;
+    signOutPath?:               string;
+    validateTokenPath?:         string;
 
-    deleteAccountPath?:             string;
-    registerAccountPath?:           string;
-    registerAccountCallback?:       string;
+    deleteAccountPath?:         string;
+    registerAccountPath?:       string;
+    registerAccountCallback?:   string;
 
-    updatePasswordPath?:            string;
+    updatePasswordPath?:        string;
 
-    resetPasswordPath?:             string;
-    resetPasswordCallback?:         string;
+    resetPasswordPath?:         string;
+    resetPasswordCallback?:     string;
 
-    userTypes?:                     UserType[];
+    userTypes?:                 UserType[];
+
+    oAuthPaths?:                OAuthPaths;
+}
+
+export interface HttpRequestOptions {
+    requestMethod: RequestMethod,
+    path: string,
+    body?: any,
+    requestOptions?: RequestOptions
 }
