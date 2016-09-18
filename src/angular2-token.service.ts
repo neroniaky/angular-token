@@ -300,24 +300,26 @@ export class Angular2TokenService implements CanActivate {
 
     // Check if response is complete and newer, then update storage
     private _handleResponse(response: Observable<Response>) {
-
         response.subscribe(res => {
-
-            let headers = res.headers;
-
-            let authData: AuthData = {
-                accessToken: headers.get('access-token'),
-                client: headers.get('client'),
-                expiry: headers.get('expiry'),
-                tokenType: headers.get('token-type'),
-                uid: headers.get('uid')
-            };
-
-            this._setAuthData(authData);
-
+            this._parseAuthHeadersFromResponse(<any>res);
         }, error => {
+            this._parseAuthHeadersFromResponse(<any>error);
             console.log('Session Service: Error Fetching Response');
         });
+    }
+
+    private _parseAuthHeadersFromResponse(data: any){
+        let headers = data.headers;
+
+        let authData: AuthData = {
+            accessToken: headers.get('access-token'),
+            client: headers.get('client'),
+            expiry: headers.get('expiry'),
+            tokenType: headers.get('token-type'),
+            uid: headers.get('uid')
+        };
+
+        this._setAuthData(authData);
     }
 
     // Try to get auth data from storage.
