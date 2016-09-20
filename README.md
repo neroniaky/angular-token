@@ -229,13 +229,14 @@ this._tokenService.updatePassword(
 
 ## HTTP Service Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing. 
-- `get(path: string, requestOptions?: RequestOptions): Observable<Response>`
-- `post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
-- `put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
-- `delete(path: string, requestOptions?: RequestOptions): Observable<Response>`
-- `patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response>`
-- `head(path: string, requestOptions?: RequestOptions): Observable<Response>`
-- `options(path: string, requestOptions?: RequestOptions): Observable<Response>`
+If `apiPath` is configured it gets added in front of path.
+- `get(path: string): Observable<Response>`
+- `post(path: string, data: any): Observable<Response>`
+- `put(path: string, data: any): Observable<Response>`
+- `delete(path: string): Observable<Response>`
+- `patch(path: string, data: any): Observable<Response>`
+- `head(path: string): Observable<Response>`
+- `options(path: string): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -246,18 +247,18 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
 ```
 
 ### .sendHttpRequest()
-More customized requests can be send with the `.sendHttpRequest()`-function. It is used by all Http wrappers.
+More customized requests can be send with the `.sendHttpRequest()`-function. It accepts the RequestOptions-Class. 
+More information can be found in the Angular2 API Reference [here](https://angular.io/docs/ts/latest/api/http/index/RequestOptions-class.html).
 
-`sendHttpRequest(options: HttpRequestOptions): Observable<Response>`
+`sendHttpRequest(options: RequestOptions): Observable<Response>`
 
 #### Example:
 ```javascript
-this.sendHttpRequest({
-    requestMethod:  RequestMethod.Post,
-    path:           'my-resource/1',
-    data:           mydata
-    requestOptions: myRequestOptions
-});
+this.sendHttpRequest(new RequestOptions({
+    method: RequestMethod.Post,
+    url:    'my-resource/1',
+    data:   mydata
+}));
 ```
 
 ## Multiple User Types

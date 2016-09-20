@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.1.12
+**Breaking changes:**
+- Changed paramater type of `sendHttpRequest(requestOptions: RequestOptions)`
+- `sendHttpRequest()` does not add `apiPath` to path anymore
+
 ## v0.1.8 & v0.1.9
 **Features:**
 - Updated Dependencies to Angular2 Final

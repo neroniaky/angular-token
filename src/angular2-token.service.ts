@@ -15,8 +15,7 @@ import 'rxjs/add/operator/share';
 import {
     UserType,
     AuthData,
-    Angular2TokenOptions,
-    HttpRequestOptions
+    Angular2TokenOptions
 } from './angular2-token.model';
 
 @Injectable()
@@ -196,67 +195,60 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Standard HTTP requests
-    get(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Get,
-            path:           path,
-            requestOptions: requestOptions
-        });
+    get(path: string): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Get,
+            url:    this._constructApiPath() + path
+        }));
     }
 
-    post(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Post,
-            path:           path,
-            body:           data,
-            requestOptions: requestOptions
-        });
+    post(path: string, data: any): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Post,
+            url:    this._constructApiPath() + path,
+            body:   data
+        }));
     }
 
-    put(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Put,
-            path:           path,
-            body:           data,
-            requestOptions: requestOptions
-        });
+    put(path: string, data: any): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Put,
+            url:    this._constructApiPath() + path,
+            body:   data
+        }));
     }
 
-    delete(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Delete,
-            path:           path,
-            requestOptions: requestOptions
-        });
+    delete(path: string): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Delete,
+            url:    this._constructApiPath() + path
+        }));
     }
 
-    patch(path: string, data: any, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Patch,
-            path:           path,
-            body:           data,
-            requestOptions: requestOptions
-        });
+    patch(path: string, data: any): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Patch,
+            url:    this._constructApiPath() + path,
+            body:   data
+        }));
     }
 
-    head(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Head,
-            path:           path,
-            requestOptions: requestOptions
-        });
+    head(path: string): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Head,
+            url:    this._constructApiPath() + path
+        }));
     }
 
-    options(path: string, requestOptions?: RequestOptions): Observable<Response> {
-        return this.sendHttpRequest({
-            requestMethod:  RequestMethod.Options,
-            path:           path,
-            requestOptions: requestOptions
-        });
+    options(path: string): Observable<Response> {
+        return this.sendHttpRequest(new RequestOptions({
+            method: RequestMethod.Options,
+            url:    this._constructApiPath() + path
+        }));
     }
 
     // Construct and send Http request
-    sendHttpRequest(options: HttpRequestOptions): Observable<Response> { 
+    sendHttpRequest(requestOptions: RequestOptions): Observable<Response> { 
 
         let headers: Headers;
         let baseRequestOptions: RequestOptions;
@@ -266,6 +258,7 @@ export class Angular2TokenService implements CanActivate {
         if (this._currentAuthData != null)
             headers = new Headers({
                 'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
+                'Accept': 'application/json',
                 'access-token': this._currentAuthData.accessToken,
                 'client': this._currentAuthData.client,
                 'expiry': this._currentAuthData.expiry,
@@ -274,22 +267,17 @@ export class Angular2TokenService implements CanActivate {
             });
         else
             headers = new Headers({
-                'Content-Type': 'application/json' // ToDo: Add to RequestOptions if available
+                'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
+                'Accept': 'application/json'
             });
 
         // Construct Default Request Options
         baseRequestOptions = new RequestOptions({
-            method: options.requestMethod,
-            url: this._constructApiPath() + options.path,
-            headers: headers,
-            body: options.body
+            headers: headers
         })
 
         // Merge standard and custom RequestOptions
-        if (options.requestOptions != null)
-            mergedRequestOptions = baseRequestOptions.merge(options.requestOptions);
-        else
-            mergedRequestOptions = baseRequestOptions;
+        mergedRequestOptions = baseRequestOptions.merge(requestOptions);
 
         let response = this._http.request(new Request(mergedRequestOptions)).share();
 

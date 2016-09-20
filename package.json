@@ -1,12 +1,13 @@
 {
   "name": "angular2-token",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Angular2 service for token based authentication",
   "main": "./angular2-token.js",
   "typings": "./angular2-token.d.ts",
   "scripts": {
     "test": "karma start",
-    "build": "rm -rf lib && tsc"
+    "build": "rm -rf lib && tsc",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "angular2",

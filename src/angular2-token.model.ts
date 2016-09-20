@@ -1,8 +1,3 @@
-import {
-    RequestMethod,
-    RequestOptions
-} from '@angular/http';
-
 export interface UserType {
     name: string;
     path: string;
@@ -38,11 +33,4 @@ export interface Angular2TokenOptions {
     userTypes?:                 UserType[];
 
     oAuthPaths?:                OAuthPaths;
-}
-
-export interface HttpRequestOptions {
-    requestMethod: RequestMethod,
-    path: string,
-    body?: any,
-    requestOptions?: RequestOptions
 }
