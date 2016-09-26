@@ -258,7 +258,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Construct and send Http request
-    sendHttpRequest(requestOptions: RequestOptions): Observable<Response> { 
+    sendHttpRequest(requestOptions: RequestOptions): Observable<Response> {
 
         let headers: Headers;
         let baseRequestOptions: RequestOptions;
@@ -337,22 +337,18 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to get auth data from url parameters.
     private _getAuthDataFromParams() {
+      this._activatedRoute.queryParams.subscribe(queryParams => {
+        let authData: AuthData = {
+          accessToken: queryParams['token'],
+          client: queryParams['client_id'],
+          expiry: queryParams['expiry'],
+          tokenType: 'Bearer',
+          uid: queryParams['uid']
+        };
 
-        if (this._activatedRoute.params != null) { // Fix for Testing, has to be removed later
-
-            let params = this._activatedRoute.params;
-
-            let authData: AuthData = {
-                accessToken: params['token'],
-                client: params['client_id'],
-                expiry: params['expiry'],
-                tokenType: 'Bearer',
-                uid: params['uid']
-            };
-
-            if (this._checkIfComplete(authData))
-                this._currentAuthData = authData;
-        }
+        if (this._checkIfComplete(authData))
+          this._currentAuthData = authData;
+      });
     }
 
 
