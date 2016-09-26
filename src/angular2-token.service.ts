@@ -310,11 +310,11 @@ export class Angular2TokenService implements CanActivate {
         let headers = data.headers;
 
         let authData: AuthData = {
-            accessToken: headers.get('access-token'),
-            client: headers.get('client'),
-            expiry: headers.get('expiry'),
-            tokenType: headers.get('token-type'),
-            uid: headers.get('uid')
+            accessToken:    headers.get('access-token'),
+            client:         headers.get('client'),
+            expiry:         headers.get('expiry'),
+            tokenType:      headers.get('token-type'),
+            uid:            headers.get('uid')
         };
 
         this._setAuthData(authData);
@@ -324,11 +324,11 @@ export class Angular2TokenService implements CanActivate {
     private _getAuthDataFromStorage() {
 
         let authData: AuthData = {
-            accessToken: localStorage.getItem('accessToken'),
-            client: localStorage.getItem('client'),
-            expiry: localStorage.getItem('expiry'),
-            tokenType: localStorage.getItem('tokenType'),
-            uid: localStorage.getItem('uid')
+            accessToken:    localStorage.getItem('accessToken'),
+            client:         localStorage.getItem('client'),
+            expiry:         localStorage.getItem('expiry'),
+            tokenType:      localStorage.getItem('tokenType'),
+            uid:            localStorage.getItem('uid')
         };
 
         if (this._checkIfComplete(authData))
@@ -337,18 +337,19 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to get auth data from url parameters.
     private _getAuthDataFromParams() {
-      this._activatedRoute.queryParams.subscribe(queryParams => {
-        let authData: AuthData = {
-          accessToken: queryParams['token'],
-          client: queryParams['client_id'],
-          expiry: queryParams['expiry'],
-          tokenType: 'Bearer',
-          uid: queryParams['uid']
-        };
+        if(this._activatedRoute.queryParams) // Fix for Testing, needs to be removed later
+            this._activatedRoute.queryParams.subscribe(queryParams => {
+                let authData: AuthData = {
+                    accessToken:    queryParams['token'],
+                    client:         queryParams['client_id'],
+                    expiry:         queryParams['expiry'],
+                    tokenType:      'Bearer',
+                    uid:            queryParams['uid']
+                };
 
-        if (this._checkIfComplete(authData))
-          this._currentAuthData = authData;
-      });
+                if (this._checkIfComplete(authData))
+                    this._currentAuthData = authData;
+            });
     }
 
 
