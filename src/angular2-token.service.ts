@@ -397,15 +397,16 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to load user config from storage
     private _tryLoadAuthData() {
+
         let userType = this._getUserTypeByName(localStorage.getItem('userType'));
+        if (userType)
+            this._currentUserType = userType;
+
         this._getAuthDataFromStorage();
         this._getAuthDataFromParams();
 
         if (this._currentAuthData != null)
             this.validateToken();
-
-        if (userType != null)
-            this._currentUserType = userType;
     }
 
     // Match user config by user config name
