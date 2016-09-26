@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.13
+**Features:**
+- Added sign in redirect to `CanActivate` interface
+
 ## v0.1.12
 **Breaking changes:**
 - Changed paramater type of `sendHttpRequest(requestOptions: RequestOptions)`
