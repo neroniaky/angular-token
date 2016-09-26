@@ -17,7 +17,10 @@ export interface OAuthPaths {
 
 export interface Angular2TokenOptions {
     apiPath?:                   string;
+
     signInPath?:                string;
+    signInRedirect?:            string;
+
     signOutPath?:               string;
     validateTokenPath?:         string;
 

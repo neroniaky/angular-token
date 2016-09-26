@@ -85,7 +85,10 @@ Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
 constructor(private _tokenService: Angular2TokenService) {
     this._tokenService.init({
         apiPath:                    null,
+
         signInPath:                 'auth/sign_in',
+        signInRedirect:             null,
+
         signOutPath:                'auth/sign_out',
         validateTokenPath:          'auth/validate_token',
 
@@ -106,6 +109,7 @@ constructor(private _tokenService: Angular2TokenService) {
 | ----------------------------------- | ----------------------------------------------- |
 | `apiPath?: string`                  | Sets base path all operations are based on      |
 | `signInPath?: string`               | Sets path for sign in                           |
+| `signInRedirect?: string`           | Sets redirect path for failed CanActivate       |
 | `signOutPath?: string`              | Sets path for sign out                          |
 | `validateTokenPath?: string`        | Sets path for token validation                  |
 | `registerAccountPath?: string`      | Sets path for account registration              |
@@ -285,8 +289,9 @@ this._tokenService.currentUser; // ADMIN
 ```
 
 ## Route Guards
-Angular2-Token implements the `CanActivate` interface, so it can directly be used
-as a route guard. It currently does not distinguish between user types.
+Angular2-Token implements the `CanActivate` interface, so it can directly be used as a route guard. 
+If the `signInRedirect` option is set the user will be redirected on a failed (=false) CanActivate using `Router.navigate()`.
+It currently does not distinguish between user types.
 
 #### Example:
 ```javascript

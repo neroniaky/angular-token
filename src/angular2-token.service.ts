@@ -8,7 +8,7 @@ import {
     RequestMethod,
     RequestOptions
 } from '@angular/http';
-import { ActivatedRoute }   from '@angular/router';
+import { ActivatedRoute, Router }   from '@angular/router';
 import { Observable }       from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 
@@ -39,14 +39,21 @@ export class Angular2TokenService implements CanActivate {
 
     constructor(
         private _http: Http,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _router: Router
     ) { }
 
     canActivate() {
         if (this._currentUserData)
             return true;
-        else
+        else {
+
+            // Redirect user to sign in if signInRedirect is set
+            if(this._options.signInRedirect)
+                this._router.navigate([this._options.signInRedirect]);
+            
             return false;
+        }         
     }
 
     // Inital configuration
@@ -54,7 +61,10 @@ export class Angular2TokenService implements CanActivate {
 
         let defaultOptions: Angular2TokenOptions = {
             apiPath:                    null,
+
             signInPath:                 'auth/sign_in',
+            signInRedirect:             null,
+
             signOutPath:                'auth/sign_out',
             validateTokenPath:          'auth/validate_token',
 
