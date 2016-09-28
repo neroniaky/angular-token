@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.14
+**Bugfixes:**
+- Fixes auth data retrival from http paramater, fixes #29
+
 ## v0.1.13
 **Features:**
 - Added sign in redirect to `CanActivate` interface
