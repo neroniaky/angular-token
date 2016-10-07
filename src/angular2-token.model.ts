@@ -1,8 +1,3 @@
-export interface UserType {
-    name: string;
-    path: string;
-}
-
 export interface AuthData {
     accessToken:    string;
     client:         string;
@@ -11,8 +6,25 @@ export interface AuthData {
     uid:            string;
 }
 
+export interface UserData {
+    id:             number;
+    provider:       string; 
+    uid:            string; 
+    name:           string; 
+    nickname:       string; 
+    image:          any;
+    email:          string;
+}
+
+// Configuration Options
+
+export interface UserType {
+    name:           string;
+    path:           string;
+}
+
 export interface OAuthPaths {
-    github?:    string;
+    github?:        string;
 }
 
 export interface Angular2TokenOptions {

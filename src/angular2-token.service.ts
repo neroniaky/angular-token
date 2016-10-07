@@ -14,6 +14,7 @@ import 'rxjs/add/operator/share';
 
 import {
     UserType,
+    UserData,
     AuthData,
     Angular2TokenOptions
 } from './angular2-token.model';
@@ -28,14 +29,14 @@ export class Angular2TokenService implements CanActivate {
             return null;
     }
 
-    get currentUserData(): string {
+    get currentUserData(): UserData {
         return this._currentUserData;
     }
 
     private _options: Angular2TokenOptions;
     private _currentUserType: UserType;
     private _currentAuthData: AuthData;
-    private _currentUserData: any;
+    private _currentUserData: UserData;
 
     constructor(
         private _http: Http,

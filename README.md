@@ -268,7 +268,7 @@ this.sendHttpRequest(new RequestOptions({
 ## Multiple User Types
 An array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
 The user type is selected during sign in and persists until sign out.
-`.currentUser` returns the currently logged in user.
+`.currentUserType` returns the currently logged in user.
 
 #### Example:
 ```javascript
@@ -285,7 +285,7 @@ this._tokenService.signIn(
     'ADMIN'
 )
 
-this._tokenService.currentUser; // ADMIN
+this._tokenService.currentUserType; // ADMIN
 ```
 
 ## Route Guards
