@@ -44,8 +44,12 @@ export class Angular2TokenService implements CanActivate {
         private _router: Router
     ) { }
 
+    userSignedIn(): boolean {
+        return !!this._currentAuthData;
+    }
+
     canActivate() {
-        if (this._currentUserData)
+        if (this.userSignedIn())
             return true;
         else {
 
