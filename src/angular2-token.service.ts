@@ -33,6 +33,10 @@ export class Angular2TokenService implements CanActivate {
         return this._currentUserData;
     }
 
+    get isLoggedIn(): boolean {
+      return !!this._currentAuthData;
+    }
+
     private _options: Angular2TokenOptions;
     private _currentUserType: UserType;
     private _currentAuthData: AuthData;
