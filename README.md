@@ -100,7 +100,14 @@ constructor(private _tokenService: Angular2TokenService) {
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
-        userTypes:                  null
+        userTypes:                  null,
+
+        globalOptions: {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept':       'application/json'
+            }
+        }
     });
 }
 ```
@@ -119,6 +126,12 @@ constructor(private _tokenService: Angular2TokenService) {
 | `resetPasswordPath?: string`        | Sets path for password reset                    |
 | `resetPasswordCallback?: string`    | Sets the path user are redirected to after email confirmation for password reset |
 | `userTypes?: UserTypes[]`           | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
+| `globalOptions?: GlobalOptions`     | Allows the configuration of global options (see below) |
+
+### Global Options
+| Options                               | Description                                     |
+| ------------------------------------- | ----------------------------------------------- |
+| `headers?: { [key:string]: string; }` | Define custom global headers as hashmap. Be careful when overwriting the default options, `devise token auth` will refuse requests without the `Content-Type`-Header set |
 
 Further information on paths/routes can be found at
 [devise token auth](https://github.com/lynndylanhurley/devise_token_auth#usage-tldr)

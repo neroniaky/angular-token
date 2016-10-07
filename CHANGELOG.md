@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.1.15
+**Featues:**
+- Added global options for setting custom global headers
+
 ## v0.1.14
 **Bugfixes:**
 - Fixes auth data retrival from http paramater, fixes #29

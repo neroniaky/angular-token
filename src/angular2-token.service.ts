@@ -82,10 +82,17 @@ export class Angular2TokenService implements CanActivate {
 
             oAuthPaths: {
                 github:                 'auth/github'
+            },
+
+            globalOptions: {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept':       'application/json'
+                }
             }
         };
 
-        this._options = Object.assign(defaultOptions, options);
+        this._options = (<any>Object).assign(defaultOptions, options);
 
         this._tryLoadAuthData();
     }
@@ -261,36 +268,28 @@ export class Angular2TokenService implements CanActivate {
     // Construct and send Http request
     sendHttpRequest(requestOptions: RequestOptions): Observable<Response> {
 
-        let headers: Headers;
         let baseRequestOptions: RequestOptions;
-        let mergedRequestOptions: RequestOptions;
-
-        // Set Headers
-        if (this._currentAuthData != null)
-            headers = new Headers({
-                'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
-                'Accept': 'application/json',
+        let baseHeaders:        { [key:string]: string; } = this._options.globalOptions.headers;
+        
+        // Merge auth headers to request if set
+        if (this._currentAuthData != null) {
+            (<any>Object).assign(baseHeaders, {
                 'access-token': this._currentAuthData.accessToken,
-                'client': this._currentAuthData.client,
-                'expiry': this._currentAuthData.expiry,
-                'token-type': this._currentAuthData.tokenType,
-                'uid': this._currentAuthData.uid
+                'client':       this._currentAuthData.client,
+                'expiry':       this._currentAuthData.expiry,
+                'token-type':   this._currentAuthData.tokenType,
+                'uid':          this._currentAuthData.uid
             });
-        else
-            headers = new Headers({
-                'Content-Type': 'application/json', // ToDo: Add to RequestOptions if available
-                'Accept': 'application/json'
-            });
+        }
 
-        // Construct Default Request Options
         baseRequestOptions = new RequestOptions({
-            headers: headers
-        })
+            headers: new Headers(baseHeaders)
+        });
 
         // Merge standard and custom RequestOptions
-        mergedRequestOptions = baseRequestOptions.merge(requestOptions);
+        baseRequestOptions = baseRequestOptions.merge(requestOptions);
 
-        let response = this._http.request(new Request(mergedRequestOptions)).share();
+        let response = this._http.request(new Request(baseRequestOptions)).share();
 
         this._handleResponse(response);
 
