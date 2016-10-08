@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.1.16
+**Featues:**
+- Added `userSignedIn()` method
+- Added `currentAuthData` getter
+**Bugfixes:**
+- Fix `CanActivate` on page reload
+
 ## v0.1.15
 **Featues:**
 - Added global options for setting custom global headers

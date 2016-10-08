@@ -30,13 +30,18 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
     - [`.updatePassword()`](#updatepassword)
     - [`.resetPassword()`](#resetpassword)
 - [HTTP Service Wrapper](#http-service-wrapper)
-    - [`.sendHttpRequest()`](#sendhttprequest)
 - [Multiple User Types](#multiple-user-types)
 - [Route Guards](#route-guards)
-- [Testing](#testing)
+- [Advanced Usage](#advanced-usage)
+    - [`.sendHttpRequest()`](#sendhttprequest)
+    - [`.userSignedIn()`](#usersignedin)
+    - [`.currentUserType`](#currentusertype)
+    - [`.currentUserData`](#currentuserdata)
+    - [`.currentAuthData`](#currentauthdata)
 - [Development](#development)
-- [Credits](#credits)
-- [License](#license)
+    - [Testing](#testing)
+    - [Credits](#credits)
+    - [License](#license)
 
 ## Installation
 1. Install Angular2-Token via NPM with
@@ -263,21 +268,6 @@ this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
 );
 ```
 
-### .sendHttpRequest()
-More customized requests can be send with the `.sendHttpRequest()`-function. It accepts the RequestOptions-Class. 
-More information can be found in the Angular2 API Reference [here](https://angular.io/docs/ts/latest/api/http/index/RequestOptions-class.html).
-
-`sendHttpRequest(options: RequestOptions): Observable<Response>`
-
-#### Example:
-```javascript
-this.sendHttpRequest(new RequestOptions({
-    method: RequestMethod.Post,
-    url:    'my-resource/1',
-    data:   mydata
-}));
-```
-
 ## Multiple User Types
 An array of `UserType` can be passed in `Angular2TokenOptions` during `init()`.
 The user type is selected during sign in and persists until sign out.
@@ -320,10 +310,44 @@ const routerConfig: Routes = [
 ];
 ```
 
-## Testing
-```bash
-npm test
+## Advanced Usage
+More advanced methods can be used if a higher degree of customization is required.
+
+### .sendHttpRequest()
+More customized requests can be send with the `.sendHttpRequest()`-function. It accepts the RequestOptions-Class. 
+More information can be found in the Angular2 API Reference [here](https://angular.io/docs/ts/latest/api/http/index/RequestOptions-class.html).
+
+`sendHttpRequest(options: RequestOptions): Observable<Response>`
+
+#### Example:
+```javascript
+this.sendHttpRequest(new RequestOptions({
+    method: RequestMethod.Post,
+    url:    'my-resource/1',
+    data:   mydata
+}));
 ```
+
+### .userSignedIn()
+Returns `true` if a user is signed in. It does not distinguish between user types.
+
+`userSignedIn(): boolean`
+
+### .currentUserType
+Returns current user type as string like specified in the options.
+
+`get currentUserType(): string`
+
+### .currentUserData
+Returns current user data as returned by devise token auth. 
+This variable is `null` after page reload until the `.validateToken()` call is answerd by the backend.
+
+`get currentUserData(): UserData`
+
+### .currentAuthData
+Returns current authentication data which are used to set auth headers.
+
+`get currentAuthData(): AuthData`
 
 ## Development
 If the package is installed from Github specified in the package.json, you need to build the package locally.
@@ -334,8 +358,13 @@ npm install
 npm run build
 ```
 
-## Credits
+### Testing
+```bash
+npm test
+```
+
+### Credits
 Test config files based on [Angular2 Webpack Starter](https://github.com/AngularClass/angular2-webpack-starter) by AngularClass
 
-## License
+### License
 The MIT License (see the [LICENSE](https://github.com/neroniaky/angular2-token/blob/master/LICENSE) file for the full text)
