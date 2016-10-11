@@ -63,7 +63,7 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "1.8.0",
-    "remap-istanbul": "^0.6.3",
+    "remap-istanbul": "^0.7.0",
 
     "ts-helpers": "1.1.1",
     "ts-node": "1.4.2",
