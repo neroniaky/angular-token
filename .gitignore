@@ -1,5 +1,5 @@
 # Library directories
 node_modules
 coverage
-lib
+# lib
 npm-debug.log
