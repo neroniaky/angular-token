@@ -36,6 +36,7 @@ export interface Angular2TokenOptions {
 
     signInPath?:                string;
     signInRedirect?:            string;
+    signInStoredUrlStorageKey?: string;
 
     signOutPath?:               string;
     validateTokenPath?:         string;
