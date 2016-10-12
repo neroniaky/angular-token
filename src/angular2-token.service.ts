@@ -163,7 +163,12 @@ export class Angular2TokenService implements CanActivate {
     signOut(): Observable<Response> {
         let observ = this.delete(this._constructUserPath() + this._options.signOutPath);
 
-        localStorage.clear();
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('client');
+        localStorage.removeItem('expiry');
+        localStorage.removeItem('tokenType');
+        localStorage.removeItem('uid');
+
         this._currentAuthData = null;
         this._currentUserType = null;
         this._currentUserData = null;

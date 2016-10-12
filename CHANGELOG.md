@@ -4,6 +4,7 @@
 **Featues:**
 - Added `userSignedIn()` method
 - Added `currentAuthData` getter
+
 **Bugfixes:**
 - Fix `CanActivate` on page reload
 
