@@ -58,7 +58,10 @@ export class Angular2TokenService implements CanActivate {
         else {
             // Store current location in storage (usefull for redirection after signing in)
             if (this._options.signInStoredUrlStorageKey) {
-                localStorage.setItem(this._options.signInStoredUrlStorageKey, window.location.pathname + window.location.search);
+                localStorage.setItem(
+                    this._options.signInStoredUrlStorageKey,
+                    window.location.pathname + window.location.search
+                );
             }
 
             // Redirect user to sign in if signInRedirect is set
@@ -77,6 +80,7 @@ export class Angular2TokenService implements CanActivate {
 
             signInPath:                 'auth/sign_in',
             signInRedirect:             null,
+            signInStoredUrlStorageKey:  null,
 
             signOutPath:                'auth/sign_out',
             validateTokenPath:          'auth/validate_token',
