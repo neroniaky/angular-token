@@ -93,6 +93,7 @@ constructor(private _tokenService: Angular2TokenService) {
 
         signInPath:                 'auth/sign_in',
         signInRedirect:             null,
+        signInStoredUrlStorageKey:  null,
 
         signOutPath:                'auth/sign_out',
         validateTokenPath:          'auth/validate_token',
@@ -117,21 +118,22 @@ constructor(private _tokenService: Angular2TokenService) {
 }
 ```
 
-| Options                             | Description                                     |
-| ----------------------------------- | ----------------------------------------------- |
-| `apiPath?: string`                  | Sets base path all operations are based on      |
-| `signInPath?: string`               | Sets path for sign in                           |
-| `signInRedirect?: string`           | Sets redirect path for failed CanActivate       |
-| `signOutPath?: string`              | Sets path for sign out                          |
-| `validateTokenPath?: string`        | Sets path for token validation                  |
-| `registerAccountPath?: string`      | Sets path for account registration              |
-| `deleteAccountPath?: string`        | Sets path for account deletion                  |
-| `registerAccountCallback?: string`  | Sets the path user are redirected to after email confirmation for registration |
-| `updatePasswordPath?: string`       | Sets path for password update                   |
-| `resetPasswordPath?: string`        | Sets path for password reset                    |
-| `resetPasswordCallback?: string`    | Sets the path user are redirected to after email confirmation for password reset |
-| `userTypes?: UserTypes[]`           | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
-| `globalOptions?: GlobalOptions`     | Allows the configuration of global options (see below) |
+| Options                                 | Description                              |
+| --------------------------------------- | ---------------------------------------- |
+| `apiPath?: string`                      | Sets base path all operations are based on |
+| `signInPath?: string`                   | Sets path for sign in                    |
+| `signInRedirect?: string`               | Sets redirect path for failed CanActivate |
+| `signInStoredUrlStorageKey?: string`    | Sets locale storage key to store URL before displaying signIn page |
+| `signOutPath?: string`                  | Sets path for sign out                   |
+| `validateTokenPath?: string`            | Sets path for token validation           |
+| `registerAccountPath?: string`          | Sets path for account registration       |
+| `deleteAccountPath?: string`            | Sets path for account deletion           |
+| `registerAccountCallback?: string`      | Sets the path user are redirected to after email confirmation for registration |
+| `updatePasswordPath?: string`           | Sets path for password update            |
+| `resetPasswordPath?: string`            | Sets path for password reset             |
+| `resetPasswordCallback?: string`        | Sets the path user are redirected to after email confirmation for password reset |
+| `userTypes?: UserTypes[]`               | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
+| `globalOptions?: GlobalOptions`         | Allows the configuration of global options (see below) |
 
 ### Global Options
 | Options                               | Description                                     |
@@ -348,6 +350,22 @@ This variable is `null` after page reload until the `.validateToken()` call is a
 Returns current authentication data which are used to set auth headers.
 
 `get currentAuthData(): AuthData`
+
+### Redirect original requested URL
+If you want to redirect to the protected URL after signing in, you need to set `signInStoredUrlStorageKey` and in your code you can do something like this
+
+```js
+this._tokenService.signIn(
+    'example@example.org',
+    'secretPassword'
+).subscribe(
+    res => {
+        // You have to add Router DI in your component
+        this.router.navigateByUrl(localStorage.getItem('redirectTo'));
+    },
+    error =>    console.log(error)
+);
+```
 
 ## Development
 If the package is installed from Github specified in the package.json, you need to build the package locally.
