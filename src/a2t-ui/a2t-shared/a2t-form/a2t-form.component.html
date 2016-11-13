@@ -1,0 +1,15 @@
+<form class="a2t-form"
+    (ngSubmit)="_formService.submit()"
+    [formGroup]="_formService.formGroup">
+
+    <a2t-form-field
+        *ngFor="let field of this._formService.fields"
+        [question]="field"
+        [form]="_formService.formGroup">
+    </a2t-form-field>
+
+    <button type="submit" [disabled]="!_formService.formGroup.valid || _formService.formGroup.pristine || _formService.submitLock">
+        <ng-content *ngIf="!_formService.submitLock"></ng-content>
+        <span *ngIf="_formService.submitLock">Submitting ...</span>
+    </button>
+</form>

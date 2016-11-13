@@ -1,0 +1,14 @@
+div {
+    width: 100%;
+    background-color: #df6564;
+    color: white;
+    font-weight: 300;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+}
+
+div > p {
+    margin-bottom: 0;
+}

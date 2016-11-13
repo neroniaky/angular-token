@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.2.0-beta.1
+**Breaking changes:**
+- Added Quickstart UI Module (README pending)
+- Changed parameters for `signIn()`, `registerAccount()`, `updatePassword()`, `resetPassword()`
+
 ## v0.1.16
 **Featues:**
 - Added `userSignedIn()` method

@@ -150,7 +150,7 @@ Once initialized `Angular2TokenService` offers methods for session management.
 The signIn method is used to sign in the user with email address and password.
 The optional parameter `type` specifies the name of UserType used for this session.
 
-`signIn(email: string, password: string, userType?: string): Observable<Response>`
+`signIn({email: string, password: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -179,7 +179,7 @@ this._tokenService.signOut().subscribe(
 ### .registerAccount()
 Sends a new user registration request to the Server.
 
-`registerAccount(email: string, password: string, passwordConfirmation: string, userType?: string): Observable<Response>`
+`registerAccount({email: string, password: string, passwordConfirmation: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -222,7 +222,7 @@ this._tokenService.validateToken().subscribe(
 ### .updatePassword()
 Updates the password for the logged in user.
 
-`updatePassword(password: string, passwordConfirmation: string, currentPassword?: string, userType?: string): Observable<Response>`
+`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -239,7 +239,7 @@ this._tokenService.updatePassword(
 ### .resetPassword()
 Request a password reset from the server.
 
-`resetPassword(email: string, userType?: string): Observable<Response>`
+`resetPassword({email: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -284,11 +284,11 @@ this._tokenService.init({
     ]
 });
 
-this._tokenService.signIn(
+this._tokenService.signIn({
     'example@example.com',
     'secretPassword',
     'ADMIN'
-)
+})
 
 this._tokenService.currentUserType; // ADMIN
 ```

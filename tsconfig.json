@@ -6,13 +6,13 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,
-      "declaration": true,
+      //"declaration": true,
       "outDir": "lib",
       "suppressImplicitAnyIndexErrors": true
   },
   "files": [
       "src/angular2-token.service.ts",
-      "src/angular2-token.model.ts"
+      "src/a2t-ui/a2t-ui.module.ts"
   ],
   "exclude": [
       "node_modules"
