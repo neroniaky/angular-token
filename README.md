@@ -154,10 +154,10 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 
 #### Example:
 ```javascript
-this._tokenService.signIn(
+this._tokenService.signIn({
     'example@example.org',
     'secretPassword'
-).subscribe(
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -183,11 +183,11 @@ Sends a new user registration request to the Server.
 
 #### Example:
 ```javascript
-this._tokenService.registerAccount(
+this._tokenService.registerAccount({
     'example@example.org',
     'secretPassword',
     'secretPassword'
-).subscribe(
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -226,11 +226,11 @@ Updates the password for the logged in user.
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword(
+this._tokenService.updatePassword({
     'newPassword',
     'newPassword',
     'oldPassword'
-).subscribe(
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -243,9 +243,9 @@ Request a password reset from the server.
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword(
+this._tokenService.updatePassword({
     'example@example.org',
-).subscribe(
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -355,10 +355,10 @@ Returns current authentication data which are used to set auth headers.
 If you want to redirect to the protected URL after signing in, you need to set `signInStoredUrlStorageKey` and in your code you can do something like this
 
 ```js
-this._tokenService.signIn(
+this._tokenService.signIn({
     'example@example.org',
     'secretPassword'
-).subscribe(
+}).subscribe(
     res => {
         // You have to add Router DI in your component
         this.router.navigateByUrl(localStorage.getItem('redirectTo'));
