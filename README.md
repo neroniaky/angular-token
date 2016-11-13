@@ -155,8 +155,8 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 #### Example:
 ```javascript
 this._tokenService.signIn({
-    'example@example.org',
-    'secretPassword'
+    email:    'example@example.org',
+    password: 'secretPassword'
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
@@ -184,9 +184,9 @@ Sends a new user registration request to the Server.
 #### Example:
 ```javascript
 this._tokenService.registerAccount({
-    'example@example.org',
-    'secretPassword',
-    'secretPassword'
+    email:                'example@example.org',
+    password:             'secretPassword',
+    passwordConfirmation: 'secretPassword'
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
@@ -227,9 +227,9 @@ Updates the password for the logged in user.
 #### Example:
 ```javascript
 this._tokenService.updatePassword({
-    'newPassword',
-    'newPassword',
-    'oldPassword'
+    password:             'newPassword',
+    passwordConfirmation: 'newPassword',
+    passwordCurrent:      'oldPassword'
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
@@ -244,7 +244,7 @@ Request a password reset from the server.
 #### Example:
 ```javascript
 this._tokenService.updatePassword({
-    'example@example.org',
+    email: 'example@example.org',
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
@@ -285,9 +285,9 @@ this._tokenService.init({
 });
 
 this._tokenService.signIn({
-    'example@example.com',
-    'secretPassword',
-    'ADMIN'
+    email:    'example@example.com',
+    password: 'secretPassword',
+    userType: 'ADMIN'
 })
 
 this._tokenService.currentUserType; // ADMIN
@@ -356,8 +356,8 @@ If you want to redirect to the protected URL after signing in, you need to set `
 
 ```js
 this._tokenService.signIn({
-    'example@example.org',
-    'secretPassword'
+    email:    'example@example.org',
+    password: 'secretPassword'
 }).subscribe(
     res => {
         // You have to add Router DI in your component
