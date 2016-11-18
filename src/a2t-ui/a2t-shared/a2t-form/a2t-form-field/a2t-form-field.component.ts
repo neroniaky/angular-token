@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 
-import { BaseField } from '../';
+import { BaseField } from '../../../';
 
 @Component({
     selector:       'a2t-form-field',

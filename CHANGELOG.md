@@ -1,6 +1,10 @@
 # Change Log
 
 ## v0.2.0-beta.1
+**Bugfixes:**
+- Changed import order of BaseField to fix angular-cli import
+
+## v0.2.0-beta.1
 **Breaking changes:**
 - Added Quickstart UI Module (README pending)
 - Changed parameters for `signIn()`, `registerAccount()`, `updatePassword()`, `resetPassword()`

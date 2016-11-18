@@ -2,7 +2,6 @@ import { Component }  from '@angular/core';
 
 import {
     A2tFormService,
-    BaseField,
     A2tFormFieldComponent
 } from './';
 
