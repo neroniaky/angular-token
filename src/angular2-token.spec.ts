@@ -180,6 +180,30 @@ describe('Angular2TokenService', () => {
 		tokenService.validateToken();
 	}));
 
+	it('validateToken should call signOut when it returns status 401', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+		
+		mockBackend.connections.subscribe(
+			c => c.mockError(new Response(new ResponseOptions({ status: 401, headers: new Headers() })))
+		);
+
+		spyOn(tokenService, 'signOut');
+		
+		tokenService.init({ apiPath: 'myapi', signOutFailedValidate: true });
+		tokenService.validateToken().subscribe(res => null, err => expect(tokenService.signOut).toHaveBeenCalled());
+	}));
+
+	it('validateToken should not call signOut when it returns status 401', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+		
+		mockBackend.connections.subscribe(
+			c => c.mockError(new Response(new ResponseOptions({ status: 401, headers: new Headers() })))
+		);
+
+		spyOn(tokenService, 'signOut');
+		
+		tokenService.init({ apiPath: 'myapi', signOutFailedValidate: false });
+		tokenService.validateToken().subscribe(res => null, err => expect(tokenService.signOut).not.toHaveBeenCalled());
+	}));
+
 	it('updatePasswordPath should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
 
 		mockBackend.connections.subscribe(
