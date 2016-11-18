@@ -97,6 +97,7 @@ constructor(private _tokenService: Angular2TokenService) {
 
         signOutPath:                'auth/sign_out',
         validateTokenPath:          'auth/validate_token',
+        signOutFailedValidate:      false,
 
         registerAccountPath:        'auth',
         deleteAccountPath:          'auth',
@@ -126,6 +127,7 @@ constructor(private _tokenService: Angular2TokenService) {
 | `signInStoredUrlStorageKey?: string`    | Sets locale storage key to store URL before displaying signIn page |
 | `signOutPath?: string`                  | Sets path for sign out                   |
 | `validateTokenPath?: string`            | Sets path for token validation           |
+| `signOutFailedValidate?: boolean`       | Signs user out when validation returns a 401 status |
 | `registerAccountPath?: string`          | Sets path for account registration       |
 | `deleteAccountPath?: string`            | Sets path for account deletion           |
 | `registerAccountCallback?: string`      | Sets the path user are redirected to after email confirmation for registration |

@@ -90,6 +90,7 @@ export class Angular2TokenService implements CanActivate {
 
             signOutPath:                'auth/sign_out',
             validateTokenPath:          'auth/validate_token',
+            signOutFailedValidate:      false,
 
             registerAccountPath:        'auth',
             deleteAccountPath:          'auth',
@@ -194,7 +195,13 @@ export class Angular2TokenService implements CanActivate {
     validateToken(): Observable<Response> {
         let observ = this.get(this._constructUserPath() + this._options.validateTokenPath);
 
-        observ.subscribe(res => this._currentUserData = res.json().data, error => null);
+        observ.subscribe(
+            res => this._currentUserData = res.json().data,
+            error => {
+                if (error.status === 401 && this._options.signOutFailedValidate) {
+                    this.signOut();
+                }
+            });
 
         return observ;
     }
