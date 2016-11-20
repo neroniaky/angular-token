@@ -34,7 +34,7 @@ export const SIGN_IN_FORM: BaseField[] = [
     }),
     new BaseField({
         key: 'password',
-        label: 'Passwort',
+        label: 'Password',
         type: 'password',
         validators: [
             Validators.required,
@@ -55,7 +55,7 @@ export const SIGN_UP_FORM: BaseField[] = [
     }),
     new BaseField({
         key: 'password',
-        label: 'Passwort',
+        label: 'Password',
         type: 'password',
         validators: [
             Validators.required,
@@ -64,7 +64,7 @@ export const SIGN_UP_FORM: BaseField[] = [
     }),
     new BaseField({
         key: 'passwordConfirmation',
-        label: 'Passwort Confirmation',
+        label: 'Password Confirmation',
         type: 'password',
         validators: [
             Validators.required,
@@ -88,7 +88,7 @@ export const RESET_PASSWORD_FORM: BaseField[] = [
 export const UPDATE_PASSWORD_FORM: BaseField[] = [
     new BaseField({
         key: 'password',
-        label: 'Passwort',
+        label: 'Password',
         type: 'password',
         validators: [
             Validators.required,
@@ -97,7 +97,7 @@ export const UPDATE_PASSWORD_FORM: BaseField[] = [
     }),
     new BaseField({
         key: 'passwordConfirmation',
-        label: 'Passwort Confirmation',
+        label: 'Password Confirmation',
         type: 'password',
         validators: [
             Validators.required,
