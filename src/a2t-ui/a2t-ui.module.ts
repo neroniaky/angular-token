@@ -9,10 +9,10 @@ import {
     A2tSharedModule,
 } from './';
 
-export { A2tSignInComponent } from './a2t-sign-in/a2t-sign-in.component';
-export { A2tSignUpComponent } from './a2t-sign-up/a2t-sign-up.component';
-export { A2tResetPasswordComponent } from './a2t-reset-password/a2t-reset-password.component';
-export { A2tUpdatePasswordComponent } from './a2t-update-password/a2t-update-password.component';
+import { A2tSignInComponent } from './a2t-sign-in/a2t-sign-in.component';
+import { A2tSignUpComponent } from './a2t-sign-up/a2t-sign-up.component';
+import { A2tResetPasswordComponent } from './a2t-reset-password/a2t-reset-password.component';
+import { A2tUpdatePasswordComponent } from './a2t-update-password/a2t-update-password.component';
 
 @NgModule({
     imports: [
