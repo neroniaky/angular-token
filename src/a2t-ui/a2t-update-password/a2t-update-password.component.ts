@@ -3,11 +3,8 @@ import { Router } from '@angular/router';
 import { Angular2TokenService } from '../../angular2-token.service';
 
 import { UpdatePasswordData } from '../../angular2-token.model';
-
-import { 
-    A2tFormService,
-    UPDATE_PASSWORD_FORM
-} from '../';
+import { A2tFormService } from '../a2t-shared';
+import { UPDATE_PASSWORD_FORM } from '../';
 
 @Component({
     selector: 'a2t-update-password',

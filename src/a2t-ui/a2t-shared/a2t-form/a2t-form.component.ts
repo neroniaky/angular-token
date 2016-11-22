@@ -1,9 +1,7 @@
 import { Component }  from '@angular/core';
 
-import {
-    A2tFormService,
-    A2tFormFieldComponent
-} from './';
+import { A2tFormService } from './a2t-form.service';
+import { A2tFormFieldComponent } from './a2t-form-field/a2t-form-field.component';
 
 @Component({
     selector: 'a2t-form',
