@@ -17,9 +17,15 @@ import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/filter';
 
 import {
+    SignInData,
+    RegisterData,
+    UpdatePasswordData,
+    ResetPasswordData,
+
     UserType,
     UserData,
     AuthData,
+
     Angular2TokenOptions
 } from './angular2-token.model';
 
@@ -88,6 +94,7 @@ export class Angular2TokenService implements CanActivate {
 
             signOutPath:                'auth/sign_out',
             validateTokenPath:          'auth/validate_token',
+            signOutFailedValidate:      false,
 
             registerAccountPath:        'auth',
             deleteAccountPath:          'auth',
@@ -119,18 +126,18 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Register request
-    registerAccount(email: string, password: string, passwordConfirmation: string, userType?: string): Observable<Response> {
+    registerAccount(registerData: RegisterData): Observable<Response> {
 
-        if (userType == null)
+        if (registerData.userType == null)
             this._currentUserType = null;
         else
-            this._currentUserType = this._getUserTypeByName(userType);
+            this._currentUserType = this._getUserTypeByName(registerData.userType);
 
         let body = JSON.stringify({
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirmation,
-            confirm_success_url: this._options.registerAccountCallback
+            email:                  registerData.email,
+            password:               registerData.password,
+            password_confirmation:  registerData.passwordConfirmation,
+            confirm_success_url:    this._options.registerAccountCallback
         });
 
         return this.post(this._constructUserPath() + this._options.registerAccountPath, body);
@@ -142,16 +149,16 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Sign in request and set storage
-    signIn(email: string, password: string, userType?: string): Observable<Response> {
+    signIn(signInData: SignInData): Observable<Response> {
 
-        if (userType == null)
+        if (signInData.userType == null)
             this._currentUserType = null;
         else
-            this._currentUserType = this._getUserTypeByName(userType);
+            this._currentUserType = this._getUserTypeByName(signInData.userType);
 
         let body = JSON.stringify({
-            email: email,
-            password: password
+            email:      signInData.email,
+            password:   signInData.password
         });
 
         let observ = this.post(this._constructUserPath() + this._options.signInPath, body);
@@ -203,29 +210,35 @@ export class Angular2TokenService implements CanActivate {
     validateToken(): Observable<Response> {
         let observ = this.get(this._constructUserPath() + this._options.validateTokenPath);
 
-        observ.subscribe(res => this._currentUserData = res.json().data, error => null);
+        observ.subscribe(
+            res => this._currentUserData = res.json().data,
+            error => {
+                if (error.status === 401 && this._options.signOutFailedValidate) {
+                    this.signOut();
+                }
+            });
 
         return observ;
     }
 
     // Update password request
-    updatePassword(password: string, passwordConfirmation: string, currentPassword?: string, userType?: string): Observable<Response> {
+    updatePassword(updatePasswordData: UpdatePasswordData): Observable<Response> {
 
-        if (userType != null)
-            this._currentUserType = this._getUserTypeByName(userType);
+        if (updatePasswordData.userType != null)
+            this._currentUserType = this._getUserTypeByName(updatePasswordData.userType);
 
         let body: string;
 
-        if (currentPassword == null) {
+        if (updatePasswordData.passwordCurrent == null) {
             body = JSON.stringify({
-                password: password,
-                password_confirmation: passwordConfirmation
+                password:               updatePasswordData.password,
+                password_confirmation:  updatePasswordData.passwordConfirmation
             });
         } else {
             body = JSON.stringify({
-                current_password: currentPassword,
-                password: password,
-                password_confirmation: passwordConfirmation
+                current_password:       updatePasswordData.passwordCurrent,
+                password:               updatePasswordData.password,
+                password_confirmation:  updatePasswordData.passwordConfirmation
             });
         }
 
@@ -233,16 +246,16 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Reset password request
-    resetPassword(email: string, userType?: string): Observable<Response> {
+    resetPassword(resetPasswordData: ResetPasswordData): Observable<Response> {
 
-        if (userType == null)
+        if (resetPasswordData.userType == null)
             this._currentUserType = null;
         else
-            this._currentUserType = this._getUserTypeByName(userType);
+            this._currentUserType = this._getUserTypeByName(resetPasswordData.userType);
 
         let body = JSON.stringify({
-            email: email,
-            redirect_url: this._options.resetPasswordCallback
+            email:          resetPasswordData.email,
+            redirect_url:   this._options.resetPasswordCallback
         });
 
         return this.post(this._constructUserPath() + this._options.resetPasswordPath, body);
@@ -388,7 +401,6 @@ export class Angular2TokenService implements CanActivate {
             });
     }
 
-
     private _parseAuthDataFromPostMessage(data: any){
         let authData: AuthData = {
             accessToken:    data['auth_token'],
@@ -400,7 +412,6 @@ export class Angular2TokenService implements CanActivate {
 
         this._setAuthData(authData);
     }
-
 
     // Write auth data to storage
     private _setAuthData(authData: AuthData) {

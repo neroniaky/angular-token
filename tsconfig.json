@@ -1,29 +1,29 @@
 {
-  "compilerOptions": {
-      "noImplicitAny": true,
-      "module": "commonjs",
-      "target": "ES5",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "sourceMap": true,
-      "declaration": true,
-      "outDir": "lib",
-      "suppressImplicitAnyIndexErrors": true
-  },
-  "files": [
-      "src/angular2-token.service.ts",
-      "src/angular2-token.model.ts"
-  ],
-  "exclude": [
-      "node_modules"
-  ],
-  "types": [
-    "core-js",
-    "hammerjs",
-    "jasmine",
-    "node",
-    "protractor",
-    "source-map",
-    "webpack"
-  ]
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "ES5",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        //"declaration": true,
+        "outDir": "lib",
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "files": [
+        "src/angular2-token.service.ts",
+        "src/a2t-ui/a2t-ui.module.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "types": [
+        "core-js",
+        "hammerjs",
+        "jasmine",
+        "node",
+        "protractor",
+        "source-map",
+        "webpack"
+    ]
 }

@@ -7,43 +7,12 @@
 [![Build Status](https://travis-ci.org/neroniaky/angular2-token.svg?branch=master)](https://travis-ci.org/neroniaky/angular2-token)
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
-## About
-Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the
-[devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
-
+Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails. 
 Angular2-Token is currently in Alpha. Any contribution is much appreciated.
 
-## Live Demo
 You can try out Angular2-Token [here](https://angular2-token.herokuapp.com/).
 
 The repository can be found [here](https://github.com/neroniaky/angular2-token-example).
-
-## Content
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Service Methods](#methods)
-    - [`.signIn()`](#signin)
-    - [`.signOut()`](#signout)
-    - [`.registerAccount()`](#registeraccount)
-    - [`.deleteAccount()`](#deleteaccount)
-    - [`.validateToken()`](#validatetoken)
-    - [`.updatePassword()`](#updatepassword)
-    - [`.resetPassword()`](#resetpassword)
-    - [`.signInOAuth()`](#signinoauth)
-    - [`.processOAuthCallback()`](#processoauthcallback)
-- [HTTP Service Wrapper](#http-service-wrapper)
-- [Multiple User Types](#multiple-user-types)
-- [Route Guards](#route-guards)
-- [Advanced Usage](#advanced-usage)
-    - [`.sendHttpRequest()`](#sendhttprequest)
-    - [`.userSignedIn()`](#usersignedin)
-    - [`.currentUserType`](#currentusertype)
-    - [`.currentUserData`](#currentuserdata)
-    - [`.currentAuthData`](#currentauthdata)
-- [Development](#development)
-    - [Testing](#testing)
-    - [Credits](#credits)
-    - [License](#license)
 
 ## Installation
 1. Install Angular2-Token via NPM with
@@ -51,11 +20,8 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
     npm install angular2-token
     ```
 
-2. Import and add `Angular2TokenService` to your main module. `Angular2TokenService` depends on `HttpModule` and `RouterModule`, so make sure you imported them too.
+2. Import and add `Angular2TokenService` to your main module. `Angular2TokenService` depends on `HttpModule` and `RouterModule`, so make sure you import them too.
     ```javascript
-    import { HttpModule } from '@angular/http';
-    import { RouterModule } from '@angular/router';
-
     import { Angular2TokenService } from 'angular2-token';
 
     @NgModule({
@@ -77,12 +43,67 @@ The repository can be found [here](https://github.com/neroniaky/angular2-token-e
     }
     ```
 
-4. If you are using CORS in your Rails API make sure that `Access-Control-Expose-Headers` includes `access-token`, `expiry`, `token-type`, `uid`, and `client`.
-For the rack-cors gem this can be done by adding the following to its config.
-More information can be found [here](https://github.com/lynndylanhurley/devise_token_auth#cors)
-    ```ruby
-    :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client']
+## Quickstart (αlpha)
+Quickstart includes the necessary forms and routing to quickly use Angular2-Token with your Project. A live demo can be found [here](https://angular2-token.herokuapp.com/#/session/sign-in).
+
+Quickstart is currently in αlpha, please use with caution.
+
+![Quickstart](assets/quickstart.gif)
+
+1. Add `A2tUiModule` to your main module.
+    ```javascript
+    import { Angular2TokenService, A2tUiModule } from 'angular2-token';
+
+    @NgModule({
+        imports: [
+            BrowserModule,
+            HttpModule,
+            RouterModule,
+            A2tUiModule
+        ],
+        declarations: [ AppComponent ],
+        providers:    [ Angular2TokenService ],
+        bootstrap:    [ AppComponent ]
+    })
     ```
+
+The `A2tUiModule` adds the following routes to your project:
+
+| Route                      | Description                              |
+| -------------------------- | ---------------------------------------- |
+| `session/sign-in`          | Sign in form                             |
+| `session/sign-up`          | Sign out form                            |
+| `session/reset-password`   | Reset password form                      |
+| `session/update-password`  | Update password for email redirect       |
+
+On successful sign in the user will be redirect to `restricted`.
+
+## Content
+- [Configuration](#configuration)
+- [Service Methods](#methods)
+    - [`.signIn()`](#signin)
+    - [`.signOut()`](#signout)
+    - [`.registerAccount()`](#registeraccount)
+    - [`.deleteAccount()`](#deleteaccount)
+    - [`.validateToken()`](#validatetoken)
+    - [`.updatePassword()`](#updatepassword)
+    - [`.resetPassword()`](#resetpassword)
+    - [`.signInOAuth()`](#signinoauth)
+    - [`.processOAuthCallback()`](#processoauthcallback)
+- [HTTP Service Wrapper](#http-service-wrapper)
+- [Multiple User Types](#multiple-user-types)
+- [Route Guards](#route-guards)
+- [Advanced Usage](#advanced-usage)
+    - [`.sendHttpRequest()`](#sendhttprequest)
+    - [`.userSignedIn()`](#usersignedin)
+    - [`.currentUserType`](#currentusertype)
+    - [`.currentUserData`](#currentuserdata)
+    - [`.currentAuthData`](#currentauthdata)
+- [Common Problems](#commonproblems)
+- [Development](#development)
+    - [Testing](#testing)
+    - [Credits](#credits)
+    - [License](#license)
 
 ## Configuration
 Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
@@ -99,6 +120,7 @@ constructor(private _tokenService: Angular2TokenService) {
 
         signOutPath:                'auth/sign_out',
         validateTokenPath:          'auth/validate_token',
+        signOutFailedValidate:      false,
 
         registerAccountPath:        'auth',
         deleteAccountPath:          'auth',
@@ -134,6 +156,7 @@ constructor(private _tokenService: Angular2TokenService) {
 | `signInStoredUrlStorageKey?: string`    | Sets locale storage key to store URL before displaying signIn page |
 | `signOutPath?: string`                  | Sets path for sign out                   |
 | `validateTokenPath?: string`            | Sets path for token validation           |
+| `signOutFailedValidate?: boolean`       | Signs user out when validation returns a 401 status |
 | `registerAccountPath?: string`          | Sets path for account registration       |
 | `deleteAccountPath?: string`            | Sets path for account deletion           |
 | `registerAccountCallback?: string`      | Sets the path user are redirected to after email confirmation for registration |
@@ -160,14 +183,14 @@ Once initialized `Angular2TokenService` offers methods for session management.
 The signIn method is used to sign in the user with email address and password.
 The optional parameter `type` specifies the name of UserType used for this session.
 
-`signIn(email: string, password: string, userType?: string): Observable<Response>`
+`signIn({email: string, password: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.signIn(
-    'example@example.org',
-    'secretPassword'
-).subscribe(
+this._tokenService.signIn({
+    email:    'example@example.org',
+    password: 'secretPassword'
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -189,15 +212,15 @@ this._tokenService.signOut().subscribe(
 ### .registerAccount()
 Sends a new user registration request to the Server.
 
-`registerAccount(email: string, password: string, passwordConfirmation: string, userType?: string): Observable<Response>`
+`registerAccount({email: string, password: string, passwordConfirmation: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.registerAccount(
-    'example@example.org',
-    'secretPassword',
-    'secretPassword'
-).subscribe(
+this._tokenService.registerAccount({
+    email:                'example@example.org',
+    password:             'secretPassword',
+    passwordConfirmation: 'secretPassword'
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -232,15 +255,15 @@ this._tokenService.validateToken().subscribe(
 ### .updatePassword()
 Updates the password for the logged in user.
 
-`updatePassword(password: string, passwordConfirmation: string, currentPassword?: string, userType?: string): Observable<Response>`
+`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword(
-    'newPassword',
-    'newPassword',
-    'oldPassword'
-).subscribe(
+this._tokenService.updatePassword({
+    password:             'newPassword',
+    passwordConfirmation: 'newPassword',
+    passwordCurrent:      'oldPassword'
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -249,13 +272,13 @@ this._tokenService.updatePassword(
 ### .resetPassword()
 Request a password reset from the server.
 
-`resetPassword(email: string, userType?: string): Observable<Response>`
+`resetPassword({email: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword(
-    'example@example.org',
-).subscribe(
+this._tokenService.updatePassword({
+    email: 'example@example.org',
+}).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -344,11 +367,11 @@ this._tokenService.init({
     ]
 });
 
-this._tokenService.signIn(
-    'example@example.com',
-    'secretPassword',
-    'ADMIN'
-)
+this._tokenService.signIn({
+    email:    'example@example.com',
+    password: 'secretPassword',
+    userType: 'ADMIN'
+})
 
 this._tokenService.currentUserType; // ADMIN
 ```
@@ -415,10 +438,10 @@ Returns current authentication data which are used to set auth headers.
 If you want to redirect to the protected URL after signing in, you need to set `signInStoredUrlStorageKey` and in your code you can do something like this
 
 ```js
-this._tokenService.signIn(
-    'example@example.org',
-    'secretPassword'
-).subscribe(
+this._tokenService.signIn({
+    email:    'example@example.org',
+    password: 'secretPassword'
+}).subscribe(
     res => {
         // You have to add Router DI in your component
         this.router.navigateByUrl(localStorage.getItem('redirectTo'));
@@ -426,6 +449,18 @@ this._tokenService.signIn(
     error =>    console.log(error)
 );
 ```
+## Common Problems
+
+### CORS Configuration
+If you are using CORS in your Rails API make sure that `Access-Control-Expose-Headers` includes `access-token`, `expiry`, `token-type`, `uid`, and `client`.
+For the rack-cors gem this can be done by adding the following to its config.
+More information can be found [here](https://github.com/lynndylanhurley/devise_token_auth#cors).
+    ```ruby
+    :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client']
+    ```
+
+### Missing Routes
+Make sure that your projects includes some kind of routing.
 
 ## Development
 If the package is installed from Github specified in the package.json, you need to build the package locally.

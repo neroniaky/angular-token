@@ -3,3 +3,9 @@ node_modules
 coverage
 lib
 npm-debug.log
+
+# Ignore Mac DS_Store files
+**/.DS_Store
+
+# Ignore VSCode Config
+.vscode

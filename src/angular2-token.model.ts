@@ -1,3 +1,32 @@
+// Function Data
+
+export interface SignInData {
+    email:                  string;
+    password:               string;
+    userType?:              string;
+}
+
+export interface RegisterData {
+    email:                  string;
+    password:               string;
+    passwordConfirmation:   string;
+    userType?:              string;
+}
+
+export interface UpdatePasswordData {
+    password:               string;
+    passwordConfirmation:   string;
+    passwordCurrent:        string;
+    userType?:              string;
+}
+
+export interface ResetPasswordData {
+    email:                  string;
+    userType?:              string;
+}
+
+// State Data
+
 export interface AuthData {
     accessToken:    string;
     client:         string;
@@ -36,6 +65,7 @@ export interface Angular2TokenOptions {
 
     signOutPath?:               string;
     validateTokenPath?:         string;
+    signOutFailedValidate?:     boolean;
 
     deleteAccountPath?:         string;
     registerAccountPath?:       string;

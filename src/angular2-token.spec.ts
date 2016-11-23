@@ -5,15 +5,19 @@ import { ActivatedRoute, RouterOutletMap, RouterState, Router } from '@angular/r
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Angular2TokenService } from './angular2-token.service';
+import { 
+	SignInData,
+	RegisterData
+} from './angular2-token.model';
 
 describe('Angular2TokenService', () => {
 
 	// Init common test data
-	let tokenType = 'Bearer';
-	let uid = 'test@test.com';
-	let accessToken = 'fJypB1ugmWHJfW6CELNfug';
-	let client = '5dayGs4hWTi4eKwSifu_mg';
-	let expiry = '1472108318';
+	let tokenType = 	'Bearer';
+	let uid = 			'test@test.com';
+	let accessToken = 	'fJypB1ugmWHJfW6CELNfug';
+	let client = 		'5dayGs4hWTi4eKwSifu_mg';
+	let expiry = 		'1472108318';
 
 	let emptyHeaders = new Headers({
 		'content-Type': 'application/json'
@@ -27,16 +31,15 @@ describe('Angular2TokenService', () => {
 		'expiry': expiry
 	});
 
-	let signInData = {
+	let signInData: SignInData = {
 		email: 'test@test.de',
 		password: 'password'
 	}
 
-	let registerData = {
+	let registerData: RegisterData = {
 		email: 'test@test.de',
 		password: 'password',
-		password_confirmation: 'password',
-		confirm_success_url: window.location.href
+		passwordConfirmation: 'password'
 	}
 
 	class Mock { }
@@ -90,7 +93,7 @@ describe('Angular2TokenService', () => {
 		);
 
 		tokenService.init();
-		tokenService.signIn(signInData.email, signInData.password);
+		tokenService.signIn(signInData);
 	}));
 
 	it('signOut method should delete to default url', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
@@ -110,14 +113,19 @@ describe('Angular2TokenService', () => {
 
 		mockBackend.connections.subscribe(
 			c => {
-				expect(c.request.getBody()).toEqual(JSON.stringify(registerData));
+				expect(c.request.getBody()).toEqual(JSON.stringify({
+					email: 					'test@test.de',
+					password:				'password',
+					password_confirmation:	'password',
+					confirm_success_url: 	window.location.href
+				}));
 				expect(c.request.method).toEqual(RequestMethod.Post);
 				expect(c.request.url).toEqual('auth');
 			}
 		);
 
 		tokenService.init();
-		tokenService.registerAccount(registerData.email, registerData.password, registerData.password_confirmation);
+		tokenService.registerAccount(registerData);
 	}));
 
 	// Testing Custom Configuration
@@ -170,6 +178,30 @@ describe('Angular2TokenService', () => {
 
 		tokenService.init({ apiPath: 'myapi', validateTokenPath: 'myauth/myvalidate' });
 		tokenService.validateToken();
+	}));
+
+	it('validateToken should call signOut when it returns status 401', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+		
+		mockBackend.connections.subscribe(
+			c => c.mockError(new Response(new ResponseOptions({ status: 401, headers: new Headers() })))
+		);
+
+		spyOn(tokenService, 'signOut');
+		
+		tokenService.init({ apiPath: 'myapi', signOutFailedValidate: true });
+		tokenService.validateToken().subscribe(res => null, err => expect(tokenService.signOut).toHaveBeenCalled());
+	}));
+
+	it('validateToken should not call signOut when it returns status 401', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+		
+		mockBackend.connections.subscribe(
+			c => c.mockError(new Response(new ResponseOptions({ status: 401, headers: new Headers() })))
+		);
+
+		spyOn(tokenService, 'signOut');
+		
+		tokenService.init({ apiPath: 'myapi', signOutFailedValidate: false });
+		tokenService.validateToken().subscribe(res => null, err => expect(tokenService.signOut).not.toHaveBeenCalled());
 	}));
 
 	it('updatePasswordPath should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {

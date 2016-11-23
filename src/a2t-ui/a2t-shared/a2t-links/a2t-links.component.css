@@ -1,0 +1,20 @@
+.a2t-wrapper {
+    margin-top: 20px;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+a {
+    color: #eee !important;
+    transition: .3s;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 300;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+a:hover {
+    color: white;
+}
