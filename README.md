@@ -285,11 +285,11 @@ this._tokenService.updatePassword({
 ```
 
 ### .signInOAuth()
-Initiates OAuth authentication flow by redirecting to OAuth path. Currently, it supports two window modes(oAuthWindowType):
-'newWindow' (default) and 'sameWindow'.
-When `oAuthWindowType` is set to `newWindow`, `.signInOAuth()` opens a new window and returns an observable.
+Initiates OAuth authentication flow. Currently, it supports two window modes:
+`newWindow` (default) and `sameWindow` (settable in config as `oAuthWindowType`).
+- When `oAuthWindowType` is set to `newWindow`, `.signInOAuth()` opens a new window and returns an observable.
 
-When `oAuthWindowType` is set to 'sameWindow', `.signInOAuth()` returns nothing and redirects user to auth provider.
+- When `oAuthWindowType` is set to `sameWindow`, `.signInOAuth()` returns nothing and redirects user to auth provider.
 After successful authentication, it redirects back to `oAuthCallbackPath`. Application router needs to intercept
 this route and call `processOAuthCallback()` to fetch `AuthData` from params.
 
@@ -307,7 +307,7 @@ this._tokenService.signInOAuth(
 ```
 
 ### .processOAuthCallback()
-Fetches AuthData from params sent via OAuth redirection when `oAuthWindowType` is set to `sameWindow`.
+Fetches AuthData from params sent via OAuth redirection in `sameWindow` flow.
 
 `processOAuthCallback()`
 
