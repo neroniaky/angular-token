@@ -161,7 +161,7 @@ export class Angular2TokenService implements CanActivate {
         return observ;
     }
 
-    signInOAuth(oAuthType: string): Observable<any> {
+    signInOAuth(oAuthType: string) {
 
         let oAuthPath: string = this._getOAuthPath(oAuthType);
         let callbackUrl: string = `${window.location.origin}/${this._options.oAuthCallbackPath}`;
