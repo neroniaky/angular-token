@@ -277,13 +277,13 @@ this._tokenService.updatePassword({
 ## HTTP Service Wrapper
 `Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing. 
 If `apiPath` is configured it gets added in front of path.
-- `get(path: string): Observable<Response>`
-- `post(path: string, data: any): Observable<Response>`
-- `put(path: string, data: any): Observable<Response>`
-- `delete(path: string): Observable<Response>`
-- `patch(path: string, data: any): Observable<Response>`
-- `head(path: string): Observable<Response>`
-- `options(path: string): Observable<Response>`
+- `get(url: string, options?: RequestOptionsArgs): Observable<Response>`
+- `post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response>`
+- `put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response>`
+- `delete(url: string, options?: RequestOptionsArgs): Observable<Response>`
+- `patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response>`
+- `head(url: string, options?: RequestOptionsArgs): Observable<Response>`
+- `options(url: string, options?: RequestOptionsArgs): Observable<Response>`
 
 #### Example:
 ```javascript

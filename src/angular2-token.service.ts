@@ -248,56 +248,56 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Standard HTTP requests
-    get(path: string): Observable<Response> {
-        return this.request({
-            method: RequestMethod.Get,
-            url:    this._constructApiPath() + path
-        });
+    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        return this.request(this._mergeRequestOptionsArgs({
+            url:    this._constructApiPath() + url,
+            method: RequestMethod.Get
+        }, options));
     }
 
-    post(path: string, data: any): Observable<Response> {
-        return this.request({
+    post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+        return this.request(this._mergeRequestOptionsArgs({
+            url:    this._constructApiPath() + url,
             method: RequestMethod.Post,
-            url:    this._constructApiPath() + path,
-            body:   data
-        });
+            body:   body
+        }, options));
     }
 
-    put(path: string, data: any): Observable<Response> {
-        return this.request({
+    put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+        return this.request(this._mergeRequestOptionsArgs({
+            url:    this._constructApiPath() + url,
             method: RequestMethod.Put,
-            url:    this._constructApiPath() + path,
-            body:   data
-        });
+            body:   body
+        }, options));
     }
 
-    delete(path: string): Observable<Response> {
-        return this.request({
-            method: RequestMethod.Delete,
-            url:    this._constructApiPath() + path
-        });
+    delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        return this.request(this._mergeRequestOptionsArgs({
+            url:    this._constructApiPath() + url,
+            method: RequestMethod.Delete
+        }, options));
     }
 
-    patch(path: string, data: any): Observable<Response> {
-        return this.request({
+    patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+        return this.request(this._mergeRequestOptionsArgs({
+            url:    this._constructApiPath() + url,
             method: RequestMethod.Patch,
-            url:    this._constructApiPath() + path,
-            body:   data
-        });
+            body:   body
+        }, options));
     }
 
-    head(path: string): Observable<Response> {
+    head(path: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request({
             method: RequestMethod.Head,
             url:    this._constructApiPath() + path
         });
     }
 
-    options(path: string): Observable<Response> {
-        return this.request({
-            method: RequestMethod.Options,
-            url:    this._constructApiPath() + path
-        });
+    options(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        return this.request(this._mergeRequestOptionsArgs({
+            url:    this._constructApiPath() + url,
+            method: RequestMethod.Options
+        }, options));
     }
 
     // Construct and send Http request
@@ -329,6 +329,16 @@ export class Angular2TokenService implements CanActivate {
         this._handleResponse(response);
 
         return response;
+    }
+
+    private _mergeRequestOptionsArgs(options: RequestOptionsArgs, addOptions?: RequestOptionsArgs): RequestOptionsArgs {
+
+        let returnOptions: RequestOptionsArgs = options;
+
+        if (options)
+            (<any>Object).assign(returnOptions, addOptions);
+
+        return returnOptions;
     }
 
     // Check if response is complete and newer, then update storage
