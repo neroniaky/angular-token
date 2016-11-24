@@ -338,19 +338,19 @@ const routerConfig: Routes = [
 ## Advanced Usage
 More advanced methods can be used if a higher degree of customization is required.
 
-### .sendHttpRequest()
-More customized requests can be send with the `.sendHttpRequest()`-function. It accepts the RequestOptions-Class. 
-More information can be found in the Angular2 API Reference [here](https://angular.io/docs/ts/latest/api/http/index/RequestOptions-class.html).
+### .request()
+More customized requests can be send with the `.request()`-function. It accepts the RequestOptionsArgs-Interface. 
+More information can be found in the Angular2 API Reference [here](https://angular.io/docs/ts/latest/api/http/index/RequestOptionsArgs-interface.html).
 
-`sendHttpRequest(options: RequestOptions): Observable<Response>`
+`request(options: RequestOptionsArgs): Observable<Response>`
 
 #### Example:
 ```javascript
-this.sendHttpRequest(new RequestOptions({
+this._tokenService.request({
     method: RequestMethod.Post,
     url:    'my-resource/1',
     data:   mydata
-}));
+});
 ```
 
 ### .userSignedIn()
