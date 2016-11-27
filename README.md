@@ -88,6 +88,8 @@ On successful sign in the user will be redirect to `restricted`.
     - [`.validateToken()`](#validatetoken)
     - [`.updatePassword()`](#updatepassword)
     - [`.resetPassword()`](#resetpassword)
+    - [`.signInOAuth()`](#signinoauth)
+    - [`.processOAuthCallback()`](#processoauthcallback)
 - [HTTP Service Wrapper](#http-service-wrapper)
 - [Multiple User Types](#multiple-user-types)
 - [Route Guards](#route-guards)
@@ -128,6 +130,12 @@ constructor(private _tokenService: Angular2TokenService) {
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
+        oAuthPaths: {
+            github:                 'auth/github'
+        },
+        oAuthCallbackPath:          'oauth_callback',
+        oAuthWindowType:            'newWindow',
+
         userTypes:                  null,
 
         globalOptions: {
@@ -157,7 +165,9 @@ constructor(private _tokenService: Angular2TokenService) {
 | `resetPasswordCallback?: string`        | Sets the path user are redirected to after email confirmation for password reset |
 | `userTypes?: UserTypes[]`               | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
 | `globalOptions?: GlobalOptions`         | Allows the configuration of global options (see below) |
-
+| `oAuthPaths?: { [key:string]: string }` | Sets paths for sign in with OAuth        |
+| `oAuthCallbackPath?:  string`           | Sets path for OAuth sameWindow callback  |
+| `oAuthWindowType?:`string`              | Window type for Oauth authentication     |
 ### Global Options
 | Options                               | Description                                     |
 | ------------------------------------- | ----------------------------------------------- |
@@ -272,6 +282,56 @@ this._tokenService.updatePassword({
     res =>      console.log(res),
     error =>    console.log(error)
 );
+```
+
+### .signInOAuth()
+Initiates OAuth authentication flow. Currently, it supports two window modes:
+`newWindow` (default) and `sameWindow` (settable in config as `oAuthWindowType`).
+- When `oAuthWindowType` is set to `newWindow`, `.signInOAuth()` opens a new window and returns an observable.
+
+- When `oAuthWindowType` is set to `sameWindow`, `.signInOAuth()` returns nothing and redirects user to auth provider.
+After successful authentication, it redirects back to `oAuthCallbackPath`. Application router needs to intercept
+this route and call `processOAuthCallback()` to fetch `AuthData` from params.
+
+`signInOAuth(oAuthType: string)`
+
+#### Example:
+
+```javascript
+this._tokenService.signInOAuth(
+'github'
+).subscribe(
+    res =>      console.log(res),
+    error =>    console.log(error)
+);
+```
+
+### .processOAuthCallback()
+Fetches AuthData from params sent via OAuth redirection in `sameWindow` flow.
+
+`processOAuthCallback()`
+
+#### Example
+
+Callback route:
+```javascript
+RouterModule.forRoot([
+  { path: 'oauth_callback', component: OauthCallbackComponent }
+])
+```
+
+Callback component:
+```javascript
+@Component({
+  template: ''
+})
+export class OauthCallbackComponent implements OnInit {
+  constructor(private _tokenService: Angular2TokenService) {}
+
+  ngOnInit() {
+    this._tokenService.processOAuthCallback();
+  }
+}
 ```
 
 ## HTTP Service Wrapper

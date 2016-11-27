@@ -52,10 +52,6 @@ export interface UserType {
     path:           string;
 }
 
-export interface OAuthPaths {
-    github?:        string;
-}
-
 export interface GlobalOptions {
     headers?:       { [key:string]: string; }
 }
@@ -82,7 +78,9 @@ export interface Angular2TokenOptions {
 
     userTypes?:                 UserType[];
 
-    oAuthPaths?:                OAuthPaths;
+    oAuthPaths?:                { [key:string]: string; };
+    oAuthCallbackPath?:         string;
+    oAuthWindowType?:           string;
 
     globalOptions?:             GlobalOptions;
 }
