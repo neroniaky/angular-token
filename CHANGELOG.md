@@ -1,5 +1,13 @@
 # Change Log
 
+## v0.2.0-beta.4
+**Breaking Changes:**
+- Changed name of `.sendHttpRequest()` method to `.request()`
+**Featues:**
+- Added `RequestOptionsArgs` to all HTTP-Wrappers
+**Bugfixes:**
+- Fixed OAuth Implementation
+
 ## v0.2.0-beta.1
 **Bugfixes:**
 - Changed import order of BaseField to fix angular-cli import
