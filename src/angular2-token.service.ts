@@ -362,7 +362,6 @@ export class Angular2TokenService implements CanActivate {
             this._parseAuthHeadersFromResponse(<any>res);
         }, error => {
             this._parseAuthHeadersFromResponse(<any>error);
-            console.log('Session Service: Error Fetching Response');
         });
     }
 
