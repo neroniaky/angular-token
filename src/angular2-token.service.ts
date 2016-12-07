@@ -190,10 +190,7 @@ export class Angular2TokenService implements CanActivate {
         this._getAuthDataFromParams();
     }
 
-    // Sign out request and delete storage
-    signOut(): Observable<Response> {
-        let observ = this.delete(this._constructUserPath() + this._options.signOutPath);
-
+    cleanup() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('client');
         localStorage.removeItem('expiry');
@@ -203,6 +200,13 @@ export class Angular2TokenService implements CanActivate {
         this._currentAuthData = null;
         this._currentUserType = null;
         this._currentUserData = null;
+    }
+
+    // Sign out request and delete storage
+    signOut(): Observable<Response> {
+        let observ = this.delete(this._constructUserPath() + this._options.signOutPath);
+
+        this.cleanup();
 
         return observ;
     }
