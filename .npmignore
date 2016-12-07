@@ -10,3 +10,7 @@ karma.conf.js
 .travis.yml
 .gitignore
 tsconfig.json
+
+# Ignored Files
+*.ts
+!*.d.ts

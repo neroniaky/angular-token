@@ -9,3 +9,8 @@ npm-debug.log
 
 # Ignore VSCode Config
 .vscode
+
+#Ignoderd files
+*.js
+*.map
+*.d.ts
