@@ -1,3 +1,4 @@
+import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Angular2TokenService } from '../angular2-token.service';
 
@@ -14,10 +15,10 @@ const routes: Routes = [{
             { path: 'sign-in', component: A2tSignInComponent },
             { path: 'sign-up', component: A2tSignUpComponent },
             { path: 'reset-password', component: A2tResetPasswordComponent },
-            { 
-                path: 'update-password', 
-                component: A2tUpdatePasswordComponent, 
-                canActivate: [Angular2TokenService] 
+            {
+                path: 'update-password',
+                component: A2tUpdatePasswordComponent,
+                canActivate: [Angular2TokenService]
             }
         ]
 }];
