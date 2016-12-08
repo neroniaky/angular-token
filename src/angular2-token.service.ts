@@ -118,7 +118,8 @@ export class Angular2TokenService implements CanActivate {
                     'Content-Type': 'application/json',
                     'Accept':       'application/json'
                 }
-            }
+            },
+            storageKey: null
         };
 
         this._options = (<any>Object).assign(defaultOptions, options);
@@ -191,11 +192,15 @@ export class Angular2TokenService implements CanActivate {
     }
 
     cleanup() {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('client');
-        localStorage.removeItem('expiry');
-        localStorage.removeItem('tokenType');
-        localStorage.removeItem('uid');
+        if (this._options.storageKey) {
+          localStorage.removeItem(this._options.storageKey);
+        } else {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('client');
+          localStorage.removeItem('expiry');
+          localStorage.removeItem('tokenType');
+          localStorage.removeItem('uid');
+        }
 
         this._currentAuthData = null;
         this._currentUserType = null;
@@ -385,14 +390,21 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to get auth data from storage.
     private _getAuthDataFromStorage() {
+        let authData: AuthData;
 
-        let authData: AuthData = {
+        if (this._options.storageKey) {
+           authData = JSON.parse(
+             localStorage.getItem(this._options.storageKey) || '{}'
+           );
+        } else {
+           authData = {
             accessToken:    localStorage.getItem('accessToken'),
             client:         localStorage.getItem('client'),
             expiry:         localStorage.getItem('expiry'),
             tokenType:      localStorage.getItem('tokenType'),
             uid:            localStorage.getItem('uid')
-        };
+          };
+        }
 
         if (this._checkIfComplete(authData))
             this._currentAuthData = authData;
@@ -434,11 +446,17 @@ export class Angular2TokenService implements CanActivate {
 
             this._currentAuthData = authData;
 
-            localStorage.setItem('accessToken', authData.accessToken);
-            localStorage.setItem('client', authData.client);
-            localStorage.setItem('expiry', authData.expiry);
-            localStorage.setItem('tokenType', authData.tokenType);
-            localStorage.setItem('uid', authData.uid);
+            if (this._options.storageKey) {
+              localStorage.setItem(
+                this._options.storageKey, JSON.stringify(authData)
+              );
+            } else {
+              localStorage.setItem('accessToken', authData.accessToken);
+              localStorage.setItem('client', authData.client);
+              localStorage.setItem('expiry', authData.expiry);
+              localStorage.setItem('tokenType', authData.tokenType);
+              localStorage.setItem('uid', authData.uid);
+            }
 
             if (this._currentUserType != null)
                 localStorage.setItem('userType', this._currentUserType.name);
@@ -449,11 +467,11 @@ export class Angular2TokenService implements CanActivate {
     // Check if auth data complete
     private _checkIfComplete(authData: AuthData): boolean {
         if (
-            authData.accessToken != null &&
-            authData.client != null &&
-            authData.expiry != null &&
-            authData.tokenType != null &&
-            authData.uid != null
+            authData.accessToken != null && authData.accessToken != undefined &&
+            authData.client != null  && authData.client != undefined &&
+            authData.expiry != null  && authData.expiry != undefined &&
+            authData.tokenType != null  && authData.tokenType != undefined &&
+            authData.uid != null  && authData.uid != undefined
         ) {
             return true;
         } else {
