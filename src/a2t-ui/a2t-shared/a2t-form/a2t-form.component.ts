@@ -5,8 +5,8 @@ import { A2tFormFieldComponent } from './a2t-form-field/a2t-form-field.component
 
 @Component({
     selector: 'a2t-form',
-    templateUrl: 'a2t-form.component.html',
-    styleUrls: ['a2t-form.component.css']
+    templateUrl: './a2t-form.component.html',
+    styleUrls: ['./a2t-form.component.css']
 })
 
 export class A2tFormComponent {
