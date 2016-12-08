@@ -390,21 +390,23 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to get auth data from storage.
     private _getAuthDataFromStorage() {
-        let authData: AuthData;
+        let authDataFromStorage;
 
         if (this._options.storageKey) {
-           authData = JSON.parse(
-             localStorage.getItem(this._options.storageKey) || '{}'
-           );
+          authDataFromStorage = JSON.parse(
+            localStorage.getItem(this._options.storageKey) || '{}'
+          );
         } else {
-           authData = {
-            accessToken:    localStorage.getItem('accessToken'),
-            client:         localStorage.getItem('client'),
-            expiry:         localStorage.getItem('expiry'),
-            tokenType:      localStorage.getItem('tokenType'),
-            uid:            localStorage.getItem('uid')
-          };
+          authDataFromStorage = localStorage;
         }
+
+        let authData: AuthData = {
+            accessToken:    authDataFromStorage['access-token'],
+            client:         authDataFromStorage['client'],
+            expiry:         authDataFromStorage['expiry'],
+            tokenType:      authDataFromStorage['token-type'],
+            uid:            authDataFromStorage['uid']
+        };
 
         if (this._checkIfComplete(authData))
             this._currentAuthData = authData;
@@ -439,6 +441,16 @@ export class Angular2TokenService implements CanActivate {
         this._setAuthData(authData);
     }
 
+    private _dasherize(data: any) {
+      return (<any>Object).assign({}, {
+        'access-token': data.accessToken,
+        'client':       data.client,
+        'expiry':       data.expiry,
+        'token-type':   data.tokenType,
+        'uid':          data.uid
+      });
+    }
+
     // Write auth data to storage
     private _setAuthData(authData: AuthData) {
 
@@ -448,13 +460,13 @@ export class Angular2TokenService implements CanActivate {
 
             if (this._options.storageKey) {
               localStorage.setItem(
-                this._options.storageKey, JSON.stringify(authData)
+                this._options.storageKey, JSON.stringify(this._dasherize(authData))
               );
             } else {
-              localStorage.setItem('accessToken', authData.accessToken);
+              localStorage.setItem('access-token', authData.accessToken);
               localStorage.setItem('client', authData.client);
               localStorage.setItem('expiry', authData.expiry);
-              localStorage.setItem('tokenType', authData.tokenType);
+              localStorage.setItem('token-type', authData.tokenType);
               localStorage.setItem('uid', authData.uid);
             }
 
