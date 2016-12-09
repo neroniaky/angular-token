@@ -7,9 +7,9 @@ import { A2tFormService } from '../a2t-shared';
 import { UPDATE_PASSWORD_FORM } from '../';
 
 @Component({
-    selector: 'a2t-update-password',
-    templateUrl: 'a2t-update-password.component.html',
-    providers: [A2tFormService]
+    selector:       'a2t-update-password',
+    templateUrl:    './a2t-update-password.component.html',
+    providers:      [A2tFormService]
 })
 export class A2tUpdatePasswordComponent {
 

@@ -5,8 +5,8 @@ import { BaseField } from '../../../';
 
 @Component({
     selector:       'a2t-form-field',
-    templateUrl:    'a2t-form-field.component.html',
-    styleUrls:      ['a2t-form-field.component.css']
+    templateUrl:    './a2t-form-field.component.html',
+    styleUrls:      ['./a2t-form-field.component.css']
 })
 
 export class A2tFormFieldComponent implements OnInit {
