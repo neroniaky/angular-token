@@ -48,6 +48,10 @@ export class Angular2TokenService implements CanActivate {
         return this._currentAuthData;
     }
 
+    get currentAuthDataHeaders(): Object {
+        return this._prepareData(this._currentAuthData);
+    }
+
     private _options: Angular2TokenOptions;
     private _currentUserType: UserType;
     private _currentAuthData: AuthData;
@@ -329,16 +333,10 @@ export class Angular2TokenService implements CanActivate {
 
         let baseRequestOptions: RequestOptions;
         let baseHeaders:        { [key:string]: string; } = this._options.globalOptions.headers;
-        
+
         // Merge auth headers to request if set
         if (this._currentAuthData != null) {
-            (<any>Object).assign(baseHeaders, {
-                'access-token': this._currentAuthData.accessToken,
-                'client':       this._currentAuthData.client,
-                'expiry':       this._currentAuthData.expiry,
-                'token-type':   this._currentAuthData.tokenType,
-                'uid':          this._currentAuthData.uid
-            });
+          this._prepareData(this._currentAuthData, baseHeaders);
         }
 
         baseRequestOptions = new RequestOptions({
@@ -441,8 +439,11 @@ export class Angular2TokenService implements CanActivate {
         this._setAuthData(authData);
     }
 
-    private _dasherize(data: any) {
-      return (<any>Object).assign({}, {
+    private _prepareData(data: any, mergeWith = {}) {
+      if(!data) {
+        return {};
+      }
+      return (<any>Object).assign(mergeWith, {
         'access-token': data.accessToken,
         'client':       data.client,
         'expiry':       data.expiry,
@@ -460,7 +461,7 @@ export class Angular2TokenService implements CanActivate {
 
             if (this._options.storageKey) {
               localStorage.setItem(
-                this._options.storageKey, JSON.stringify(this._dasherize(authData))
+                this._options.storageKey, JSON.stringify(this._prepareData(authData))
               );
             } else {
               localStorage.setItem('access-token', authData.accessToken);
