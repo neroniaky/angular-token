@@ -7,7 +7,7 @@
 [![Build Status](https://travis-ci.org/neroniaky/angular2-token.svg?branch=master)](https://travis-ci.org/neroniaky/angular2-token)
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
-Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails. 
+Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
 Angular2-Token is currently in Alpha. Any contribution is much appreciated.
 
 You can try out Angular2-Token [here](https://angular2-token.herokuapp.com/).
@@ -276,7 +276,7 @@ Request a password reset from the server.
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword({
+this._tokenService.resetPassword({
     email: 'example@example.org',
 }).subscribe(
     res =>      console.log(res),
@@ -335,7 +335,7 @@ export class OauthCallbackComponent implements OnInit {
 ```
 
 ## HTTP Service Wrapper
-`Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing. 
+`Angular2TokenService` wraps all standard Angular2 Http Service calls for authentication and token processing.
 If `apiPath` is configured it gets added in front of path.
 - `get(url: string, options?: RequestOptionsArgs): Observable<Response>`
 - `post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response>`
@@ -377,20 +377,20 @@ this._tokenService.currentUserType; // ADMIN
 ```
 
 ## Route Guards
-Angular2-Token implements the `CanActivate` interface, so it can directly be used as a route guard. 
+Angular2-Token implements the `CanActivate` interface, so it can directly be used as a route guard.
 If the `signInRedirect` option is set the user will be redirected on a failed (=false) CanActivate using `Router.navigate()`.
 It currently does not distinguish between user types.
 
 #### Example:
 ```javascript
 const routerConfig: Routes = [
-    { 
-        path: '', 
-        component: PublicComponent 
+    {
+        path: '',
+        component: PublicComponent
     }, {
-        path: 'restricted', 
-        component: RestrictedComponent, 
-        canActivate: [Angular2TokenService] 
+        path: 'restricted',
+        component: RestrictedComponent,
+        canActivate: [Angular2TokenService]
     }
 ];
 ```
@@ -399,7 +399,7 @@ const routerConfig: Routes = [
 More advanced methods can be used if a higher degree of customization is required.
 
 ### .request()
-More customized requests can be send with the `.request()`-function. It accepts the RequestOptionsArgs-Interface. 
+More customized requests can be send with the `.request()`-function. It accepts the RequestOptionsArgs-Interface.
 More information can be found in the Angular2 API Reference [here](https://angular.io/docs/ts/latest/api/http/index/RequestOptionsArgs-interface.html).
 
 `request(options: RequestOptionsArgs): Observable<Response>`
@@ -424,7 +424,7 @@ Returns current user type as string like specified in the options.
 `get currentUserType(): string`
 
 ### .currentUserData
-Returns current user data as returned by devise token auth. 
+Returns current user data as returned by devise token auth.
 This variable is `null` after page reload until the `.validateToken()` call is answerd by the backend.
 
 `get currentUserData(): UserData`
