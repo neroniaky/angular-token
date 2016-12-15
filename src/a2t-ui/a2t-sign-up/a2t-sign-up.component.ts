@@ -7,9 +7,9 @@ import { A2tFormService } from '../a2t-shared';
 import { SIGN_UP_FORM } from '../';
 
 @Component({
-    selector: 'a2t-sign-up',
-    templateUrl: './a2t-sign-up.component.html',
-    providers: [A2tFormService]
+    selector:       'a2t-sign-up',
+    templateUrl:    './a2t-sign-up.component.html',
+    providers:      [A2tFormService]
 })
 export class A2tSignUpComponent {
 

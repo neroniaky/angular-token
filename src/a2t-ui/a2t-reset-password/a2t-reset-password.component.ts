@@ -6,10 +6,10 @@ import { A2tFormService } from '../a2t-shared';
 import { RESET_PASSWORD_FORM } from '../';
 
 @Component({
-    selector: 'a2t-reset-password',
-    templateUrl: './a2t-reset-password.component.html',
-    styleUrls: ['./a2t-reset-password.component.css'],
-    providers: [A2tFormService]
+    selector:       'a2t-reset-password',
+    templateUrl:    './a2t-reset-password.component.html',
+    styleUrls:      ['./a2t-reset-password.component.css'],
+    providers:      [A2tFormService]
 })
 export class A2tResetPasswordComponent {
 

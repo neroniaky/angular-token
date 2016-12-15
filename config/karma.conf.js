@@ -1,48 +1,51 @@
-module.exports = function (config) {
-	var testWebpackConfig = require('./webpack.test.js');
+module.exports = function(config) {
+    var testWebpackConfig = require('./webpack.test.js')({env: 'test'});
 
-	var configuration = {
+    var configuration = {
 
-		basePath: '',
-		frameworks: ['jasmine'],
-		exclude: [],
-		files: [{ pattern: './config/spec-bundle.js', watched: false }],
-		preprocessors: { './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
-		webpack: testWebpackConfig,
+        basePath: '',
+        frameworks: ['jasmine'],
+        exclude: [ ],
+        files: [ { pattern: './config/spec-bundle.js', watched: false } ],
+        preprocessors: { './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
+        webpack: testWebpackConfig,
 
-		coverageReporter: {
-			dir: 'coverage/',
-			reporters: [
-				{ type: 'text-summary' },
-				{ type: 'json' },
-				{ type: 'html' }
-			]
-		},
+        coverageReporter: {
+            type: 'in-memory'
+        },
 
-		webpackServer: { noInfo: true },
-		reporters: ['mocha', 'coverage'],
-		port: 9876,
-		colors: true,
-		logLevel: config.LOG_INFO,
-		autoWatch: false,
+        remapCoverageReporter: {
+            'text-summary': null,
+            json: './coverage/coverage.json',
+            html: './coverage/html'
+        },
 
-		browsers: [
-			'Chrome'
-		],
+        webpackMiddleware: { stats: 'errors-only'},
+        reporters: [ 'mocha', 'coverage', 'remap-coverage' ],
+        port: 9876,
+        colors: true,
+        logLevel: config.LOG_INFO,
+        autoWatch: false,
 
-		customLaunchers: {
-			Chrome_travis_ci: {
-				base: 'Chrome',
-				flags: ['--no-sandbox']
-			}
-		},
+        browsers: [
+            'Chrome'
+        ],
 
-		singleRun: true
-	};
+        customLaunchers: {
+            ChromeTravisCi: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            }
+        },
 
-	if (process.env.TRAVIS) {
-		configuration.browsers = ['Chrome_travis_ci'];
-	}
+        singleRun: true
+    };
 
-	config.set(configuration);
+    if (process.env.TRAVIS){
+        configuration.browsers = [
+            'ChromeTravisCi'
+        ];
+    }
+
+    config.set(configuration);
 };
