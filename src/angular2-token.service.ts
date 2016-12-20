@@ -411,7 +411,7 @@ export class Angular2TokenService implements CanActivate {
             });
     }
 
-    private _parseAuthDataFromPostMessage(data: any){
+    private _getAuthDataFromPostMessage(data: any){
         let authData: AuthData = {
             accessToken:    data['auth_token'],
             client:         data['client_id'],
@@ -507,44 +507,48 @@ export class Angular2TokenService implements CanActivate {
         let oAuthPath: string;
 
         oAuthPath = this._options.oAuthPaths[oAuthType];
-        if (oAuthPath == null) {
-            oAuthPath = `/auth/${oAuthType}`;
-        }
+
+        if (oAuthPath == null)
+            oAuthPath = '/auth/${oAuthType}';
+
         return oAuthPath;
     }
 
     private _buildOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
         let url: string;
 
-        url = `${window.location.origin}/${oAuthPath}`;
-        url += `?omniauth_window_type=${windowType}`;
-        url += `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
-        if (this._currentUserType != null) {
-            url += `&resource_class=${this._currentUserType.name}`;
-        }
+        url =   '${window.location.origin}/${oAuthPath}';
+        url +=  '?omniauth_window_type=${windowType}';
+        url +=  '&auth_origin_url=${encodeURIComponent(callbackUrl)}';
+
+        if (this._currentUserType != null)
+            url += '&resource_class=${this._currentUserType.name}';
+
         return url;
     }
 
     private _requestCredentialsViaPostMessage(authWindow: any): Observable<any> {
-        let poller_observ = Observable.interval(500);
-        let response_observ = Observable.fromEvent(window, 'message')
-                                        .pluck('data')
-                                        .filter(this._oauthWindowResponseFilter);
+        let pollerObserv = Observable.interval(500);
 
-        let response_subscription = response_observ.subscribe(this._parseAuthDataFromPostMessage.bind(this));
-        let poller_subscription = poller_observ.subscribe(() => {
-            if (authWindow.closed) {
-                poller_subscription.unsubscribe();
-            } else {
+        let responseObserv = Observable.fromEvent(window, 'message').pluck('data')
+                                .filter(this._oAuthWindowResponseFilter);
+
+        let responseSubscription = responseObserv.subscribe(
+            this._getAuthDataFromPostMessage.bind(this)
+        );
+
+        let pollerSubscription = pollerObserv.subscribe(() => {
+            if (authWindow.closed)
+                pollerSubscription.unsubscribe();
+            else
                 authWindow.postMessage('requestCredentials', '*');
-            }
         });
-        return response_observ;
+
+        return responseObserv;
     }
 
-    private _oauthWindowResponseFilter(data: any) {
-        if(data.message == 'deliverCredentials' || data.message == 'authFailure') {
+    private _oAuthWindowResponseFilter(data: any) {
+        if(data.message == 'deliverCredentials' || data.message == 'authFailure')
             return data;
-        }
     }
 }
