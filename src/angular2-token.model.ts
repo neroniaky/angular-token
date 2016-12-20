@@ -37,10 +37,10 @@ export interface AuthData {
 
 export interface UserData {
     id:             number;
-    provider:       string; 
-    uid:            string; 
-    name:           string; 
-    nickname:       string; 
+    provider:       string;
+    uid:            string;
+    name:           string;
+    nickname:       string;
     image:          any;
     email:          string;
 }

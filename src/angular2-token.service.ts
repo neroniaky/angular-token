@@ -78,9 +78,9 @@ export class Angular2TokenService implements CanActivate {
             // Redirect user to sign in if signInRedirect is set
             if(this._options.signInRedirect)
                 this._router.navigate([this._options.signInRedirect]);
-            
+
             return false;
-        }         
+        }
     }
 
     // Inital configuration
@@ -320,7 +320,7 @@ export class Angular2TokenService implements CanActivate {
 
         let baseRequestOptions: RequestOptions;
         let baseHeaders:        { [key:string]: string; } = this._options.globalOptions.headers;
-        
+
         // Merge auth headers to request if set
         if (this._currentAuthData != null) {
             (<any>Object).assign(baseHeaders, {
