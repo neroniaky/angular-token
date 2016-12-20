@@ -1,5 +1,11 @@
 # Change Log
 
+## v0.2.0-beta.5
+**Bugfixes:**
+- Fix tsc noUnusedParameters validation
+- Remove unnecessary console output, fixes #72
+- Added relative route paths, fixes #79
+
 ## v0.2.0-beta.4
 **Breaking Changes:**
 - Changed name of `.sendHttpRequest()` method to `.request()`
