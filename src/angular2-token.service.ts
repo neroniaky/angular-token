@@ -48,6 +48,10 @@ export class Angular2TokenService implements CanActivate {
         return this._currentAuthData;
     }
 
+    get currentAuthDataHeaders(): Object {
+        return this._prepareData(this._currentAuthData);
+    }
+
     private _options: Angular2TokenOptions;
     private _currentUserType: UserType;
     private _currentAuthData: AuthData;
@@ -118,7 +122,8 @@ export class Angular2TokenService implements CanActivate {
                     'Content-Type': 'application/json',
                     'Accept':       'application/json'
                 }
-            }
+            },
+            storageKey: null
         };
 
         this._options = (<any>Object).assign(defaultOptions, options);
@@ -190,19 +195,27 @@ export class Angular2TokenService implements CanActivate {
         this._getAuthDataFromParams();
     }
 
-    // Sign out request and delete storage
-    signOut(): Observable<Response> {
-        let observ = this.delete(this._constructUserPath() + this._options.signOutPath);
-
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('client');
-        localStorage.removeItem('expiry');
-        localStorage.removeItem('tokenType');
-        localStorage.removeItem('uid');
+    cleanup() {
+        if (this._options.storageKey) {
+          localStorage.removeItem(this._options.storageKey);
+        } else {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('client');
+          localStorage.removeItem('expiry');
+          localStorage.removeItem('tokenType');
+          localStorage.removeItem('uid');
+        }
 
         this._currentAuthData = null;
         this._currentUserType = null;
         this._currentUserData = null;
+    }
+
+    // Sign out request and delete storage
+    signOut(): Observable<Response> {
+        let observ = this.delete(this._constructUserPath() + this._options.signOutPath);
+
+        this.cleanup();
 
         return observ;
     }
@@ -323,13 +336,7 @@ export class Angular2TokenService implements CanActivate {
 
         // Merge auth headers to request if set
         if (this._currentAuthData != null) {
-            (<any>Object).assign(baseHeaders, {
-                'access-token': this._currentAuthData.accessToken,
-                'client':       this._currentAuthData.client,
-                'expiry':       this._currentAuthData.expiry,
-                'token-type':   this._currentAuthData.tokenType,
-                'uid':          this._currentAuthData.uid
-            });
+          this._prepareData(this._currentAuthData, baseHeaders);
         }
 
         baseRequestOptions = new RequestOptions({
@@ -381,13 +388,22 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to get auth data from storage.
     private _getAuthDataFromStorage() {
+        let authDataFromStorage;
+
+        if (this._options.storageKey) {
+          authDataFromStorage = JSON.parse(
+            localStorage.getItem(this._options.storageKey) || '{}'
+          );
+        } else {
+          authDataFromStorage = localStorage;
+        }
 
         let authData: AuthData = {
-            accessToken:    localStorage.getItem('accessToken'),
-            client:         localStorage.getItem('client'),
-            expiry:         localStorage.getItem('expiry'),
-            tokenType:      localStorage.getItem('tokenType'),
-            uid:            localStorage.getItem('uid')
+            accessToken:    authDataFromStorage['access-token'],
+            client:         authDataFromStorage['client'],
+            expiry:         authDataFromStorage['expiry'],
+            tokenType:      authDataFromStorage['token-type'],
+            uid:            authDataFromStorage['uid']
         };
 
         if (this._checkIfComplete(authData))
@@ -423,6 +439,19 @@ export class Angular2TokenService implements CanActivate {
         this._setAuthData(authData);
     }
 
+    private _prepareData(data: any, mergeWith = {}) {
+      if(!data) {
+        return {};
+      }
+      return (<any>Object).assign(mergeWith, {
+        'access-token': data.accessToken,
+        'client':       data.client,
+        'expiry':       data.expiry,
+        'token-type':   data.tokenType,
+        'uid':          data.uid
+      });
+    }
+
     // Write auth data to storage
     private _setAuthData(authData: AuthData) {
 
@@ -430,11 +459,17 @@ export class Angular2TokenService implements CanActivate {
 
             this._currentAuthData = authData;
 
-            localStorage.setItem('accessToken', authData.accessToken);
-            localStorage.setItem('client', authData.client);
-            localStorage.setItem('expiry', authData.expiry);
-            localStorage.setItem('tokenType', authData.tokenType);
-            localStorage.setItem('uid', authData.uid);
+            if (this._options.storageKey) {
+              localStorage.setItem(
+                this._options.storageKey, JSON.stringify(this._prepareData(authData))
+              );
+            } else {
+              localStorage.setItem('access-token', authData.accessToken);
+              localStorage.setItem('client', authData.client);
+              localStorage.setItem('expiry', authData.expiry);
+              localStorage.setItem('token-type', authData.tokenType);
+              localStorage.setItem('uid', authData.uid);
+            }
 
             if (this._currentUserType != null)
                 localStorage.setItem('userType', this._currentUserType.name);
@@ -445,11 +480,11 @@ export class Angular2TokenService implements CanActivate {
     // Check if auth data complete
     private _checkIfComplete(authData: AuthData): boolean {
         if (
-            authData.accessToken != null &&
-            authData.client != null &&
-            authData.expiry != null &&
-            authData.tokenType != null &&
-            authData.uid != null
+            authData.accessToken != null && authData.accessToken != undefined &&
+            authData.client != null  && authData.client != undefined &&
+            authData.expiry != null  && authData.expiry != undefined &&
+            authData.tokenType != null  && authData.tokenType != undefined &&
+            authData.uid != null  && authData.uid != undefined
         ) {
             return true;
         } else {
