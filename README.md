@@ -434,6 +434,11 @@ Returns current authentication data which are used to set auth headers.
 
 `get currentAuthData(): AuthData`
 
+### .currentAuthHeaders
+Returns current authentication data as an HTTP ready Header object.
+
+`get currentAuthHeaders(): Header`
+
 ### Redirect original requested URL
 If you want to redirect to the protected URL after signing in, you need to set `signInStoredUrlStorageKey` and in your code you can do something like this
 

@@ -48,6 +48,20 @@ export class Angular2TokenService implements CanActivate {
         return this._currentAuthData;
     }
 
+    get currentAuthHeaders(): Headers {
+        if (this._currentAuthData != null) {
+            return new Headers({
+                'access-token': this._currentAuthData.accessToken,
+                'client':       this._currentAuthData.client,
+                'expiry':       this._currentAuthData.expiry,
+                'token-type':   this._currentAuthData.tokenType,
+                'uid':          this._currentAuthData.uid
+            });
+        }
+
+        return new Headers;
+    }
+
     private _options: Angular2TokenOptions;
     private _currentUserType: UserType;
     private _currentAuthData: AuthData;
