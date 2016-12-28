@@ -128,7 +128,7 @@ export class Angular2TokenService implements CanActivate {
             },
             oAuthCallbackPath:          'oauth_callback',
             oAuthWindowType:            'newWindow',
-            oAuthWindowOptions:         '',
+            oAuthWindowOptions:         null,
 
             globalOptions: {
                 headers: {
@@ -194,10 +194,19 @@ export class Angular2TokenService implements CanActivate {
         let authUrl: string = this._buildOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
         if (oAuthWindowType == 'newWindow') {
+            let oAuthWindowOptions = this._options.oAuthWindowOptions;
+            let windowOptions = '';
+
+            if (oAuthWindowOptions) {
+                for (let key in oAuthWindowOptions) {
+                    windowOptions += `,${key}=${oAuthWindowOptions[key]}`;
+                }
+            }
+
             let popup = window.open(
                 authUrl,
                 '_blank',
-                `closebuttoncaption=Cancel,${this._options.oAuthWindowOptions}`
+                `closebuttoncaption=Cancel${windowOptions}`
             );
             return this._requestCredentialsViaPostMessage(popup);
         } else if (oAuthWindowType == 'sameWindow') {

@@ -130,11 +130,13 @@ constructor(private _tokenService: Angular2TokenService) {
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
+        oAuthHost:                  window.location.origin,
         oAuthPaths: {
             github:                 'auth/github'
         },
         oAuthCallbackPath:          'oauth_callback',
         oAuthWindowType:            'newWindow',
+        oAuthWindowOptions:         null,
 
         userTypes:                  null,
 
@@ -165,9 +167,11 @@ constructor(private _tokenService: Angular2TokenService) {
 | `resetPasswordCallback?: string`        | Sets the path user are redirected to after email confirmation for password reset |
 | `userTypes?: UserTypes[]`               | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
 | `globalOptions?: GlobalOptions`         | Allows the configuration of global options (see below) |
+| `oAuthHost?: string`                    | Configure the OAuth hostname (used for backends on a different url) |
 | `oAuthPaths?: { [key:string]: string }` | Sets paths for sign in with OAuth        |
 | `oAuthCallbackPath?:  string`           | Sets path for OAuth sameWindow callback  |
 | `oAuthWindowType?:`string`              | Window type for Oauth authentication     |
+| `oAuthWindowOptions?: { [key:string]: string }` | Set additional options for the new window |
 ### Global Options
 | Options                               | Description                                     |
 | ------------------------------------- | ----------------------------------------------- |
