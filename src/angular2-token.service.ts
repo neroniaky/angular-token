@@ -122,6 +122,7 @@ export class Angular2TokenService implements CanActivate {
 
             userTypes:                  null,
 
+            oAuthHost:                  window.location.origin,
             oAuthPaths: {
                 github:                 'auth/github'
             },
@@ -531,7 +532,7 @@ export class Angular2TokenService implements CanActivate {
     private _buildOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
         let url: string;
 
-        url =   '${window.location.origin}/${oAuthPath}';
+        url =   `${this._options.oAuthHost}/${oAuthPath}`;
         url +=  '?omniauth_window_type=${windowType}';
         url +=  '&auth_origin_url=${encodeURIComponent(callbackUrl)}';
 

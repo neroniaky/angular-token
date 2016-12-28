@@ -78,6 +78,7 @@ export interface Angular2TokenOptions {
 
     userTypes?:                 UserType[];
 
+    oAuthHost?:                 string;
     oAuthPaths?:                { [key:string]: string; };
     oAuthCallbackPath?:         string;
     oAuthWindowType?:           string;
