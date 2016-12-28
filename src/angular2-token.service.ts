@@ -128,6 +128,8 @@ export class Angular2TokenService implements CanActivate {
             },
             oAuthCallbackPath:          'oauth_callback',
             oAuthWindowType:            'newWindow',
+            oAuthWindowOptions:         '',
+
             globalOptions: {
                 headers: {
                     'Content-Type': 'application/json',
@@ -192,7 +194,11 @@ export class Angular2TokenService implements CanActivate {
         let authUrl: string = this._buildOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
         if (oAuthWindowType == 'newWindow') {
-            let popup = window.open(authUrl, '_blank', 'closebuttoncaption=Cancel');
+            let popup = window.open(
+                authUrl,
+                '_blank',
+                `closebuttoncaption=Cancel,${this._options.oAuthWindowOptions}`
+            );
             return this._requestCredentialsViaPostMessage(popup);
         } else if (oAuthWindowType == 'sameWindow') {
             window.location.href = authUrl;
