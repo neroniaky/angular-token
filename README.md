@@ -171,7 +171,7 @@ constructor(private _tokenService: Angular2TokenService) {
 | `oAuthPaths?: { [key:string]: string }` | Sets paths for sign in with OAuth        |
 | `oAuthCallbackPath?:  string`           | Sets path for OAuth sameWindow callback  |
 | `oAuthWindowType?:`string`              | Window type for Oauth authentication     |
-| `oAuthWindowOptions?: { [key:string]: string }` | Set additional options for the new window |
+| `oAuthWindowOptions?: { [key:string]: string }` | Set additional options to pass into `window.open()` |
 ### Global Options
 | Options                               | Description                                     |
 | ------------------------------------- | ----------------------------------------------- |
