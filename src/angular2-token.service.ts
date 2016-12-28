@@ -530,7 +530,7 @@ export class Angular2TokenService implements CanActivate {
         oAuthPath = this._options.oAuthPaths[oAuthType];
 
         if (oAuthPath == null)
-            oAuthPath = '/auth/${oAuthType}';
+            oAuthPath = `/auth/${oAuthType}`;
 
         return oAuthPath;
     }
@@ -539,11 +539,11 @@ export class Angular2TokenService implements CanActivate {
         let url: string;
 
         url =   `${this._options.oAuthHost}/${oAuthPath}`;
-        url +=  '?omniauth_window_type=${windowType}';
-        url +=  '&auth_origin_url=${encodeURIComponent(callbackUrl)}';
+        url +=  `?omniauth_window_type=${windowType}`;
+        url +=  `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
 
         if (this._currentUserType != null)
-            url += '&resource_class=${this._currentUserType.name}';
+            url += `&resource_class=${this._currentUserType.name}`;
 
         return url;
     }
@@ -552,7 +552,7 @@ export class Angular2TokenService implements CanActivate {
         let pollerObserv = Observable.interval(500);
 
         let responseObserv = Observable.fromEvent(window, 'message').pluck('data')
-                                .filter(this._oAuthWindowResponseFilter);
+            .filter(this._oAuthWindowResponseFilter);
 
         let responseSubscription = responseObserv.subscribe(
             this._getAuthDataFromPostMessage.bind(this)
