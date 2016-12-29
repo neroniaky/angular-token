@@ -57,6 +57,7 @@ export interface GlobalOptions {
 }
 
 export interface Angular2TokenOptions {
+    apiBase?:                   string;
     apiPath?:                   string;
 
     signInPath?:                string;
@@ -78,7 +79,7 @@ export interface Angular2TokenOptions {
 
     userTypes?:                 UserType[];
 
-    oAuthHost?:                 string;
+    oAuthBase?:                 string;
     oAuthPaths?:                { [key:string]: string; };
     oAuthCallbackPath?:         string;
     oAuthWindowType?:           string;

@@ -152,6 +152,7 @@ constructor(private _tokenService: Angular2TokenService) {
 
 | Options                                 | Description                              |
 | --------------------------------------- | ---------------------------------------- |
+| `apiBase?: string`                      | Sets the server for all API calls.       |
 | `apiPath?: string`                      | Sets base path all operations are based on |
 | `signInPath?: string`                   | Sets path for sign in                    |
 | `signInRedirect?: string`               | Sets redirect path for failed CanActivate |
@@ -167,7 +168,7 @@ constructor(private _tokenService: Angular2TokenService) {
 | `resetPasswordCallback?: string`        | Sets the path user are redirected to after email confirmation for password reset |
 | `userTypes?: UserTypes[]`               | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
 | `globalOptions?: GlobalOptions`         | Allows the configuration of global options (see below) |
-| `oAuthHost?: string`                    | Configure the OAuth hostname (used for backends on a different url) |
+| `oAuthBase?: string`                    | Configure the OAuth server (used for backends on a different url) |
 | `oAuthPaths?: { [key:string]: string }` | Sets paths for sign in with OAuth        |
 | `oAuthCallbackPath?:  string`           | Sets path for OAuth sameWindow callback  |
 | `oAuthWindowType?:`string`              | Window type for Oauth authentication     |

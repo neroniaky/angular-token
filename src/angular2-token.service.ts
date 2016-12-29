@@ -102,6 +102,7 @@ export class Angular2TokenService implements CanActivate {
 
         let defaultOptions: Angular2TokenOptions = {
             apiPath:                    null,
+            apiBase:                    '',
 
             signInPath:                 'auth/sign_in',
             signInRedirect:             null,
@@ -122,7 +123,7 @@ export class Angular2TokenService implements CanActivate {
 
             userTypes:                  null,
 
-            oAuthHost:                  window.location.origin,
+            oAuthBase:                  window.location.origin,
             oAuthPaths: {
                 github:                 'auth/github'
             },
@@ -521,16 +522,16 @@ export class Angular2TokenService implements CanActivate {
 
     private _constructUserPath(): string {
         if (this._currentUserType == null)
-            return '';
+            return '/';
         else
             return this._currentUserType.path + '/';
     }
 
     private _constructApiPath(): string {
         if (this._options.apiPath == null)
-            return '';
+            return this._options.apiBase + '/';
         else
-            return this._options.apiPath + '/';
+            return this._options.apiBase + '/' + this._options.apiPath + '/';
     }
 
     private _getOAuthPath(oAuthType: string): string {
@@ -547,7 +548,7 @@ export class Angular2TokenService implements CanActivate {
     private _buildOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
         let url: string;
 
-        url =   `${this._options.oAuthHost}/${oAuthPath}`;
+        url =   `${this._options.oAuthBase}/${oAuthPath}`;
         url +=  `?omniauth_window_type=${windowType}`;
         url +=  `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
 
