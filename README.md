@@ -276,7 +276,7 @@ Request a password reset from the server.
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword({
+this._tokenService.resetPassword({
     email: 'example@example.org',
 }).subscribe(
     res =>      console.log(res),
