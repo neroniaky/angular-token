@@ -10,6 +10,7 @@ export interface RegisterData {
     email:                  string;
     password:               string;
     passwordConfirmation:   string;
+    name?:                  string;
     userType?:              string;
 }
 
