@@ -260,21 +260,26 @@ export class Angular2TokenService implements CanActivate {
         if (updatePasswordData.userType != null)
             this._currentUserType = this._getUserTypeByName(updatePasswordData.userType);
 
-        let body: string;
+        let args: any;
 
         if (updatePasswordData.passwordCurrent == null) {
-            body = JSON.stringify({
+            args = {
                 password:               updatePasswordData.password,
                 password_confirmation:  updatePasswordData.passwordConfirmation
-            });
+            }
         } else {
-            body = JSON.stringify({
+            args = {
                 current_password:       updatePasswordData.passwordCurrent,
                 password:               updatePasswordData.password,
                 password_confirmation:  updatePasswordData.passwordConfirmation
-            });
+            };
         }
 
+        if (updatePasswordData.resetPasswordToken) {
+            args.reset_password_token = updatePasswordData.resetPasswordToken;
+        }
+
+        let body = JSON.stringify(args);
         return this.put(this._constructUserPath() + this._options.updatePasswordPath, body);
     }
 

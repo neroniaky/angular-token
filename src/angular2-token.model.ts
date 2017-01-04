@@ -19,6 +19,7 @@ export interface UpdatePasswordData {
     passwordConfirmation:   string;
     passwordCurrent:        string;
     userType?:              string;
+    resetPasswordToken?:    string;
 }
 
 export interface ResetPasswordData {

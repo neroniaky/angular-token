@@ -260,14 +260,15 @@ this._tokenService.validateToken().subscribe(
 ### .updatePassword()
 Updates the password for the logged in user.
 
-`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string}): Observable<Response>`
+`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string, resetPasswordToken?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
 this._tokenService.updatePassword({
     password:             'newPassword',
     passwordConfirmation: 'newPassword',
-    passwordCurrent:      'oldPassword'
+    passwordCurrent:      'oldPassword',
+    resetPasswordToken:   'resetPasswordToken',
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
