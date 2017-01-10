@@ -2,14 +2,14 @@
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
-        "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
+
+        "declaration": true,
         "sourceMap": true,
-        "noEmitHelpers": true,
-        "strictNullChecks": false,
-        "outDir": "lib",
+
+        "outDir": "../lib",
+
         "lib": [
             "dom",
             "es6"
@@ -26,13 +26,7 @@
     },
     "exclude": [
         "node_modules",
-        "lib"
-    ],
-    "awesomeTypescriptLoaderOptions": {
-        "forkChecker": true,
-        "useWebpackText": true
-    },
-    "compileOnSave": false,
-    "buildOnSave": false,
-    "atom": { "rewriteTsconfig": false }
+        "lib",
+        "**/*.spec.ts"
+    ]
 }

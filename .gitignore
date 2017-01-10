@@ -1,10 +1,16 @@
+# Compiled Files
+lib
+*.js
+*.map
+*.d.ts
+
 # Library directories
 node_modules
 coverage
-lib
 npm-debug.log
 
-# Ignore Mac DS_Store files
+# Mac
+.DS_Store
 **/.DS_Store
 
 # Ignore VSCode Config

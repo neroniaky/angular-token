@@ -1,6 +1,11 @@
 node_modules
 npm-debug.log
 
+# Source Files
+src
+*.ts
+!*.d.ts
+
 # Testing
 config
 coverage
@@ -10,3 +15,7 @@ karma.conf.js
 .travis.yml
 .gitignore
 tsconfig.json
+
+# Mac
+.DS_Store
+**/.DS_Store
