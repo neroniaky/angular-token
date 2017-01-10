@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+
+        "declaration": true,
+        "sourceMap": true,
+
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "types": [
+            "hammerjs",
+            "jasmine",
+            "node",
+            "selenium-webdriver",
+            "source-map",
+            "uglify-js",
+            "webpack"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "lib",
+        "**/*.spec.ts"
+    ]
+}
