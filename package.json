@@ -59,7 +59,7 @@
 
     "remap-istanbul": "0.8.4",
     "rxjs": "5.0.3",
-    "source-map-loader": "0.1.5",
+    "source-map-loader": "0.1.6",
     "ts-helpers": "1.1.2",
     "ts-node": "2.0.0",
     "typescript": "2.1.4",
