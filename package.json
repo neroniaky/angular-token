@@ -55,7 +55,7 @@
     "karma-remap-coverage": "0.1.4",
     "karma-mocha-reporter": "2.2.1",
     "karma-sourcemap-loader": "0.3.7",
-    "karma-webpack": "1.8.1",
+    "karma-webpack": "2.0.0",
 
     "remap-istanbul": "0.8.4",
     "rxjs": "5.0.3",
