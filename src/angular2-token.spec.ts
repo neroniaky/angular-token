@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterOutletMap, RouterState, Router } from '@angular/r
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Angular2TokenService } from './angular2-token.service';
-import { 
+import {
 	SignInData,
 	RegisterData
 } from './angular2-token.model';
@@ -22,6 +22,7 @@ describe('Angular2TokenService', () => {
 	let emptyHeaders = new Headers({
 		'content-Type': 'application/json'
 	});
+
 	let tokenHeaders = new Headers({
 		'content-Type': 'application/json',
 		'token-type': tokenType,
@@ -181,25 +182,25 @@ describe('Angular2TokenService', () => {
 	}));
 
 	it('validateToken should call signOut when it returns status 401', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
-		
+
 		mockBackend.connections.subscribe(
 			c => c.mockError(new Response(new ResponseOptions({ status: 401, headers: new Headers() })))
 		);
 
 		spyOn(tokenService, 'signOut');
-		
+
 		tokenService.init({ apiPath: 'myapi', signOutFailedValidate: true });
 		tokenService.validateToken().subscribe(res => null, err => expect(tokenService.signOut).toHaveBeenCalled());
 	}));
 
 	it('validateToken should not call signOut when it returns status 401', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
-		
+
 		mockBackend.connections.subscribe(
 			c => c.mockError(new Response(new ResponseOptions({ status: 401, headers: new Headers() })))
 		);
 
 		spyOn(tokenService, 'signOut');
-		
+
 		tokenService.init({ apiPath: 'myapi', signOutFailedValidate: false });
 		tokenService.validateToken().subscribe(res => null, err => expect(tokenService.signOut).not.toHaveBeenCalled());
 	}));

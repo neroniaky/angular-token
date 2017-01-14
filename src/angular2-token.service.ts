@@ -102,7 +102,7 @@ export class Angular2TokenService implements CanActivate {
 
         let defaultOptions: Angular2TokenOptions = {
             apiPath:                    null,
-            apiBase:                    '',
+            apiBase:                    null,
 
             signInPath:                 'auth/sign_in',
             signInRedirect:             null,
@@ -528,16 +528,21 @@ export class Angular2TokenService implements CanActivate {
 
     private _constructUserPath(): string {
         if (this._currentUserType == null)
-            return '/';
+            return '';
         else
             return this._currentUserType.path + '/';
     }
 
     private _constructApiPath(): string {
-        if (this._options.apiPath == null)
-            return this._options.apiBase + '/';
-        else
-            return this._options.apiBase + '/' + this._options.apiPath + '/';
+        let constructedPath = '';
+
+        if (this._options.apiBase != null)
+            constructedPath += this._options.apiBase + '/';
+
+        if (this._options.apiPath != null)
+            constructedPath += this._options.apiPath + '/';
+
+        return constructedPath;
     }
 
     private _getOAuthPath(oAuthType: string): string {

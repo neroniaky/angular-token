@@ -112,6 +112,7 @@ Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
 ```javascript
 constructor(private _tokenService: Angular2TokenService) {
     this._tokenService.init({
+        apiBase:                    null,
         apiPath:                    null,
 
         signInPath:                 'auth/sign_in',
