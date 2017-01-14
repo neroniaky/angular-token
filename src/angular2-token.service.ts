@@ -102,6 +102,7 @@ export class Angular2TokenService implements CanActivate {
 
         let defaultOptions: Angular2TokenOptions = {
             apiPath:                    null,
+            apiBase:                    '',
 
             signInPath:                 'auth/sign_in',
             signInRedirect:             null,
@@ -122,11 +123,14 @@ export class Angular2TokenService implements CanActivate {
 
             userTypes:                  null,
 
+            oAuthBase:                  window.location.origin,
             oAuthPaths: {
                 github:                 'auth/github'
             },
             oAuthCallbackPath:          'oauth_callback',
             oAuthWindowType:            'newWindow',
+            oAuthWindowOptions:         null,
+
             globalOptions: {
                 headers: {
                     'Content-Type': 'application/json',
@@ -150,6 +154,7 @@ export class Angular2TokenService implements CanActivate {
 
         let body = JSON.stringify({
             email:                  registerData.email,
+            name:                   registerData.name,
             password:               registerData.password,
             password_confirmation:  registerData.passwordConfirmation,
             confirm_success_url:    this._options.registerAccountCallback
@@ -191,7 +196,20 @@ export class Angular2TokenService implements CanActivate {
         let authUrl: string = this._buildOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
         if (oAuthWindowType == 'newWindow') {
-            let popup = window.open(authUrl, '_blank', 'closebuttoncaption=Cancel');
+            let oAuthWindowOptions = this._options.oAuthWindowOptions;
+            let windowOptions = '';
+
+            if (oAuthWindowOptions) {
+                for (let key in oAuthWindowOptions) {
+                    windowOptions += `,${key}=${oAuthWindowOptions[key]}`;
+                }
+            }
+
+            let popup = window.open(
+                authUrl,
+                '_blank',
+                `closebuttoncaption=Cancel${windowOptions}`
+            );
             return this._requestCredentialsViaPostMessage(popup);
         } else if (oAuthWindowType == 'sameWindow') {
             window.location.href = authUrl;
@@ -242,21 +260,26 @@ export class Angular2TokenService implements CanActivate {
         if (updatePasswordData.userType != null)
             this._currentUserType = this._getUserTypeByName(updatePasswordData.userType);
 
-        let body: string;
+        let args: any;
 
         if (updatePasswordData.passwordCurrent == null) {
-            body = JSON.stringify({
+            args = {
                 password:               updatePasswordData.password,
                 password_confirmation:  updatePasswordData.passwordConfirmation
-            });
+            }
         } else {
-            body = JSON.stringify({
+            args = {
                 current_password:       updatePasswordData.passwordCurrent,
                 password:               updatePasswordData.password,
                 password_confirmation:  updatePasswordData.passwordConfirmation
-            });
+            };
         }
 
+        if (updatePasswordData.resetPasswordToken) {
+            args.reset_password_token = updatePasswordData.resetPasswordToken;
+        }
+
+        let body = JSON.stringify(args);
         return this.put(this._constructUserPath() + this._options.updatePasswordPath, body);
     }
 
@@ -505,16 +528,16 @@ export class Angular2TokenService implements CanActivate {
 
     private _constructUserPath(): string {
         if (this._currentUserType == null)
-            return '';
+            return '/';
         else
             return this._currentUserType.path + '/';
     }
 
     private _constructApiPath(): string {
         if (this._options.apiPath == null)
-            return '';
+            return this._options.apiBase + '/';
         else
-            return this._options.apiPath + '/';
+            return this._options.apiBase + '/' + this._options.apiPath + '/';
     }
 
     private _getOAuthPath(oAuthType: string): string {
@@ -523,7 +546,7 @@ export class Angular2TokenService implements CanActivate {
         oAuthPath = this._options.oAuthPaths[oAuthType];
 
         if (oAuthPath == null)
-            oAuthPath = '/auth/${oAuthType}';
+            oAuthPath = `/auth/${oAuthType}`;
 
         return oAuthPath;
     }
@@ -531,12 +554,12 @@ export class Angular2TokenService implements CanActivate {
     private _buildOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
         let url: string;
 
-        url =   '${window.location.origin}/${oAuthPath}';
-        url +=  '?omniauth_window_type=${windowType}';
-        url +=  '&auth_origin_url=${encodeURIComponent(callbackUrl)}';
+        url =   `${this._options.oAuthBase}/${oAuthPath}`;
+        url +=  `?omniauth_window_type=${windowType}`;
+        url +=  `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
 
         if (this._currentUserType != null)
-            url += '&resource_class=${this._currentUserType.name}';
+            url += `&resource_class=${this._currentUserType.name}`;
 
         return url;
     }
@@ -545,7 +568,7 @@ export class Angular2TokenService implements CanActivate {
         let pollerObserv = Observable.interval(500);
 
         let responseObserv = Observable.fromEvent(window, 'message').pluck('data')
-                                .filter(this._oAuthWindowResponseFilter);
+            .filter(this._oAuthWindowResponseFilter);
 
         let responseSubscription = responseObserv.subscribe(
             this._getAuthDataFromPostMessage.bind(this)

@@ -130,11 +130,13 @@ constructor(private _tokenService: Angular2TokenService) {
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
+        oAuthHost:                  window.location.origin,
         oAuthPaths: {
             github:                 'auth/github'
         },
         oAuthCallbackPath:          'oauth_callback',
         oAuthWindowType:            'newWindow',
+        oAuthWindowOptions:         null,
 
         userTypes:                  null,
 
@@ -150,6 +152,7 @@ constructor(private _tokenService: Angular2TokenService) {
 
 | Options                                 | Description                              |
 | --------------------------------------- | ---------------------------------------- |
+| `apiBase?: string`                      | Sets the server for all API calls.       |
 | `apiPath?: string`                      | Sets base path all operations are based on |
 | `signInPath?: string`                   | Sets path for sign in                    |
 | `signInRedirect?: string`               | Sets redirect path for failed CanActivate |
@@ -165,9 +168,11 @@ constructor(private _tokenService: Angular2TokenService) {
 | `resetPasswordCallback?: string`        | Sets the path user are redirected to after email confirmation for password reset |
 | `userTypes?: UserTypes[]`               | Allows the configuration of multiple user types (see [Multiple User Types](#multiple-user-types)) |
 | `globalOptions?: GlobalOptions`         | Allows the configuration of global options (see below) |
+| `oAuthBase?: string`                    | Configure the OAuth server (used for backends on a different url) |
 | `oAuthPaths?: { [key:string]: string }` | Sets paths for sign in with OAuth        |
 | `oAuthCallbackPath?:  string`           | Sets path for OAuth sameWindow callback  |
 | `oAuthWindowType?:`string`              | Window type for Oauth authentication     |
+| `oAuthWindowOptions?: { [key:string]: string }` | Set additional options to pass into `window.open()` |
 ### Global Options
 | Options                               | Description                                     |
 | ------------------------------------- | ----------------------------------------------- |
@@ -255,14 +260,15 @@ this._tokenService.validateToken().subscribe(
 ### .updatePassword()
 Updates the password for the logged in user.
 
-`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string}): Observable<Response>`
+`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string, resetPasswordToken?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
 this._tokenService.updatePassword({
     password:             'newPassword',
     passwordConfirmation: 'newPassword',
-    passwordCurrent:      'oldPassword'
+    passwordCurrent:      'oldPassword',
+    resetPasswordToken:   'resetPasswordToken',
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)

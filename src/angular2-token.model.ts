@@ -10,6 +10,7 @@ export interface RegisterData {
     email:                  string;
     password:               string;
     passwordConfirmation:   string;
+    name?:                  string;
     userType?:              string;
 }
 
@@ -18,6 +19,7 @@ export interface UpdatePasswordData {
     passwordConfirmation:   string;
     passwordCurrent:        string;
     userType?:              string;
+    resetPasswordToken?:    string;
 }
 
 export interface ResetPasswordData {
@@ -57,6 +59,7 @@ export interface GlobalOptions {
 }
 
 export interface Angular2TokenOptions {
+    apiBase?:                   string;
     apiPath?:                   string;
 
     signInPath?:                string;
@@ -78,9 +81,11 @@ export interface Angular2TokenOptions {
 
     userTypes?:                 UserType[];
 
+    oAuthBase?:                 string;
     oAuthPaths?:                { [key:string]: string; };
     oAuthCallbackPath?:         string;
     oAuthWindowType?:           string;
+    oAuthWindowOptions?:        { [key:string]: string; };
 
     globalOptions?:             GlobalOptions;
 }
