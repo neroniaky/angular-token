@@ -7,9 +7,25 @@ import { RESET_PASSWORD_FORM } from '../';
 
 @Component({
     selector:       'a2t-reset-password',
-    templateUrl:    './a2t-reset-password.component.html',
-    styleUrls:      ['./a2t-reset-password.component.css'],
-    providers:      [A2tFormService]
+    providers:      [A2tFormService],
+    template: `
+        <a2t-headline *ngIf="!_emailSend">Reset your Password</a2t-headline>
+        <a2t-form *ngIf="!_emailSend">Reset Password</a2t-form>
+        <p class="email-send-text" *ngIf="_emailSend">
+            If the entered email is registered we will send instruction on how to reset your password.
+        </p>
+        <a2t-links *ngIf="!_emailSend" case="reset-password"></a2t-links>
+    `,
+    styles: [`
+        .email-send-text {
+            background-color: #72c380;
+            color: white;
+            font-size: 16pt;
+            text-align: center;
+            padding: 20px;
+            border-radius: 3px;
+        }
+    `]
 })
 export class A2tResetPasswordComponent {
 
