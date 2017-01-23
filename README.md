@@ -15,6 +15,10 @@ You can try out Angular2-Token [here](https://angular2-token.herokuapp.com/).
 The repository can be found [here](https://github.com/neroniaky/angular2-token-example).
 
 ## Installation
+
+### Requirements
+- Webpack (SystemJS not tested)
+
 1. Install Angular2-Token via NPM with
     ```bash
     npm install angular2-token
