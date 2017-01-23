@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
 import { SignInData } from '../../../angular2-token.model';
-import { BaseField } from '../../';
+import { BaseField } from '../../a2t-ui.forms';
 
 @Injectable()
 export class A2tFormService {
