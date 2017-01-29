@@ -2,55 +2,55 @@
 # yarn lockfile v1
 
 
-"@angular/common@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-2.4.3.tgz#78d96bd2f8a1a105f635cd25e362ba5704b47f56"
+"@angular/common@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-2.4.5.tgz#ada1a22b7ba01d1fdeb300115584478e031e9a4f"
 
-"@angular/compiler@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-2.4.3.tgz#76a41916f90eda66643107740c4a9ae45cb7a6c1"
+"@angular/compiler@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-2.4.5.tgz#521da325e2e002398e8f9de52cfb03d303729e72"
 
-"@angular/core@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-2.4.3.tgz#a72a13bb9f01659b8388558cd6e3a570a8434b1c"
+"@angular/core@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-2.4.5.tgz#8b05156398afde9636e65527ffb61fc74236af5a"
 
-"@angular/forms@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-2.4.3.tgz#0b4f59b8074e3d0fe987781e0f2af1ca1eec212b"
+"@angular/forms@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-2.4.5.tgz#468bd040518595c3598742ac1a22c506a7f1ab0f"
 
-"@angular/http@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/http/-/http-2.4.3.tgz#d8afca7362efb010600fde02360e01e848579be6"
+"@angular/http@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-2.4.5.tgz#de94b2daa4ff24e8b6c8839ffaf8089b62d4430b"
 
-"@angular/platform-browser-dynamic@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-2.4.3.tgz#d65cc9bc4487e2a86e2c6f6641c711fccfa90c5a"
+"@angular/platform-browser-dynamic@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-2.4.5.tgz#36fa975a8ee2dfe3f60bab561143974e6bdb1eff"
 
-"@angular/platform-browser@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-2.4.3.tgz#eba8588d2fffc39d0b85a9180c297d9ca2f1f3a4"
+"@angular/platform-browser@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-2.4.5.tgz#fa1bc891b1309bca83845787b9a08db36a787fee"
 
-"@angular/platform-server@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-2.4.3.tgz#207af33919733696976b29bfc03c265a551dd05f"
+"@angular/platform-server@2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-2.4.5.tgz#4322d6a3609603edf34101f286d47db8762a08bc"
   dependencies:
     parse5 "^2.2.1"
 
-"@angular/router@3.4.3":
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-3.4.3.tgz#19846caa1f87d9b83f005f45a2be15b6744db8fd"
+"@angular/router@3.4.5":
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-3.4.5.tgz#5a471a4e49a7eba6a460761129c0684a4b730a1a"
 
 "@types/hammerjs@2.0.34":
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.34.tgz#9cbac4f41cb039436141785e1be50b3ab10a04a9"
 
-"@types/jasmine@2.5.40":
-  version "2.5.40"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.40.tgz#875c7ae739dcab1342794f51231c4aadcda6eb79"
+"@types/jasmine@2.5.41":
+  version "2.5.41"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.41.tgz#d5e86161a0af80d52062b310a33ed65b051a0713"
 
-"@types/node@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.0.tgz#c081147b109da5f9c57af70571771be97ce9c0ba"
+"@types/node@*", "@types/node@7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.4.tgz#9aabc135979ded383325749f508894c662948c8b"
 
 "@types/selenium-webdriver@2.53.39":
   version "2.53.39"
@@ -70,10 +70,11 @@
   dependencies:
     "@types/source-map" "*"
 
-"@types/webpack@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-2.2.0.tgz#da0646a2093d6405950a58597e3e7eabdc755207"
+"@types/webpack@2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-2.2.4.tgz#05afb4af5b7ece8a4d491030e94c769c7a9bc110"
   dependencies:
+    "@types/node" "*"
     "@types/tapable" "*"
     "@types/uglify-js" "*"
 
@@ -1726,9 +1727,9 @@ karma-sourcemap-loader@0.3.7:
   dependencies:
     graceful-fs "^4.1.2"
 
-karma-webpack@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/karma-webpack/-/karma-webpack-2.0.1.tgz#271ac955685b9bd99365ef010ffc5655eac28ef6"
+karma-webpack@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/karma-webpack/-/karma-webpack-2.0.2.tgz#bd38350af5645c9644090770939ebe7ce726f864"
   dependencies:
     async "~0.9.0"
     loader-utils "^0.2.5"
@@ -2435,7 +2436,7 @@ read-pkg@^1.0.0:
     normalize-package-data "^2.3.2"
     path-type "^1.0.0"
 
-"readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.1.0, readable-stream@~2.1.4:
+"readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.0.5, readable-stream@^2.1.0, readable-stream@~2.1.4:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.1.5.tgz#66fa8b720e1438b364681f2ad1a63c618448c9d0"
   dependencies:
@@ -2447,7 +2448,7 @@ read-pkg@^1.0.0:
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
 
-readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@~2.0.0:
+readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@~2.0.0:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.0.6.tgz#8f90341e68a53ccc928788dacfcd11b36eb9b78e"
   dependencies:
@@ -2686,9 +2687,9 @@ socket.io@1.7.2:
     socket.io-client "1.7.2"
     socket.io-parser "2.3.1"
 
-source-list-map@~0.1.0:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-0.1.7.tgz#d4b5ce2a46535c72c7e8527c71a77d250618172e"
+source-list-map@~0.1.7:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-0.1.8.tgz#c550b2ab5427f6b3f21f5afead88c4f5587b2106"
 
 source-map-loader@0.1.6:
   version "0.1.6"
@@ -3097,16 +3098,16 @@ webpack-dev-middleware@^1.0.11:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-sources@^0.1.0:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.1.3.tgz#15ce2fb79d0a1da727444ba7c757bf164294f310"
+webpack-sources@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.1.4.tgz#ccc2c817e08e5fa393239412690bb481821393cd"
   dependencies:
-    source-list-map "~0.1.0"
+    source-list-map "~0.1.7"
     source-map "~0.5.3"
 
-webpack@2.2.0-rc.4:
-  version "2.2.0-rc.4"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.2.0-rc.4.tgz#3d4bd04976be45fcb20c0eab7fe5a96f5ad53068"
+webpack@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.2.0.tgz#09246336b5581c9002353f75bcadb598a648f977"
   dependencies:
     acorn "^4.0.4"
     acorn-dynamic-import "^2.0.0"
@@ -3126,7 +3127,7 @@ webpack@2.2.0-rc.4:
     tapable "~0.2.5"
     uglify-js "^2.7.5"
     watchpack "^1.2.0"
-    webpack-sources "^0.1.0"
+    webpack-sources "^0.1.4"
     yargs "^6.0.0"
 
 which-module@^1.0.0:
