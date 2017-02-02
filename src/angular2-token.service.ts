@@ -1,5 +1,5 @@
-import { Injectable }       from '@angular/core';
-import { CanActivate }      from '@angular/router';
+import { Injectable, Optional } from '@angular/core';
+import { ActivatedRoute, Router, CanActivate } from '@angular/router';
 import {
     Http,
     Response,
@@ -9,8 +9,8 @@ import {
     RequestOptions,
     RequestOptionsArgs
 } from '@angular/http';
-import { ActivatedRoute, Router }   from '@angular/router';
-import { Observable }       from 'rxjs/Observable';
+
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/fromEvent';
@@ -69,8 +69,8 @@ export class Angular2TokenService implements CanActivate {
 
     constructor(
         private _http: Http,
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router
+        @Optional() private _activatedRoute: ActivatedRoute,
+        @Optional() private _router: Router
     ) { }
 
     userSignedIn(): boolean {
@@ -90,7 +90,7 @@ export class Angular2TokenService implements CanActivate {
             }
 
             // Redirect user to sign in if signInRedirect is set
-            if(this._options.signInRedirect)
+            if(this._router && this._options.signInRedirect)
                 this._router.navigate([this._options.signInRedirect]);
 
             return false;
@@ -428,9 +428,11 @@ export class Angular2TokenService implements CanActivate {
             this._currentUserType = userType;
 
         this._getAuthDataFromStorage();
-        this._getAuthDataFromParams();
 
-        if (this._currentAuthData != null)
+        if(this._activatedRoute)
+            this._getAuthDataFromParams();
+
+        if (this._currentAuthData)
             this.validateToken();
     }
 
