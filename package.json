@@ -57,7 +57,7 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "2.0.2",
 
-    "remap-istanbul": "0.8.4",
+    "remap-istanbul": "0.9.0",
     "rxjs": "5.1.0",
     "source-map-loader": "0.1.6",
     "ts-helpers": "1.1.2",
