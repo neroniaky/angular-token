@@ -135,7 +135,7 @@ constructor(private _tokenService: Angular2TokenService) {
         resetPasswordPath:          'auth/password',
         resetPasswordCallback:      window.location.href,
 
-        oAuthHost:                  window.location.origin,
+        oAuthBase:                  window.location.origin,
         oAuthPaths: {
             github:                 'auth/github'
         },
