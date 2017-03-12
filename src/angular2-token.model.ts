@@ -14,6 +14,10 @@ export interface RegisterData {
     userType?:              string;
 }
 
+export interface RegisterData {
+    [key:string]: string;
+};
+
 export interface UpdatePasswordData {
     password:               string;
     passwordConfirmation:   string;

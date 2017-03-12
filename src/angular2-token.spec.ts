@@ -158,7 +158,7 @@ describe('Angular2TokenService', () => {
 		);
 
 		tokenService.init({ apiPath: 'myapi', registerAccountPath: 'myauth/myregister' });
-		tokenService.registerAccount('example@example.org', 'password', 'password');
+		tokenService.registerAccount(registerData);
 	}));
 
 	it('deleteAccount should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {

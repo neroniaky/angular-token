@@ -155,18 +155,17 @@ export class Angular2TokenService implements CanActivate {
 
         if (registerData.userType == null)
             this._currentUserType = null;
-        else
+        else {
             this._currentUserType = this._getUserTypeByName(registerData.userType);
+            delete registerData.userType;
+        }
 
-        let body = JSON.stringify({
-            email:                  registerData.email,
-            name:                   registerData.name,
-            password:               registerData.password,
-            password_confirmation:  registerData.passwordConfirmation,
-            confirm_success_url:    this._options.registerAccountCallback
-        });
+        registerData.password_confirmation  = registerData.passwordConfirmation;
+        delete registerData.passwordConfirmation;
 
-        return this.post(this._getUserPath() + this._options.registerAccountPath, body);
+        registerData.confirm_success_url    = this._options.registerAccountCallback;
+
+        return this.post(this._getUserPath() + this._options.registerAccountPath, JSON.stringify(registerData));
     }
 
     // Delete Account
