@@ -77,7 +77,7 @@ export class Angular2TokenService implements CanActivate {
         return !!this._currentAuthData;
     }
 
-    canActivate() {
+    canActivate(): boolean {
         if (this.userSignedIn())
             return true;
         else {
@@ -223,7 +223,7 @@ export class Angular2TokenService implements CanActivate {
         }
     }
 
-    processOAuthCallback() {
+    processOAuthCallback(): void {
         this._getAuthDataFromParams();
     }
 
@@ -404,7 +404,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Check if response is complete and newer, then update storage
-    private _handleResponse(response: Observable<Response>) {
+    private _handleResponse(response: Observable<Response>): void {
         response.subscribe(res => {
             this._getAuthHeadersFromResponse(<any>res);
         }, error => {
@@ -419,7 +419,7 @@ export class Angular2TokenService implements CanActivate {
      */
 
     // Try to load auth data
-    private _tryLoadAuthData() {
+    private _tryLoadAuthData(): void {
 
         let userType = this._getUserTypeByName(localStorage.getItem('userType'));
 
@@ -436,7 +436,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Parse Auth data from response
-    private _getAuthHeadersFromResponse(data: any){
+    private _getAuthHeadersFromResponse(data: any): void {
         let headers = data.headers;
 
         let authData: AuthData = {
@@ -451,7 +451,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Parse Auth data from post message
-    private _getAuthDataFromPostMessage(data: any){
+    private _getAuthDataFromPostMessage(data: any): void {
         let authData: AuthData = {
             accessToken:    data['auth_token'],
             client:         data['client_id'],
@@ -464,7 +464,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Try to get auth data from storage.
-    private _getAuthDataFromStorage() {
+    private _getAuthDataFromStorage(): void {
 
         let authData: AuthData = {
             accessToken:    localStorage.getItem('accessToken'),
@@ -479,7 +479,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     // Try to get auth data from url parameters.
-    private _getAuthDataFromParams() {
+    private _getAuthDataFromParams(): void {
         if(this._activatedRoute.queryParams) // Fix for Testing, needs to be removed later
             this._activatedRoute.queryParams.subscribe(queryParams => {
                 let authData: AuthData = {
@@ -502,7 +502,7 @@ export class Angular2TokenService implements CanActivate {
      */
 
     // Write auth data to storage
-    private _setAuthData(authData: AuthData) {
+    private _setAuthData(authData: AuthData): void {
 
         if (this._checkAuthData(authData)) {
 
@@ -620,7 +620,7 @@ export class Angular2TokenService implements CanActivate {
         return responseObserv;
     }
 
-    private _oAuthWindowResponseFilter(data: any) {
+    private _oAuthWindowResponseFilter(data: any): any {
         if(data.message == 'deliverCredentials' || data.message == 'authFailure')
             return data;
     }
