@@ -29,7 +29,7 @@ import { RESET_PASSWORD_FORM } from '../';
 })
 export class A2tResetPasswordComponent {
 
-    public _emailSend: boolean = false;
+    _emailSend: boolean = false;
 
     constructor(
         private _formService: A2tFormService,

@@ -18,7 +18,7 @@ import { SIGN_UP_FORM } from '../';
 })
 export class A2tSignUpComponent {
 
-    public _errors: string[];
+    _errors: string[];
 
     constructor(
         public _formService: A2tFormService,

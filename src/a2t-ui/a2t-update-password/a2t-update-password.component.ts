@@ -17,7 +17,7 @@ import { UPDATE_PASSWORD_FORM } from '../';
 })
 export class A2tUpdatePasswordComponent {
 
-    public _errors: string[];
+    _errors: string[];
 
     constructor(
         public _formService: A2tFormService,

@@ -18,7 +18,7 @@ import { SIGN_IN_FORM } from '../';
 })
 export class A2tSignInComponent {
 
-    public _errors: string[];
+    _errors: string[];
 
     constructor(
         public _formService: A2tFormService,
