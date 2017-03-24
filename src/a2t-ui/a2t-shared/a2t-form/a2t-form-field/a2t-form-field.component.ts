@@ -87,7 +87,7 @@ export class A2tFormFieldComponent implements OnInit {
     @Input() question:  BaseField;
     @Input() form:      FormGroup;
 
-    private _control:   AbstractControl;
+    _control:   AbstractControl;
 
     ngOnInit() {
         this._control = this.form.controls[this.question.key];
