@@ -58,8 +58,8 @@ module.exports = function (options) {
                     /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
                     helpers.root('src')
                 ),
-                new LoaderOptionsPlugin({
-                debug: true,
+            new LoaderOptionsPlugin({
+                debug: false,
                 options: { }
             }),
         ],
