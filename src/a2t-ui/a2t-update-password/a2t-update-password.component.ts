@@ -17,12 +17,12 @@ import { UPDATE_PASSWORD_FORM } from '../';
 })
 export class A2tUpdatePasswordComponent {
 
-    private _errors: string[];
+    public _errors: string[];
 
     constructor(
-        private _formService: A2tFormService,
-        private _sessionService: Angular2TokenService,
-        private _router: Router
+        public _formService: A2tFormService,
+        public _sessionService: Angular2TokenService,
+        public _router: Router
     ) {
         this._formService.initForm(UPDATE_PASSWORD_FORM);
         this._formService.submit$.subscribe(

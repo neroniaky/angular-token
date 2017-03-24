@@ -66,5 +66,5 @@ import { A2tFormFieldComponent } from './a2t-form-field/a2t-form-field.component
 })
 
 export class A2tFormComponent {
-    constructor(private _formService: A2tFormService) { }
+    constructor(public _formService: A2tFormService) { }
 }
