@@ -53,7 +53,7 @@
     "karma-remap-coverage": "0.1.4",
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "2.0.3",
-    "remap-istanbul": "0.9.1",
+    "remap-istanbul": "0.9.2",
     "rimraf": "2.6.1",
     "rxjs": "5.2.0",
     "source-map-loader": "0.2.0",
