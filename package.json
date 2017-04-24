@@ -44,7 +44,7 @@
     "http-server": "0.9.0",
     "ie-shim": "0.1.0",
     "istanbul-instrumenter-loader": "2.0.0",
-    "jasmine-core": "2.5.2",
+    "jasmine-core": "2.6.0",
     "karma": "1.6.0",
     "karma-chrome-launcher": "2.0.0",
     "karma-coverage": "1.1.1",
