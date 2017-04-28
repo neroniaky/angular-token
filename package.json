@@ -59,7 +59,7 @@
     "source-map-loader": "0.2.1",
     "ts-helpers": "1.1.2",
     "ts-node": "3.0.2",
-    "typescript": "2.2.2",
+    "typescript": "2.3.2",
     "webpack": "2.4.1",
     "zone.js": "0.8.5"
   },
