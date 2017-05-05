@@ -46,7 +46,7 @@
     "istanbul-instrumenter-loader": "2.0.0",
     "jasmine-core": "2.6.1",
     "karma": "1.6.0",
-    "karma-chrome-launcher": "2.0.0",
+    "karma-chrome-launcher": "2.1.1",
     "karma-coverage": "1.1.1",
     "karma-jasmine": "1.1.0",
     "karma-mocha-reporter": "2.2.3",
