@@ -1,6 +1,8 @@
 ![Angular2-Token](assets/angular2-token-logo.png)
 
 # Angular2-Token
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/neroniaky/angular2-token.svg)](https://greenkeeper.io/)
 [![Join the chat at https://gitter.im/lynndylanhurley/devise_token_auth](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/angular2-token/Lobby)
 [![npm version](https://badge.fury.io/js/angular2-token.svg)](https://badge.fury.io/js/angular2-token)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-token.svg)](https://npmjs.org/angular2-token)
