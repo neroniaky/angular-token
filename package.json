@@ -60,7 +60,7 @@
     "ts-helpers": "1.1.2",
     "ts-node": "3.0.4",
     "typescript": "2.3.2",
-    "webpack": "2.5.1",
+    "webpack": "2.6.0",
     "zone.js": "0.8.10"
   },
   "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
