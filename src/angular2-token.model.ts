@@ -21,7 +21,7 @@ export interface RegisterData {
 export interface UpdatePasswordData {
     password:               string;
     passwordConfirmation:   string;
-    passwordCurrent:        string;
+    passwordCurrent?:       string;
     userType?:              string;
     resetPasswordToken?:    string;
 }
