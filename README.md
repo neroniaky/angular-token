@@ -266,8 +266,7 @@ this._tokenService.validateToken().subscribe(
 
 ### .updatePassword()
 Updates the password for the logged in user.
-
-`updatePassword({password: string, passwordConfirmation: string, currentPassword?: string, userType?: string, resetPasswordToken?: string}): Observable<Response>`
+`updatePassword({password: string, passwordConfirmation: string, passwordCurrent: string, userType?: string, resetPasswordToken?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
