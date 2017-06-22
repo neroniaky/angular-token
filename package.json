@@ -24,7 +24,7 @@
   "devDependencies": {
     "@angular/common": "4.2.3",
     "@angular/compiler": "4.2.3",
-    "@angular/compiler-cli": "4.2.3",
+    "@angular/compiler-cli": "4.2.4",
     "@angular/core": "4.2.3",
     "@angular/forms": "4.2.3",
     "@angular/http": "4.2.3",
