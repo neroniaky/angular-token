@@ -368,6 +368,9 @@ export class Angular2TokenService implements CanActivate {
         let baseRequestOptions: RequestOptions;
         let baseHeaders:        { [key:string]: string; } = this.atOptions.globalOptions.headers;
 
+        // Get auth data from local storage
+        this.getAuthDataFromStorage();
+        
         // Merge auth headers to request if set
         if (this.atCurrentAuthData != null) {
             (<any>Object).assign(baseHeaders, {
