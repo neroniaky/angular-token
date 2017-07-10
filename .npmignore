@@ -2,7 +2,6 @@ node_modules
 npm-debug.log
 
 # Source Files
-src
 *.ts
 !*.d.ts
 
@@ -22,3 +21,5 @@ tsconfig.json
 
 # AoT
 *.ngsummary.json
+
+.idea
