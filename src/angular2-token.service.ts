@@ -77,7 +77,7 @@ export class Angular2TokenService implements CanActivate {
         return !!this.atCurrentAuthData;
     }
 
-    canActivate(): boolean {
+    canActivate(route, state): boolean {
         if (this.userSignedIn())
             return true;
         else {
@@ -85,7 +85,7 @@ export class Angular2TokenService implements CanActivate {
             if (this.atOptions.signInStoredUrlStorageKey) {
                 localStorage.setItem(
                     this.atOptions.signInStoredUrlStorageKey,
-                    window.location.pathname + window.location.search
+                    state.url
                 );
             }
 
