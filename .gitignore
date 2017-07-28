@@ -1,8 +1,4 @@
 # Compiled Files
-lib
-*.js
-*.map
-*.d.ts
 
 # Library directories
 node_modules
@@ -15,3 +11,6 @@ npm-debug.log
 
 # Ignore VSCode Config
 .vscode
+
+# not needed dist
+*.ngsummary.json
