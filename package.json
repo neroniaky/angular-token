@@ -1,6 +1,6 @@
 {
   "name": "angular2-token",
-  "version": "0.2.1",
+  "version": "0.2.0",
   "description": "Angular2 service for token based authentication",
   "main": "./angular2-token.js",
   "typings": "./angular2-token.d.ts",
