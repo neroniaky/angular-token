@@ -6,7 +6,7 @@
   "typings": "./angular2-token.d.ts",
   "scripts": {
     "test": "karma start",
-    "build": "rimraf lib && ngc -p src",
+    "build": "npm install && rimraf lib && ngc -p src",
     "prepublish": "npm run build"
   },
   "keywords": [
