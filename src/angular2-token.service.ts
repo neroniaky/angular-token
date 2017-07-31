@@ -74,6 +74,10 @@ export class Angular2TokenService implements CanActivate {
     ) { }
 
     userSignedIn(): boolean {
+        if (!localStorage.getItem('client')) {
+            //It means user signed out on another tab
+            return false;
+        }
         return !!this.atCurrentAuthData;
     }
 
