@@ -40,7 +40,7 @@
     "@types/source-map": "0.5.1",
     "@types/webpack": "3.0.5",
     "awesome-typescript-loader": "3.2.2",
-    "core-js": "2.4.1",
+    "core-js": "2.5.0",
     "http-server": "0.10.0",
     "ie-shim": "0.1.0",
     "istanbul-instrumenter-loader": "3.0.0",
