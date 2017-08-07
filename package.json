@@ -38,7 +38,7 @@
     "@types/node": "8.0.19",
     "@types/selenium-webdriver": "3.0.4",
     "@types/source-map": "0.5.1",
-    "@types/webpack": "3.0.5",
+    "@types/webpack": "3.0.6",
     "awesome-typescript-loader": "3.2.2",
     "core-js": "2.5.0",
     "http-server": "0.10.0",
