@@ -7,7 +7,8 @@
   "scripts": {
     "test": "karma start",
     "build": "rimraf lib && ngc -p src",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "prepare": "npm run build"
   },
   "keywords": [
     "angular2",
@@ -19,7 +20,8 @@
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
-    "@angular/router": "^4.0.0"
+    "@angular/router": "^4.0.0",
+    "rimraf": "2.6.1"
   },
   "devDependencies": {
     "@angular/common": "4.3.3",
@@ -54,7 +56,6 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "2.0.4",
     "remap-istanbul": "0.9.5",
-    "rimraf": "2.6.1",
     "rxjs": "5.4.2",
     "source-map-loader": "0.2.1",
     "ts-helpers": "1.1.2",
