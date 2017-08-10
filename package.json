@@ -22,7 +22,7 @@
     "@angular/router": "^4.0.0"
   },
   "devDependencies": {
-    "@angular/common": "4.3.3",
+    "@angular/common": "4.3.4",
     "@angular/compiler": "4.3.3",
     "@angular/compiler-cli": "4.3.3",
     "@angular/core": "4.3.3",
