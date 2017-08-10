@@ -28,7 +28,7 @@
     "@angular/core": "4.3.3",
     "@angular/forms": "4.3.3",
     "@angular/http": "4.3.3",
-    "@angular/platform-browser": "4.3.3",
+    "@angular/platform-browser": "4.3.4",
     "@angular/platform-browser-dynamic": "4.3.3",
     "@angular/platform-server": "4.3.3",
     "@angular/router": "4.3.3",
