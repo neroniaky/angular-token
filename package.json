@@ -39,7 +39,7 @@
     "@types/selenium-webdriver": "3.0.4",
     "@types/source-map": "0.5.1",
     "@types/webpack": "3.0.6",
-    "awesome-typescript-loader": "3.2.2",
+    "awesome-typescript-loader": "3.2.3",
     "core-js": "2.5.0",
     "http-server": "0.10.0",
     "ie-shim": "0.1.0",
