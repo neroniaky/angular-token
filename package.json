@@ -33,7 +33,7 @@
     "@angular/platform-server": "4.3.3",
     "@angular/router": "4.3.3",
     "@angular/animations": "4.3.3",
-    "@types/hammerjs": "2.0.34",
+    "@types/hammerjs": "2.0.35",
     "@types/jasmine": "2.5.53",
     "@types/node": "8.0.19",
     "@types/selenium-webdriver": "3.0.4",
