@@ -1,9 +1,3 @@
-# Compiled Files
-lib
-*.js
-*.map
-*.d.ts
-
 # Library directories
 node_modules
 coverage
