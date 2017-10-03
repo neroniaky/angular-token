@@ -372,7 +372,8 @@ export class Angular2TokenService implements CanActivate {
         let baseHeaders:        { [key:string]: string; } = this.atOptions.globalOptions.headers;
 
         // Get auth data from local storage
-        this.getAuthDataFromStorage();
+        if (isPlatformBrowser(this.platformId))
+            this.getAuthDataFromStorage();
 
         // Merge auth headers to request if set
         if (this.atCurrentAuthData != null) {
