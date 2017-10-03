@@ -65,6 +65,7 @@ export interface GlobalOptions {
 export interface Angular2TokenOptions {
     apiBase?:                   string;
     apiPath?:                   string;
+    hostUrl?:                   string;
 
     signInPath?:                string;
     signInRedirect?:            string;

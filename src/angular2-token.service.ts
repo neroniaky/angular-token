@@ -1,5 +1,6 @@
-import { Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, CanActivate } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import {
     Http,
     Response,
@@ -70,7 +71,8 @@ export class Angular2TokenService implements CanActivate {
     constructor(
         private http: Http,
         @Optional() private activatedRoute: ActivatedRoute,
-        @Optional() private router: Router
+        @Optional() private router: Router,
+        @Inject(PLATFORM_ID) protected platformId: Object
     ) { }
 
     userSignedIn(): boolean {
@@ -82,7 +84,7 @@ export class Angular2TokenService implements CanActivate {
             return true;
         else {
             // Store current location in storage (usefull for redirection after signing in)
-            if (this.atOptions.signInStoredUrlStorageKey) {
+            if (this.atOptions.signInStoredUrlStorageKey && isPlatformBrowser(this.platformId)) {
                 localStorage.setItem(
                     this.atOptions.signInStoredUrlStorageKey,
                     window.location.pathname + window.location.search
@@ -103,6 +105,7 @@ export class Angular2TokenService implements CanActivate {
         let defaultOptions: Angular2TokenOptions = {
             apiPath:                    null,
             apiBase:                    null,
+            hostUrl:                    null,
 
             signInPath:                 'auth/sign_in',
             signInRedirect:             null,
@@ -114,16 +117,16 @@ export class Angular2TokenService implements CanActivate {
 
             registerAccountPath:        'auth',
             deleteAccountPath:          'auth',
-            registerAccountCallback:    window.location.href,
+            registerAccountCallback:    ,
 
             updatePasswordPath:         'auth',
 
             resetPasswordPath:          'auth/password',
-            resetPasswordCallback:      window.location.href,
+            resetPasswordCallback:      isPlatformBrowser(this.platformId) ? window.location.href : null,
 
             userTypes:                  null,
 
-            oAuthBase:                  window.location.origin,
+            oAuthBase:                  isPlatformBrowser(this.platformId) ? window.location.origin : null,
             oAuthPaths: {
                 github:                 'auth/github'
             },
@@ -370,7 +373,7 @@ export class Angular2TokenService implements CanActivate {
 
         // Get auth data from local storage
         this.getAuthDataFromStorage();
-        
+
         // Merge auth headers to request if set
         if (this.atCurrentAuthData != null) {
             (<any>Object).assign(baseHeaders, {
