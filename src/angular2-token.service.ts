@@ -425,13 +425,14 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to load auth data
     private tryLoadAuthData(): void {
+        if (isPlatformBrowser(this.platformId)) {
+            let userType = this.getUserTypeByName(localStorage.getItem('userType'));
 
-        let userType = this.getUserTypeByName(localStorage.getItem('userType'));
+            if (userType)
+                this.atCurrentUserType = userType;
 
-        if (userType)
-            this.atCurrentUserType = userType;
-
-        this.getAuthDataFromStorage();
+            this.getAuthDataFromStorage();
+        }
 
         if(this.activatedRoute)
             this.getAuthDataFromParams();
