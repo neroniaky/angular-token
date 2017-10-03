@@ -117,7 +117,7 @@ export class Angular2TokenService implements CanActivate {
 
             registerAccountPath:        'auth',
             deleteAccountPath:          'auth',
-            registerAccountCallback:    ,
+            registerAccountCallback:    isPlatformBrowser(this.platformId) ? window.location.href : null,
 
             updatePasswordPath:         'auth',
 
