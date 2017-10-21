@@ -100,7 +100,7 @@ On successful sign in the user will be redirect to `restricted`.
 - [Multiple User Types](#multiple-user-types)
 - [Route Guards](#route-guards)
 - [Advanced Usage](#advanced-usage)
-    - [`.sendHttpRequest()`](#sendhttprequest)
+    - [`.request()`](#request)
     - [`.userSignedIn()`](#usersignedin)
     - [`.currentUserType`](#currentusertype)
     - [`.currentUserData`](#currentuserdata)
