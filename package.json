@@ -35,7 +35,7 @@
     "@angular/animations": "4.4.6",
     "@types/hammerjs": "2.0.35",
     "@types/jasmine": "2.6.0",
-    "@types/node": "8.0.46",
+    "@types/node": "8.0.47",
     "@types/selenium-webdriver": "3.0.8",
     "@types/source-map": "0.5.1",
     "@types/webpack": "3.0.13",
