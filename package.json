@@ -32,7 +32,7 @@
     "@angular/platform-browser-dynamic": "4.4.6",
     "@angular/platform-server": "4.4.6",
     "@angular/router": "4.4.6",
-    "@angular/animations": "4.4.6",
+    "@angular/animations": "5.0.0",
     "@types/hammerjs": "2.0.35",
     "@types/jasmine": "2.6.1",
     "@types/node": "8.0.46",
