@@ -144,6 +144,7 @@ constructor(private _tokenService: Angular2TokenService) {
         oAuthCallbackPath:          'oauth_callback',
         oAuthWindowType:            'newWindow',
         oAuthWindowOptions:         null,
+        oAuthBrowserCallback:       null,
 
         userTypes:                  null,
 

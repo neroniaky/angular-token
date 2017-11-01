@@ -1,5 +1,5 @@
-import { Injectable, Optional } from '@angular/core';
-import { ActivatedRoute, Router, CanActivate } from '@angular/router';
+import {Injectable, Optional} from '@angular/core';
+import {ActivatedRoute, Router, CanActivate} from '@angular/router';
 import {
     Http,
     Response,
@@ -10,12 +10,16 @@ import {
     RequestOptionsArgs
 } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/filter';
+
+import {InAppBrowser, InAppBrowserEvent} from '@ionic-native/in-app-browser';
+import {Platform} from 'ionic-angular';
+
 
 import {
     SignInData,
@@ -52,10 +56,10 @@ export class Angular2TokenService implements CanActivate {
         if (this.atCurrentAuthData != null) {
             return new Headers({
                 'access-token': this.atCurrentAuthData.accessToken,
-                'client':       this.atCurrentAuthData.client,
-                'expiry':       this.atCurrentAuthData.expiry,
-                'token-type':   this.atCurrentAuthData.tokenType,
-                'uid':          this.atCurrentAuthData.uid
+                'client': this.atCurrentAuthData.client,
+                'expiry': this.atCurrentAuthData.expiry,
+                'token-type': this.atCurrentAuthData.tokenType,
+                'uid': this.atCurrentAuthData.uid
             });
         }
 
@@ -67,11 +71,12 @@ export class Angular2TokenService implements CanActivate {
     private atCurrentAuthData: AuthData;
     private atCurrentUserData: UserData;
 
-    constructor(
-        private http: Http,
-        @Optional() private activatedRoute: ActivatedRoute,
-        @Optional() private router: Router
-    ) { }
+    constructor(private http: Http,
+                private iab: InAppBrowser,
+                public platform: Platform,
+                @Optional() private activatedRoute: ActivatedRoute,
+                @Optional() private router: Router) {
+    }
 
     userSignedIn(): boolean {
         return !!this.atCurrentAuthData;
@@ -90,7 +95,7 @@ export class Angular2TokenService implements CanActivate {
             }
 
             // Redirect user to sign in if signInRedirect is set
-            if(this.router && this.atOptions.signInRedirect)
+            if (this.router && this.atOptions.signInRedirect)
                 this.router.navigate([this.atOptions.signInRedirect]);
 
             return false;
@@ -101,40 +106,41 @@ export class Angular2TokenService implements CanActivate {
     init(options?: Angular2TokenOptions) {
 
         let defaultOptions: Angular2TokenOptions = {
-            apiPath:                    null,
-            apiBase:                    null,
+            apiPath: null,
+            apiBase: null,
 
-            signInPath:                 'auth/sign_in',
-            signInRedirect:             null,
-            signInStoredUrlStorageKey:  null,
+            signInPath: 'auth/sign_in',
+            signInRedirect: null,
+            signInStoredUrlStorageKey: null,
 
-            signOutPath:                'auth/sign_out',
-            validateTokenPath:          'auth/validate_token',
-            signOutFailedValidate:      false,
+            signOutPath: 'auth/sign_out',
+            validateTokenPath: 'auth/validate_token',
+            signOutFailedValidate: false,
 
-            registerAccountPath:        'auth',
-            deleteAccountPath:          'auth',
-            registerAccountCallback:    window.location.href,
+            registerAccountPath: 'auth',
+            deleteAccountPath: 'auth',
+            registerAccountCallback: window.location.href,
 
-            updatePasswordPath:         'auth',
+            updatePasswordPath: 'auth',
 
-            resetPasswordPath:          'auth/password',
-            resetPasswordCallback:      window.location.href,
+            resetPasswordPath: 'auth/password',
+            resetPasswordCallback: window.location.href,
 
-            userTypes:                  null,
+            userTypes: null,
 
-            oAuthBase:                  window.location.origin,
+            oAuthBase: window.location.origin,
             oAuthPaths: {
-                github:                 'auth/github'
+                github: 'auth/github'
             },
-            oAuthCallbackPath:          'oauth_callback',
-            oAuthWindowType:            'newWindow',
-            oAuthWindowOptions:         null,
+            oAuthCallbackPath: 'oauth_callback',
+            oAuthWindowType: 'inAppBrowser',
+            oAuthWindowOptions: null,
+            oAuthBrowserCallback: null,
 
             globalOptions: {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept':       'application/json'
+                    'Accept': 'application/json'
                 }
             }
         };
@@ -160,10 +166,10 @@ export class Angular2TokenService implements CanActivate {
             delete registerData.userType;
         }
 
-        registerData.password_confirmation  = registerData.passwordConfirmation;
+        registerData.password_confirmation = registerData.passwordConfirmation;
         delete registerData.passwordConfirmation;
 
-        registerData.confirm_success_url    = this.atOptions.registerAccountCallback;
+        registerData.confirm_success_url = this.atOptions.registerAccountCallback;
 
         return this.post(this.getUserPath() + this.atOptions.registerAccountPath, JSON.stringify(registerData));
     }
@@ -182,8 +188,8 @@ export class Angular2TokenService implements CanActivate {
             this.atCurrentUserType = this.getUserTypeByName(signInData.userType);
 
         let body = JSON.stringify({
-            email:      signInData.email,
-            password:   signInData.password
+            email: signInData.email,
+            password: signInData.password
         });
 
         let observ = this.post(this.getUserPath() + this.atOptions.signInPath, body);
@@ -200,7 +206,7 @@ export class Angular2TokenService implements CanActivate {
         let oAuthWindowType: string = this.atOptions.oAuthWindowType;
         let authUrl: string = this.getOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
-        if (oAuthWindowType == 'newWindow') {
+        if (oAuthWindowType == 'newWindow' || (oAuthWindowType == 'inAppBrowser' && !(this.platform.is('ios') || this.platform.is('android')))) {
             let oAuthWindowOptions = this.atOptions.oAuthWindowOptions;
             let windowOptions = '';
 
@@ -216,12 +222,48 @@ export class Angular2TokenService implements CanActivate {
                 `closebuttoncaption=Cancel${windowOptions}`
             );
             return this.requestCredentialsViaPostMessage(popup);
+        } else if (oAuthWindowType == 'inAppBrowser') {
+            let oAuthWindowOptions = this.atOptions.oAuthWindowOptions;
+            let windowOptions = '';
+
+            if (oAuthWindowOptions) {
+                for (let key in oAuthWindowOptions) {
+                    windowOptions += `,${key}=${oAuthWindowOptions[key]}`;
+                }
+            }
+
+            let browser = this.iab.create(
+                authUrl,
+                '_blank',
+                'location=no'
+            );
+            browser.on('loadstop').subscribe((ev: InAppBrowserEvent) => {
+                if (0 === ev.url.indexOf(this.atOptions.oAuthBrowserCallback)) {
+                    browser.executeScript({code: "requestCredentials();"})
+                        .then((credentials) => {
+                            // alert(JSON.stringify(credentials[0]));
+                            this.getAuthDataFromPostMessage(credentials[0]);
+
+                            let pollerObserv = Observable.interval(400);
+
+                            let pollerSubscription = pollerObserv.subscribe(() => {
+                                if (this.userSignedIn()) {
+                                    pollerSubscription.unsubscribe();
+                                    browser.close();
+                                }
+                            });
+
+                        })
+                }
+
+            });
         } else if (oAuthWindowType == 'sameWindow') {
             window.location.href = authUrl;
         } else {
             throw `Unsupported oAuthWindowType "${oAuthWindowType}"`;
         }
     }
+
 
     processOAuthCallback(): void {
         this.getAuthDataFromParams();
@@ -269,14 +311,14 @@ export class Angular2TokenService implements CanActivate {
 
         if (updatePasswordData.passwordCurrent == null) {
             args = {
-                password:               updatePasswordData.password,
-                password_confirmation:  updatePasswordData.passwordConfirmation
+                password: updatePasswordData.password,
+                password_confirmation: updatePasswordData.passwordConfirmation
             }
         } else {
             args = {
-                current_password:       updatePasswordData.passwordCurrent,
-                password:               updatePasswordData.password,
-                password_confirmation:  updatePasswordData.passwordConfirmation
+                current_password: updatePasswordData.passwordCurrent,
+                password: updatePasswordData.password,
+                password_confirmation: updatePasswordData.passwordConfirmation
             };
         }
 
@@ -297,8 +339,8 @@ export class Angular2TokenService implements CanActivate {
             this.atCurrentUserType = this.getUserTypeByName(resetPasswordData.userType);
 
         let body = JSON.stringify({
-            email:          resetPasswordData.email,
-            redirect_url:   this.atOptions.resetPasswordCallback
+            email: resetPasswordData.email,
+            redirect_url: this.atOptions.resetPasswordCallback
         });
 
         return this.post(this.getUserPath() + this.atOptions.resetPasswordPath, body);
@@ -312,52 +354,52 @@ export class Angular2TokenService implements CanActivate {
 
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url: this.getApiPath() + url,
             method: RequestMethod.Get
         }, options));
     }
 
     post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url: this.getApiPath() + url,
             method: RequestMethod.Post,
-            body:   body
+            body: body
         }, options));
     }
 
     put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url: this.getApiPath() + url,
             method: RequestMethod.Put,
-            body:   body
+            body: body
         }, options));
     }
 
     delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url: this.getApiPath() + url,
             method: RequestMethod.Delete
         }, options));
     }
 
     patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url: this.getApiPath() + url,
             method: RequestMethod.Patch,
-            body:   body
+            body: body
         }, options));
     }
 
     head(path: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request({
             method: RequestMethod.Head,
-            url:    this.getApiPath() + path
+            url: this.getApiPath() + path
         });
     }
 
     options(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url: this.getApiPath() + url,
             method: RequestMethod.Options
         }, options));
     }
@@ -366,19 +408,19 @@ export class Angular2TokenService implements CanActivate {
     request(options: RequestOptionsArgs): Observable<Response> {
 
         let baseRequestOptions: RequestOptions;
-        let baseHeaders:        { [key:string]: string; } = this.atOptions.globalOptions.headers;
+        let baseHeaders: { [key: string]: string; } = this.atOptions.globalOptions.headers;
 
         // Get auth data from local storage
         this.getAuthDataFromStorage();
-        
+
         // Merge auth headers to request if set
         if (this.atCurrentAuthData != null) {
             (<any>Object).assign(baseHeaders, {
                 'access-token': this.atCurrentAuthData.accessToken,
-                'client':       this.atCurrentAuthData.client,
-                'expiry':       this.atCurrentAuthData.expiry,
-                'token-type':   this.atCurrentAuthData.tokenType,
-                'uid':          this.atCurrentAuthData.uid
+                'client': this.atCurrentAuthData.client,
+                'expiry': this.atCurrentAuthData.expiry,
+                'token-type': this.atCurrentAuthData.tokenType,
+                'uid': this.atCurrentAuthData.uid
             });
         }
 
@@ -430,7 +472,7 @@ export class Angular2TokenService implements CanActivate {
 
         this.getAuthDataFromStorage();
 
-        if(this.activatedRoute)
+        if (this.activatedRoute)
             this.getAuthDataFromParams();
 
         if (this.atCurrentAuthData)
@@ -442,11 +484,11 @@ export class Angular2TokenService implements CanActivate {
         let headers = data.headers;
 
         let authData: AuthData = {
-            accessToken:    headers.get('access-token'),
-            client:         headers.get('client'),
-            expiry:         headers.get('expiry'),
-            tokenType:      headers.get('token-type'),
-            uid:            headers.get('uid')
+            accessToken: headers.get('access-token'),
+            client: headers.get('client'),
+            expiry: headers.get('expiry'),
+            tokenType: headers.get('token-type'),
+            uid: headers.get('uid')
         };
 
         this.setAuthData(authData);
@@ -455,11 +497,11 @@ export class Angular2TokenService implements CanActivate {
     // Parse Auth data from post message
     private getAuthDataFromPostMessage(data: any): void {
         let authData: AuthData = {
-            accessToken:    data['auth_token'],
-            client:         data['client_id'],
-            expiry:         data['expiry'],
-            tokenType:      'Bearer',
-            uid:            data['uid']
+            accessToken: data['auth_token'],
+            client: data['client_id'],
+            expiry: data['expiry'],
+            tokenType: 'Bearer',
+            uid: data['uid']
         };
 
         this.setAuthData(authData);
@@ -469,11 +511,11 @@ export class Angular2TokenService implements CanActivate {
     private getAuthDataFromStorage(): void {
 
         let authData: AuthData = {
-            accessToken:    localStorage.getItem('accessToken'),
-            client:         localStorage.getItem('client'),
-            expiry:         localStorage.getItem('expiry'),
-            tokenType:      localStorage.getItem('tokenType'),
-            uid:            localStorage.getItem('uid')
+            accessToken: localStorage.getItem('accessToken'),
+            client: localStorage.getItem('client'),
+            expiry: localStorage.getItem('expiry'),
+            tokenType: localStorage.getItem('tokenType'),
+            uid: localStorage.getItem('uid')
         };
 
         if (this.checkAuthData(authData))
@@ -482,14 +524,14 @@ export class Angular2TokenService implements CanActivate {
 
     // Try to get auth data from url parameters.
     private getAuthDataFromParams(): void {
-        if(this.activatedRoute.queryParams) // Fix for Testing, needs to be removed later
+        if (this.activatedRoute.queryParams) // Fix for Testing, needs to be removed later
             this.activatedRoute.queryParams.subscribe(queryParams => {
                 let authData: AuthData = {
-                    accessToken:    queryParams['token'] || queryParams['auth_token'],
-                    client:         queryParams['client_id'],
-                    expiry:         queryParams['expiry'],
-                    tokenType:      'Bearer',
-                    uid:            queryParams['uid']
+                    accessToken: queryParams['token'] || queryParams['auth_token'],
+                    client: queryParams['client_id'],
+                    expiry: queryParams['expiry'],
+                    tokenType: 'Bearer',
+                    uid: queryParams['uid']
                 };
 
                 if (this.checkAuthData(authData))
@@ -586,9 +628,9 @@ export class Angular2TokenService implements CanActivate {
     private getOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
         let url: string;
 
-        url =   `${this.atOptions.oAuthBase}/${oAuthPath}`;
-        url +=  `?omniauth_window_type=${windowType}`;
-        url +=  `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
+        url = `${this.atOptions.oAuthBase}/${oAuthPath}`;
+        url += `?omniauth_window_type=${windowType}`;
+        url += `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
 
         if (this.atCurrentUserType != null)
             url += `&resource_class=${this.atCurrentUserType.name}`;
@@ -623,7 +665,7 @@ export class Angular2TokenService implements CanActivate {
     }
 
     private oAuthWindowResponseFilter(data: any): any {
-        if(data.message == 'deliverCredentials' || data.message == 'authFailure')
+        if (data.message == 'deliverCredentials' || data.message == 'authFailure')
             return data;
     }
 

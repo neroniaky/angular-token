@@ -63,6 +63,11 @@
     "webpack": "3.8.1",
     "zone.js": "0.8.18"
   },
+  "dependencies": {
+    "@ionic-native/core": "^4.2.1",
+    "@ionic-native/in-app-browser": "^4.2.1",
+    "ionic-angular": "^3.6.1"
+  },
   "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
   "license": "MIT",
   "repository": {

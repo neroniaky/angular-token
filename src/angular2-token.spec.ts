@@ -3,7 +3,8 @@ import { MockBackend } from '@angular/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterState, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import {InAppBrowser, InAppBrowserEvent} from '@ionic-native/in-app-browser';
+import { Platform } from 'ionic-angular';
 import { Angular2TokenService } from './angular2-token.service';
 import {
 	SignInData,
@@ -60,7 +61,9 @@ describe('Angular2TokenService', () => {
 					useFactory: (backend, defaultOptions) => { return new Http(backend, defaultOptions) },
 					deps: [MockBackend, BaseRequestOptions]
 				},
-				Angular2TokenService
+				Angular2TokenService,
+				InAppBrowser,
+				Platform
 			]
 		});
 
