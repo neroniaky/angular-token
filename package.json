@@ -30,7 +30,7 @@
     "@angular/http": "4.4.6",
     "@angular/platform-browser": "4.4.6",
     "@angular/platform-browser-dynamic": "4.4.6",
-    "@angular/platform-server": "4.4.6",
+    "@angular/platform-server": "5.0.0",
     "@angular/router": "4.4.6",
     "@angular/animations": "4.4.6",
     "@types/hammerjs": "2.0.35",
