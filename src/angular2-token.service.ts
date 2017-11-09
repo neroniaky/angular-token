@@ -77,7 +77,7 @@ export class Angular2TokenService implements CanActivate {
         return !!this.atCurrentAuthData;
     }
 
-    canActivate(): boolean {
+    canActivate(route, state): boolean {
         if (this.userSignedIn())
             return true;
         else {
@@ -85,7 +85,7 @@ export class Angular2TokenService implements CanActivate {
             if (this.atOptions.signInStoredUrlStorageKey) {
                 localStorage.setItem(
                     this.atOptions.signInStoredUrlStorageKey,
-                    window.location.pathname + window.location.search
+                    state.url
                 );
             }
 
@@ -269,11 +269,13 @@ export class Angular2TokenService implements CanActivate {
 
         if (updatePasswordData.passwordCurrent == null) {
             args = {
+                email:                  updatePasswordData.email,
                 password:               updatePasswordData.password,
                 password_confirmation:  updatePasswordData.passwordConfirmation
             }
         } else {
             args = {
+                email:                  updatePasswordData.email,
                 current_password:       updatePasswordData.passwordCurrent,
                 password:               updatePasswordData.password,
                 password_confirmation:  updatePasswordData.passwordConfirmation
@@ -298,6 +300,8 @@ export class Angular2TokenService implements CanActivate {
 
         let body = JSON.stringify({
             email:          resetPasswordData.email,
+            adminToken:     localStorage.getItem("accessToken"),
+            password:       resetPasswordData.password,
             redirect_url:   this.atOptions.resetPasswordCallback
         });
 
@@ -370,7 +374,7 @@ export class Angular2TokenService implements CanActivate {
 
         // Get auth data from local storage
         this.getAuthDataFromStorage();
-        
+
         // Merge auth headers to request if set
         if (this.atCurrentAuthData != null) {
             (<any>Object).assign(baseHeaders, {

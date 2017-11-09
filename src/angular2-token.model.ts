@@ -19,6 +19,7 @@ export interface RegisterData {
 };
 
 export interface UpdatePasswordData {
+    email:                  string;
     password:               string;
     passwordConfirmation:   string;
     passwordCurrent?:       string;
@@ -28,6 +29,7 @@ export interface UpdatePasswordData {
 
 export interface ResetPasswordData {
     email:                  string;
+    password:               string;
     userType?:              string;
 }
 
