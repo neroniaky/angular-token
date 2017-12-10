@@ -58,7 +58,7 @@
     "rxjs": "5.5.0",
     "source-map-loader": "0.2.3",
     "ts-helpers": "1.1.2",
-    "ts-node": "3.3.0",
+    "ts-node": "4.0.0",
     "typescript": "2.5.3",
     "webpack": "3.8.1",
     "zone.js": "0.8.18"
