@@ -1,13 +1,12 @@
 {
   "name": "angular2-token",
-  "version": "0.2.0-beta.13",
+  "version": "0.2.0-beta.14",
   "description": "Angular2 service for token based authentication",
   "main": "./angular2-token.js",
   "typings": "./angular2-token.d.ts",
   "scripts": {
     "test": "karma start",
-    "build": "rimraf lib && ngc -p src",
-    "prepublish": "npm run build"
+    "build": "ng-packagr -p ng-package.json"
   },
   "keywords": [
     "angular2",
