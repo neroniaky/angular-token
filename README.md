@@ -10,11 +10,9 @@
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 Token based authentication service for Angular2 with multiple user support. Angular2-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
-Angular2-Token is currently in Alpha. Any contribution is much appreciated.
+Angular2-Token is currently in Beta. Any contribution is much appreciated.
 
-You can try out Angular2-Token [here](https://angular2-token.herokuapp.com/).
-
-The repository can be found [here](https://github.com/neroniaky/angular2-token-example).
+A sample application can be found [here](https://github.com/neroniaky/angular2-token-example).
 
 ## Installation
 
