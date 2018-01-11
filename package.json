@@ -59,7 +59,7 @@
     "ts-node": "4.1.0",
     "typescript": "2.5.3",
     "webpack": "3.10.0",
-    "zone.js": "0.8.19"
+    "zone.js": "0.8.20"
   },
   "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
   "license": "MIT",
