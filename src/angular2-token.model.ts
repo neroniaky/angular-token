@@ -1,7 +1,7 @@
 // Function Data
 
 export interface SignInData {
-    email:                  string;
+    login:                  string;
     password:               string;
     userType?:              string;
 }
@@ -84,6 +84,7 @@ export interface Angular2TokenOptions {
     resetPasswordCallback?:     string;
 
     userTypes?:                 UserType[];
+    loginField?:                string;
 
     oAuthBase?:                 string;
     oAuthPaths?:                { [key:string]: string; };

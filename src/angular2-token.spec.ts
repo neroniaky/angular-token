@@ -33,7 +33,7 @@ describe('Angular2TokenService', () => {
 	});
 
 	let signInData: SignInData = {
-		email: 'test@test.de',
+		login: 'test@test.de',
 		password: 'password'
 	}
 
@@ -87,7 +87,7 @@ describe('Angular2TokenService', () => {
 
 		mockBackend.connections.subscribe(
 			c => {
-				expect(c.request.getBody()).toEqual(JSON.stringify(signInData));
+				expect(c.request.getBody()).toEqual(JSON.stringify({"email":"test@test.de","password":"password"}));
 				expect(c.request.method).toEqual(RequestMethod.Post);
 				expect(c.request.url).toEqual('auth/sign_in');
 			}
@@ -138,7 +138,7 @@ describe('Angular2TokenService', () => {
 		);
 
 		tokenService.init({ apiPath: 'myapi', signInPath: 'myauth/mysignin' });
-		tokenService.signIn(signInData.email, signInData.password);
+		tokenService.signIn(signInData.login, signInData.password);
 	}));
 
 	it('signOut should send to configured path', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
@@ -225,6 +225,20 @@ describe('Angular2TokenService', () => {
 		tokenService.resetPassword('emxaple@example.org');
 	}));
 
+	it('signIn method should use custom loginField', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
+
+		mockBackend.connections.subscribe(
+			c => {
+				expect(c.request.getBody()).toEqual(JSON.stringify({"username":"test@test.de","password":"password"}));
+				expect(c.request.method).toEqual(RequestMethod.Post);
+				expect(c.request.url).toEqual('auth/sign_in');
+			}
+		);
+
+		tokenService.init({ loginField: 'username' });
+		tokenService.signIn(signInData);
+	}));
+
 	// Testing Token handling
 
 	it('signIn method should receive headers and set local storage', inject([Angular2TokenService, MockBackend], (tokenService, mockBackend) => {
@@ -239,7 +253,7 @@ describe('Angular2TokenService', () => {
 		);
 
 		tokenService.init();
-		tokenService.signIn(signInData.email, signInData.password);
+		tokenService.signIn(signInData.login, signInData.password);
 
 		expect(localStorage.getItem('accessToken')).toEqual(accessToken);
 		expect(localStorage.getItem('client')).toEqual(client);
