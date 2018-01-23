@@ -103,7 +103,7 @@ On successful sign in the user will be redirect to `restricted`.
     - [`.currentUserType`](#currentusertype)
     - [`.currentUserData`](#currentuserdata)
     - [`.currentAuthData`](#currentauthdata)
-- [Common Problems](#commonproblems)
+- [Common Problems](#common-problems)
 - [Development](#development)
     - [Testing](#testing)
     - [Credits](#credits)
