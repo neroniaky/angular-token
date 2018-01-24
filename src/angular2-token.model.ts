@@ -90,6 +90,7 @@ export interface Angular2TokenOptions {
     oAuthCallbackPath?:         string;
     oAuthWindowType?:           string;
     oAuthWindowOptions?:        { [key:string]: string; };
+    oAuthBrowserCallback?:      string;
 
     globalOptions?:             GlobalOptions;
 }

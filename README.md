@@ -142,6 +142,7 @@ constructor(private _tokenService: Angular2TokenService) {
         oAuthCallbackPath:          'oauth_callback',
         oAuthWindowType:            'newWindow',
         oAuthWindowOptions:         null,
+        oAuthBrowserCallback:       null,
 
         userTypes:                  null,
 
@@ -176,8 +177,9 @@ constructor(private _tokenService: Angular2TokenService) {
 | `oAuthBase?: string`                    | Configure the OAuth server (used for backends on a different url) |
 | `oAuthPaths?: { [key:string]: string }` | Sets paths for sign in with OAuth        |
 | `oAuthCallbackPath?:  string`           | Sets path for OAuth sameWindow callback  |
-| `oAuthWindowType?:`string`              | Window type for Oauth authentication     |
+| `oAuthWindowType?: string`              | Window type for Oauth authentication     |
 | `oAuthWindowOptions?: { [key:string]: string }` | Set additional options to pass into `window.open()` |
+| `oAuthBrowserCallback?:  string`        | Full url for the callback at the end of your server-side auth flow. e.g. `https://<YOUR API HERE>/auth/facebook/callback#_=_` |
 ### Global Options
 | Options                               | Description                                     |
 | ------------------------------------- | ----------------------------------------------- |
@@ -295,8 +297,13 @@ this._tokenService.resetPassword({
 ```
 
 ### .signInOAuth()
-Initiates OAuth authentication flow. Currently, it supports two window modes:
-`newWindow` (default) and `sameWindow` (settable in config as `oAuthWindowType`).
+Initiates OAuth authentication flow. Currently, it supports three window modes:
+`inAppBrowser` (default, for android and ios), `newWindow` (for desktop flow, falls back to this when running ionic
+serve) and `sameWindow` (settable in config as `oAuthWindowType`).
+
+- When `oAuthWindowType` is set to `inAppBrowser`, `.signInOAuth()` opens a new window and completes the login flow.
+Will return an observable in future.
+
 - When `oAuthWindowType` is set to `newWindow`, `.signInOAuth()` opens a new window and returns an observable.
 
 - When `oAuthWindowType` is set to `sameWindow`, `.signInOAuth()` returns nothing and redirects user to auth provider.
