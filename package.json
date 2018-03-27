@@ -38,7 +38,7 @@
     "@types/selenium-webdriver": "3.0.8",
     "@types/webpack": "3.8.2",
     "awesome-typescript-loader": "3.4.1",
-    "core-js": "2.5.3",
+    "core-js": "2.5.4",
     "http-server": "0.10.0",
     "ie-shim": "0.1.0",
     "istanbul-instrumenter-loader": "3.0.0",
