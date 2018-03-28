@@ -41,7 +41,7 @@
     "core-js": "2.5.3",
     "http-server": "0.10.0",
     "ie-shim": "0.1.0",
-    "istanbul-instrumenter-loader": "3.0.0",
+    "istanbul-instrumenter-loader": "3.0.1",
     "jasmine-core": "2.8.0",
     "karma": "2.0.0",
     "karma-chrome-launcher": "2.2.0",
