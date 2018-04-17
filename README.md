@@ -263,8 +263,22 @@ this._tokenService.validateToken().subscribe(
 ```
 
 ### .updatePassword()
-Updates the password for the logged in user.
-`updatePassword({password: string, passwordConfirmation: string, passwordCurrent: string, userType?: string, resetPasswordToken?: string}): Observable<Response>`
+Updates the password for the logged in user. Note that there are two main flows that this is used for - 
+a user changing their password while they are already logged in and a "forgot password" flow where the user is doing an 
+update via the link in a reset password email. 
+
+For a normal password update, you need to send the new password twice, for confirmation and you may also have to send 
+the current password for extra security. The setting "check_current_password_before_update" in the Devise Token Auth 
+library is used to control if the current password is required or not.
+
+For the reset password flow where the user is not logged in, this library does not currently support a password update 
+via this updatePassword call. This is because the call requires the auth headers to be created from the query strings
+in the redirected URL sent from the server once the email reset link is clicked. You will need to provide this
+functionality yourself and use the .request() method below to send an PUT to the password endpoint with the correct
+headers. Your code should copy over the client_id, expiry, token and uid query string values from the redirected URL
+into their respective header properties.
+
+`updatePassword({password: string, passwordConfirmation: string, passwordCurrent: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -272,7 +286,6 @@ this._tokenService.updatePassword({
     password:             'newPassword',
     passwordConfirmation: 'newPassword',
     passwordCurrent:      'oldPassword',
-    resetPasswordToken:   'resetPasswordToken',
 }).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
