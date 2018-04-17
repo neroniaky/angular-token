@@ -272,11 +272,11 @@ the current password for extra security. The setting "check_current_password_bef
 library is used to control if the current password is required or not.
 
 For the reset password flow where the user is not logged in, this library does not currently support a password update 
-via this updatePassword call. This is because the call requires the auth headers to be created from the query strings
-in the redirected URL sent from the server once the email reset link is clicked. You will need to provide this
-functionality yourself and use the .request() method below to send an PUT to the password endpoint with the correct
-headers. Your code should copy over the client_id, expiry, token and uid query string values from the redirected URL
-into their respective header properties.
+via this updatePassword call. This is because an update password call in that scenario requires the auth headers to be 
+created from the query strings in the redirected URL sent from the server once the email reset link is clicked. 
+You will need to provide this functionality yourself and use the .request() method below to send a PUT to the password 
+endpoint with the correct headers. Your code should copy over the client_id, expiry, token and uid query string 
+values from the redirected URL into their respective header properties.
 
 `updatePassword({password: string, passwordConfirmation: string, passwordCurrent: string, userType?: string}): Observable<Response>`
 
