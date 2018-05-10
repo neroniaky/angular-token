@@ -10,7 +10,7 @@ import {
     RequestOptionsArgs
 } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/fromEvent';
