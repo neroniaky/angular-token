@@ -5,10 +5,7 @@ import { ActivatedRoute, RouterState, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Angular2TokenService } from './angular2-token.service';
-import {
-	SignInData,
-	RegisterData
-} from './angular2-token.model';
+import { SignInData, RegisterData } from './angular2-token.model';
 
 describe('Angular2TokenService', () => {
 
