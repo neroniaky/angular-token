@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Angular2TokenService } from '../../angular2-token.service';
 
 import { RegisterData } from '../../angular2-token.model';
-import { A2tFormService } from '../a2t-shared';
-import { SIGN_UP_FORM } from '../';
+import { A2tFormService } from '../a2t-shared/a2t-form/a2t-form.service';
+import { SIGN_UP_FORM } from '../a2t-ui.forms';
 
 @Component({
     selector:       'a2t-sign-up',

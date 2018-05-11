@@ -3,7 +3,8 @@ import { ReactiveFormsModule }  from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { A2tFormComponent, A2tFormFieldComponent } from './a2t-form';
+import { A2tFormComponent } from './a2t-form/a2t-form.component';
+import { A2tFormFieldComponent } from './a2t-form/a2t-form-field/a2t-form-field.component';
 import { A2tLinksComponent } from './a2t-links/a2t-links.component';
 import { A2tErrorComponent } from './a2t-error/a2t-error.component';
 import { A2tHeadlineComponent } from './a2t-headline/a2t-headline.component';

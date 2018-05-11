@@ -13,7 +13,7 @@ export {
 
 export { 
     A2tUiModule
-} from './a2t-ui';
+} from './a2t-ui/a2t-ui.module';
 
 export { 
     Angular2TokenService 
