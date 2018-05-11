@@ -160,8 +160,13 @@ export class Angular2TokenService implements CanActivate {
             delete registerData.userType;
         }
 
-        registerData.password_confirmation  = registerData.passwordConfirmation;
-        delete registerData.passwordConfirmation;
+        if (
+            registerData.password_confirmation == null && 
+            registerData.passwordConfirmation != null
+        ) {
+            registerData.password_confirmation  = registerData.passwordConfirmation;
+            delete registerData.passwordConfirmation;
+        }
 
         registerData.confirm_success_url    = this.atOptions.registerAccountCallback;
 
