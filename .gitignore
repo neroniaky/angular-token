@@ -1,4 +1,4 @@
-# Compiled Files
+# Compiled files
 dist
 *.js
 *.map
@@ -13,5 +13,8 @@ npm-debug.log
 .DS_Store
 **/.DS_Store
 
-# Ignore VSCode Config
+# Ignore VSCode config
 .vscode
+
+# Ignore error files
+yarn-error.log
