@@ -42,8 +42,8 @@ A sample application can be found [here](https://github.com/neroniaky/angular2-t
 
 3. Inject `Angular2TokenService` into your main component and call `.init()`.
     ```javascript
-    constructor(private _tokenService: Angular2TokenService) {
-        this._tokenService.init();
+    constructor(tokenService: Angular2TokenService) {
+        this.tokenService.init();
     }
     ```
 
@@ -114,8 +114,8 @@ Configuration options can be passed as `Angular2TokenOptions` via `.init()`.
 
 ### Default Configuration
 ```javascript
-constructor(private _tokenService: Angular2TokenService) {
-    this._tokenService.init({
+constructor(private tokenService: Angular2TokenService) {
+    this.tokenService.init({
         apiBase:                    null,
         apiPath:                    null,
 
@@ -197,7 +197,7 @@ The optional parameter `type` specifies the name of UserType used for this sessi
 
 #### Example:
 ```javascript
-this._tokenService.signIn({
+this.tokenService.signIn({
     email:    'example@example.org',
     password: 'secretPassword'
 }).subscribe(
@@ -213,7 +213,7 @@ The signOut method destroys session and session storage.
 
 #### Example:
 ```javascript
-this._tokenService.signOut().subscribe(
+this.tokenService.signOut().subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -226,7 +226,7 @@ Sends a new user registration request to the Server.
 
 #### Example:
 ```javascript
-this._tokenService.registerAccount({
+this.tokenService.registerAccount({
     email:                'example@example.org',
     password:             'secretPassword',
     passwordConfirmation: 'secretPassword'
@@ -243,7 +243,7 @@ Deletes the account for the signed in user.
 
 #### Example:
 ```javascript
-this._tokenService.deleteAccount().subscribe(
+this.tokenService.deleteAccount().subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -256,7 +256,7 @@ Validates the current token with the server.
 
 #### Example:
 ```javascript
-this._tokenService.validateToken().subscribe(
+this.tokenService.validateToken().subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -268,7 +268,7 @@ Updates the password for the logged in user.
 
 #### Example:
 ```javascript
-this._tokenService.updatePassword({
+this.tokenService.updatePassword({
     password:             'newPassword',
     passwordConfirmation: 'newPassword',
     passwordCurrent:      'oldPassword',
@@ -286,7 +286,7 @@ Request a password reset from the server.
 
 #### Example:
 ```javascript
-this._tokenService.resetPassword({
+this.tokenService.resetPassword({
     email: 'example@example.org',
 }).subscribe(
     res =>      console.log(res),
@@ -308,7 +308,7 @@ this route and call `processOAuthCallback()` to fetch `AuthData` from params.
 #### Example:
 
 ```javascript
-this._tokenService.signInOAuth(
+this.tokenService.signInOAuth(
 'github'
 ).subscribe(
     res =>      console.log(res),
@@ -336,10 +336,10 @@ Callback component:
   template: ''
 })
 export class OauthCallbackComponent implements OnInit {
-  constructor(private _tokenService: Angular2TokenService) {}
+  constructor(private tokenService: Angular2TokenService) {}
 
   ngOnInit() {
-    this._tokenService.processOAuthCallback();
+    this.tokenService.processOAuthCallback();
   }
 }
 ```
@@ -357,7 +357,7 @@ If `apiPath` is configured it gets added in front of path.
 
 #### Example:
 ```javascript
-this._tokenService.get('my-resource/1').map(res => res.json()).subscribe(
+this.tokenService.get('my-resource/1').map(res => res.json()).subscribe(
     res =>      console.log(res),
     error =>    console.log(error)
 );
@@ -370,20 +370,20 @@ The user type is selected during sign in and persists until sign out.
 
 #### Example:
 ```javascript
-this._tokenService.init({
+this.tokenService.init({
     userTypes: [
         { name: 'ADMIN', path: 'admin' },
         { name: 'USER', path: 'user' }
     ]
 });
 
-this._tokenService.signIn({
+this.tokenService.signIn({
     email:    'example@example.com',
     password: 'secretPassword',
     userType: 'ADMIN'
 })
 
-this._tokenService.currentUserType; // ADMIN
+this.tokenService.currentUserType; // ADMIN
 ```
 
 ## Route Guards
@@ -416,7 +416,7 @@ More information can be found in the Angular2 API Reference [here](https://angul
 
 #### Example:
 ```javascript
-this._tokenService.request({
+this.tokenService.request({
     method: RequestMethod.Post,
     url:    'my-resource/1',
     data:   mydata
@@ -453,7 +453,7 @@ Returns current authentication data as an HTTP ready Header object.
 If you want to redirect to the protected URL after signing in, you need to set `signInStoredUrlStorageKey` and in your code you can do something like this
 
 ```js
-this._tokenService.signIn({
+this.tokenService.signIn({
     email:    'example@example.org',
     password: 'secretPassword'
 }).subscribe(
