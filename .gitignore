@@ -3,6 +3,7 @@ dist
 *.js
 *.map
 *.d.ts
+dist.tgz
 
 # Library directories
 node_modules
@@ -13,8 +14,8 @@ npm-debug.log
 .DS_Store
 **/.DS_Store
 
-# Ignore VSCode config
+# VSCode config
 .vscode
 
-# Ignore error files
+# Yarn
 yarn-error.log
