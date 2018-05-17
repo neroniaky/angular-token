@@ -61,7 +61,7 @@
     "source-map-loader": "0.2.3",
     "ts-helpers": "1.1.2",
     "ts-node": "6.0.3",
-    "ng-packagr": "2.4.4",
+    "ng-packagr": "2.4.5",
     "typescript": "2.7.2",
     "webpack": "4.8.2",
     "zone.js": "0.8.26"
