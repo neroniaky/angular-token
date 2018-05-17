@@ -20,7 +20,7 @@
     "@angular/router": ">=5"
   },
   "devDependencies": {
-    "@angular/cli": "6.0.1",
+    "@angular/cli": "6.0.2",
     "@angular/animations": "6.0.1",
     "@angular/common": "6.0.1",
     "@angular/compiler": "6.0.1",
