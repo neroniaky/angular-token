@@ -48,6 +48,11 @@ export class Angular2TokenService implements CanActivate {
         return this.atCurrentAuthData;
     }
 
+    set currentAuthData(authData: AuthData) {
+        if (this.checkAuthData(authData))
+            this.atCurrentAuthData = authData;
+    }
+
     get currentAuthHeaders(): Headers {
         if (this.atCurrentAuthData != null) {
             return new Headers({
