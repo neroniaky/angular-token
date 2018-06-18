@@ -1,0 +1,23 @@
+{
+  "name": "angular2-token",
+  "version": "6.0.0",
+  "repository": "https://github.com/neroniaky/angular2-token.git",
+  "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neroniaky/angular2-token/issues"
+  },
+  "homepage": "https://github.com/neroniaky/angular2-token#readme",
+  "keywords": [
+    "angular",
+    "devise token auth",
+    "token authentication"
+  ],
+
+  "peerDependencies": {
+    "@angular/common": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@angular/http": "^6.0.0",
+    "@angular/router": "^6.0.0"
+  }
+}
