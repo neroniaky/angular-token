@@ -36,7 +36,7 @@
     "@types/jasmine": "2.8.8",
     "@types/node": "10.3.3",
     "@types/selenium-webdriver": "3.0.10",
-    "@types/webpack": "4.4.0",
+    "@types/webpack": "4.4.1",
     "@types/tapable": "1.0.2",
     "awesome-typescript-loader": "5.0.0",
     "core-js": "2.5.7",
