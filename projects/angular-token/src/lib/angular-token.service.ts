@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, CanActivate } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, fromEvent, interval } from 'rxjs';
-import { pluck, filter, tap, share } from 'rxjs/operators';
+import { pluck, filter, tap, share, finalize } from 'rxjs/operators';
 
 import { ANGULAR_TOKEN_OPTIONS } from './angular-token.token';
 
@@ -217,17 +217,22 @@ export class AngularTokenService implements CanActivate {
 
   // Sign out request and delete storage
   signOut(): Observable<any> {
-    const observ = this._http.delete<any>(this.getServerPath() + this.atOptions.signOutPath);
+    const observ = this._http.delete<any>(this.getServerPath() + this.atOptions.signOutPath)
+          // Only remove the localStorage and clear the data after the call
+          .pipe(
+            finalize(() => {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('client');
+                localStorage.removeItem('expiry');
+                localStorage.removeItem('tokenType');
+                localStorage.removeItem('uid');
 
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('client');
-    localStorage.removeItem('expiry');
-    localStorage.removeItem('tokenType');
-    localStorage.removeItem('uid');
-
-    this.atCurrentAuthData = null;
-    this.atCurrentUserType = null;
-    this.atCurrentUserData = null;
+                this.atCurrentAuthData = null;
+                this.atCurrentUserType = null;
+                this.atCurrentUserData = null;
+              }
+            )
+          );
 
     return observ;
   }
