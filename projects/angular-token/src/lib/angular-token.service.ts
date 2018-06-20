@@ -177,7 +177,6 @@ export class AngularTokenService implements CanActivate {
     const observ = this._http.post(this.getServerPath() + this.atOptions.signInPath, body, { observe: 'response' }).pipe(share());
 
     observ.subscribe(res => this.atCurrentUserData = res.body['data'], _error => null);
-    this.handleResponse(observ);
 
     return observ;
   }
@@ -385,7 +384,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Parse Auth data from response
-  private getAuthHeadersFromResponse(data: any): void {
+  public getAuthHeadersFromResponse(data: any): void {
     const headers = data.headers;
 
     const authData: AuthData = {
@@ -442,16 +441,6 @@ export class AngularTokenService implements CanActivate {
       if (this.checkAuthData(authData)) {
         this.atCurrentAuthData = authData;
       }
-    });
-  }
-
-
-  // Check if response is complete and newer, then update storage
-  private handleResponse(response: Observable<any>): void {
-    response.subscribe(res => {
-      this.getAuthHeadersFromResponse(<any>res);
-    }, error => {
-      this.getAuthHeadersFromResponse(<any>error);
     });
   }
 
