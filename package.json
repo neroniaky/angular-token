@@ -8,7 +8,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-
     "build:lib": "ng build --prod angular-token",
     "test:lib": "ng test angular-token"
   },
