@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpInterceptor, HttpHandler } from '@angular/common/http';
-import { AngularTokenOptions } from './angular-token.model';
 
+import { AngularTokenOptions } from './angular-token.model';
 import { AngularTokenService } from './angular-token.service';
 
 import { Observable } from 'rxjs';
@@ -19,7 +19,8 @@ export class AngularTokenInterceptor implements HttpInterceptor {
     // Get auth data from local storage
     this._tokenService.getAuthDataFromStorage();
 
-    if (this._tokenService.currentAuthData != null) {
+    // Add the headers if the request is going to the configured server
+    if (this._tokenService.currentAuthData !== null && req.url.match(this._tokenService.apiPath)) {
       (<any>Object).assign(baseHeaders, {
         'access-token': this._tokenService.currentAuthData.accessToken,
         'client':       this._tokenService.currentAuthData.client,
