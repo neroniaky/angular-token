@@ -54,7 +54,7 @@ export class AngularTokenService implements CanActivate {
   private atCurrentUserData: UserData;
 
   constructor(
-    private _http: HttpClient,
+    private http: HttpClient,
     @Inject(ANGULAR_TOKEN_OPTIONS) config: any,
     @Optional() private activatedRoute: ActivatedRoute,
     @Optional() private router: Router
@@ -157,12 +157,12 @@ export class AngularTokenService implements CanActivate {
 
     registerData.confirm_success_url    = this.atOptions.registerAccountCallback;
 
-    return this._http.post(this.getServerPath() + this.atOptions.registerAccountPath, JSON.stringify(registerData));
+    return this.http.post(this.getServerPath() + this.atOptions.registerAccountPath, JSON.stringify(registerData));
   }
 
   // Delete Account
   deleteAccount(): Observable<any> {
-    return this._http.delete(this.getServerPath() + this.atOptions.deleteAccountPath);
+    return this.http.delete(this.getServerPath() + this.atOptions.deleteAccountPath);
   }
 
   // Sign in request and set storage
@@ -174,7 +174,7 @@ export class AngularTokenService implements CanActivate {
       password: signInData.password
     });
 
-    const observ = this._http.post(this.getServerPath() + this.atOptions.signInPath, body, { observe: 'response' }).pipe(share());
+    const observ = this.http.post(this.getServerPath() + this.atOptions.signInPath, body, { observe: 'response' }).pipe(share());
 
     observ.subscribe(res => this.atCurrentUserData = res.body['data'], _error => null);
 
@@ -220,7 +220,7 @@ export class AngularTokenService implements CanActivate {
 
   // Sign out request and delete storage
   signOut(): Observable<any> {
-    const observ = this._http.delete<any>(this.getServerPath() + this.atOptions.signOutPath)
+    const observ = this.http.delete<any>(this.getServerPath() + this.atOptions.signOutPath)
           // Only remove the localStorage and clear the data after the call
           .pipe(
             finalize(() => {
@@ -244,7 +244,7 @@ export class AngularTokenService implements CanActivate {
 
   // Validate token request
   validateToken(): Observable<any> {
-    const observ = this._http.get(this.getServerPath() + this.atOptions.validateTokenPath);
+    const observ = this.http.get(this.getServerPath() + this.atOptions.validateTokenPath);
 
     observ.subscribe(
       (res) => this.atCurrentUserData = res['data'],
@@ -284,7 +284,7 @@ export class AngularTokenService implements CanActivate {
     }
 
     const body = JSON.stringify(args);
-    return this._http.put(this.getServerPath() + this.atOptions.updatePasswordPath, body);
+    return this.http.put(this.getServerPath() + this.atOptions.updatePasswordPath, body);
   }
 
   // Reset password request
@@ -297,7 +297,7 @@ export class AngularTokenService implements CanActivate {
       redirect_url: this.atOptions.resetPasswordCallback
     });
 
-    return this._http.post(this.getServerPath() + this.atOptions.resetPasswordPath, body);
+    return this.http.post(this.getServerPath() + this.atOptions.resetPasswordPath, body);
   }
 
 
