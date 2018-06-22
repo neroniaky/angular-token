@@ -2,7 +2,11 @@
   "name": "angular-token",
   "version": "6.0.0",
   "repository": "https://github.com/neroniaky/angular2-token.git",
-  "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
+  "author": {
+    "name": "Jan-Philipp Riethmacher",
+    "email": "neroniaky@gmail.com",
+    "url": "https://github.com/neroniaky"
+  },
   "contributors": [
     {
       "name": "Arjen Brandenburgh",
@@ -23,8 +27,6 @@
 
   "peerDependencies": {
     "@angular/common": "^6.0.0",
-    "@angular/core": "^6.0.0",
-    "@angular/http": "^6.0.0",
-    "@angular/router": "^6.0.0"
+    "@angular/core": "^6.0.0"
   }
 }
