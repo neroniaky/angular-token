@@ -84,7 +84,7 @@ On successful sign in the user will be redirect to `restricted`.
 
 ## Content
 - [Configuration](#configuration)
-- [Service Methods](#methods)
+- [Service Methods](#service-methods)
     - [`.signIn()`](#signin)
     - [`.signOut()`](#signout)
     - [`.registerAccount()`](#registeraccount)
