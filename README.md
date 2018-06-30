@@ -1,3 +1,9 @@
+:wave: This library has been renamed to **Angular-Token**! :wave:
+
+Please migrate to the new NPM Package with `npm i angular-token` and follow the [migration guide](https://github.com/neroniaky/angular2-token/wiki/Migrate-to-Angular-Token-6.0)
+
+---
+
 ![Angular-Token](assets/angular-token-logo.png)
 
 # Angular-Token
@@ -10,22 +16,15 @@
 Token based authentication service for Angular with multiple user support. Angular-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
 Angular-Token is currently in Beta. Any contribution is much appreciated.
 
----
-:wave: This library has been renamed to **Angular-Token**! :wave:
-
-Please migrate to the new NPM Package with `npm i angular-token` and follow the guide in the [Angular-Token Wiki](https://github.com/neroniaky/angular2-token/wiki/Migrate-to-Angular-Token-6.0)
----
-
-
 ## Install
-#### 0. Set up a Rails with [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth)
+0. Set up a Rails with [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth)
 
-#### 1. Install Angular-Token via NPM with
+1. Install Angular-Token via NPM with
     ```bash
     npm install angular-token
     ```
 
-#### 2. Import and add `AngularTokenModule` to your main module and call the 'forRoot' function with the config. Make sure you have `HttpClientModule` imported too.
+2. Import and add `AngularTokenModule` to your main module and call the 'forRoot' function with the config. Make sure you have `HttpClientModule` imported too.
     ```javascript
     import { AngularTokenModule } from 'angular-token';
 
@@ -44,7 +43,7 @@ Please migrate to the new NPM Package with `npm i angular-token` and follow the 
     ```
 ## Use
 
-#### 3. Register your user
+3. Register your user
     ```javascript
     constructor(private tokenService: AngularTokenService) { }
 
@@ -58,7 +57,7 @@ Please migrate to the new NPM Package with `npm i angular-token` and follow the 
     );
     ```
 
-#### 4. Sign in your user
+4. Sign in your user
     ```javascript
     constructor(private tokenService: AngularTokenService) { }
 
@@ -71,7 +70,7 @@ Please migrate to the new NPM Package with `npm i angular-token` and follow the 
     );
     ```
 
-#### 5. Now you can use HttpClient to access private resources
+5. Now you can use HttpClient to access private resources
     ```javascript
     constructor(http: HttpClient) { }
 
