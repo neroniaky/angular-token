@@ -1,6 +1,6 @@
 :wave: This library has been renamed to **Angular-Token**! :wave:
 
-Please migrate to the new NPM Package with `npm i angular-token` and follow the [migration guide](https://github.com/neroniaky/angular2-token/wiki/Migrate-to-Angular-Token-6.0)
+Please follow the [migration guide](https://github.com/neroniaky/angular2-token/wiki/Migrate-to-Angular-Token-6.0)
 
 ---
 
@@ -84,7 +84,6 @@ Angular-Token is currently in Beta. Any contribution is much appreciated.
 
 In the Angular-Token Wiki you'll find lots of additional information and answers to the most frequently asked questions.
 
-### Content
 - [Configuration](configuration) - _Customize Angular-Token._
 - [Session Management](session-management) - _Methods to handel a session (sign in, sign out etc.)._
 - [Multiple User Types](multiple-user-types) - _Configure Angular-Token for multiple user types._
