@@ -13,8 +13,7 @@ Please follow the [migration guide](https://github.com/neroniaky/angular2-token/
 [![Build Status](https://travis-ci.org/neroniaky/angular-token.svg?branch=master)](https://travis-ci.org/neroniaky/angular-token)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
-Token based authentication service for Angular with multiple user support. Angular-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails.
-Angular-Token is currently in Beta. Any contribution is much appreciated.
+Token based authentication service for Angular with support for Http Interceptors and multiple user. Angular-Token works best with the [devise token auth](https://github.com/lynndylanhurley/devise_token_auth) gem for Rails. Any contribution is much appreciated.
 
 ## Install
 0. Set up a Rails with [Devise Token Auth](https://github.com/lynndylanhurley/devise_token_auth)
@@ -84,13 +83,13 @@ Angular-Token is currently in Beta. Any contribution is much appreciated.
 
 In the Angular-Token Wiki you'll find lots of additional information and answers to the most frequently asked questions.
 
-- [Configuration](configuration) - _Customize Angular-Token._
-- [Session Management](session-management) - _Methods to handel a session (sign in, sign out etc.)._
-- [Multiple User Types](multiple-user-types) - _Configure Angular-Token for multiple user types._
-- [Routing](routing) - _Use the Angular-Token routing helpers._
-- [Service Methods](service-methods) - _More advanced status methods Angular-Token provides._
-- [Common Problems](common-problems) - _Commonly encountered problems._
-- [Development](development) - _How to contribute to Angular-Token._
+- [Configuration](https://github.com/neroniaky/angular2-token/wiki/configuration) - _Customize Angular-Token._
+- [Session Management](https://github.com/neroniaky/angular2-token/wiki/session-management) - _Methods to handel a session (sign in, sign out etc.)._
+- [Multiple User Types](https://github.com/neroniaky/angular2-token/wiki/multiple-user-types) - _Configure Angular-Token for multiple user types._
+- [Routing](https://github.com/neroniaky/angular2-token/wiki/routing) - _Use the Angular-Token routing helpers._
+- [Service Methods](https://github.com/neroniaky/angular2-token/wiki/service-methods) - _More advanced status methods Angular-Token provides._
+- [Common Problems](https://github.com/neroniaky/angular2-token/wiki/common-problems) - _Commonly encountered problems._
+- [Development](https://github.com/neroniaky/angular2-token/wiki/development) - _How to contribute to Angular-Token._
 
 ## Contributors
 
