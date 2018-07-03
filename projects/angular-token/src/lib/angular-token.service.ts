@@ -47,6 +47,10 @@ export class AngularTokenService implements CanActivate {
     return this.atOptions.apiPath;
   }
 
+  get apiBase(): any {
+    return this.atOptions.apiBase;
+  }
+
 
   private atOptions: AngularTokenOptions;
   private atCurrentUserType: UserType;
