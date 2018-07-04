@@ -44,7 +44,7 @@ export class AngularTokenInterceptor implements HttpInterceptor {
 
   // Parse Auth data from response
   private handleResponse(res: any): void {
-    if ((res instanceof HttpResponse || res instanceof HttpErrorResponse) && res.url.match(this.tokenService.apiPath)) {
+    if ((res instanceof HttpResponse || res instanceof HttpErrorResponse) && res.url.match(this.tokenService.apiBase)) {
         this.tokenService.getAuthHeadersFromResponse(<any>res);
     }
   }
