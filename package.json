@@ -38,7 +38,7 @@
     "@types/selenium-webdriver": "3.0.10",
     "@types/webpack": "4.4.0",
     "@types/tapable": "1.0.2",
-    "awesome-typescript-loader": "5.0.0",
+    "awesome-typescript-loader": "5.1.0",
     "core-js": "2.5.7",
     "http-server": "0.11.1",
     "ie-shim": "0.1.0",
