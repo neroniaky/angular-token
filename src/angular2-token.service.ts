@@ -313,14 +313,14 @@ export class Angular2TokenService implements CanActivate {
 
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url:    this.getApiPath(url),
             method: RequestMethod.Get
         }, options));
     }
 
     post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url:    this.getApiPath(url),
             method: RequestMethod.Post,
             body:   body
         }, options));
@@ -328,7 +328,7 @@ export class Angular2TokenService implements CanActivate {
 
     put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url:    this.getApiPath(url),
             method: RequestMethod.Put,
             body:   body
         }, options));
@@ -336,14 +336,14 @@ export class Angular2TokenService implements CanActivate {
 
     delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url:    this.getApiPath(url),
             method: RequestMethod.Delete
         }, options));
     }
 
     patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url:    this.getApiPath(url),
             method: RequestMethod.Patch,
             body:   body
         }, options));
@@ -352,13 +352,13 @@ export class Angular2TokenService implements CanActivate {
     head(path: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request({
             method: RequestMethod.Head,
-            url:    this.getApiPath() + path
+            url:    this.getApiPath(path)
         });
     }
 
     options(url: string, options?: RequestOptionsArgs): Observable<Response> {
         return this.request(this.mergeRequestOptionsArgs({
-            url:    this.getApiPath() + url,
+            url:    this.getApiPath(url),
             method: RequestMethod.Options
         }, options));
     }
@@ -561,14 +561,17 @@ export class Angular2TokenService implements CanActivate {
             return this.atCurrentUserType.path + '/';
     }
 
-    private getApiPath(): string {
+    private getApiPath(endPoint: string = ''): string {
         let constructedPath = '';
 
-        if (this.atOptions.apiBase != null)
+        if (this.atOptions.apiBase !== null)
             constructedPath += this.atOptions.apiBase + '/';
 
-        if (this.atOptions.apiPath != null)
+        if (this.atOptions.apiPath !== null)
             constructedPath += this.atOptions.apiPath + '/';
+
+        constructedPath += endPoint;
+        constructedPath = constructedPath.replace(/([^:]\/)\/+/g, "$1");
 
         return constructedPath;
     }
