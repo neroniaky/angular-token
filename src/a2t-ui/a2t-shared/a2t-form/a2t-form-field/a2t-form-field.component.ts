@@ -11,7 +11,6 @@ import { BaseField } from '../../../a2t-ui.forms';
 
             <label
                 [attr.for]="question.key"
-                [style.color]="labelColor"
                 *ngIf="_control.pristine">
                 {{question.label}}
             </label>

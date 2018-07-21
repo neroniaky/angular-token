@@ -1,6 +1,19 @@
 {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
-    "lib": {
-      "entryFile": "src/public_api.ts"
+    "name": "angular2-token",
+    "version": "0.2.0",
+    "repository": "https://github.com/neroniaky/angular2-token.git",
+    "author": "Jan-Philipp Riethmacher <neroniaky@gmail.com>",
+    "license": "MIT",
+    "peerDependencies": {
+      "@angular/common": "^5.0.0 || ^6.0.0",
+      "@angular/core": "^5.0.0 || ^6.0.0",
+      "@angular/http": "^5.0.0 || ^6.0.0",
+      "@angular/router": "^5.0.0 || ^6.0.0"
+    },
+    "ngPackage": {
+      "lib": {
+        "entryFile": "src/public_api.ts"
+      }
     }
   }

@@ -1,8 +1,9 @@
-# Compiled Files
+# Compiled files
 dist
 *.js
 *.map
 *.d.ts
+dist.tgz
 
 # Library directories
 node_modules
@@ -18,3 +19,6 @@ npm-debug.log
 
 # JetBrains
 .idea
+
+# Yarn
+yarn-error.log
