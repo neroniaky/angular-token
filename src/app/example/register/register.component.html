@@ -1,0 +1,45 @@
+<div class="col-md-6">
+	<div class="card card-block">
+		<div class="card-body">
+
+			<h4 class="card-title">Register</h4>
+
+			<form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+				<div class="form-group">
+					<label for="formGroupExampleInput">Login</label>
+					<input type="text"
+						class="form-control"
+						placeholder="Login"
+						required
+						[(ngModel)]="registerData.login"
+						name="login">
+				</div>
+				<div class="form-group">
+					<label for="formGroupExampleInput">Password</label>
+					<input type="password"
+						class="form-control"
+						placeholder="Password"
+						required
+						[(ngModel)]="registerData.password"
+						name="password">
+				</div>
+				<div class="form-group">
+					<label for="formGroupExampleInput">Password Confirmation</label>
+					<input type="password"
+						class="form-control"
+						placeholder="Password Confirmation"
+						required
+						[(ngModel)]="registerData.passwordConfirmation"
+						name="passwordConfirmation">
+				</div>
+				<button
+					type="submit"
+					class="btn btn-primary"
+					[disabled]="!registerForm.form.valid">Register</button>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="col-md-6">
+	<app-output [data]="output"></app-output>
+</div>

@@ -1,0 +1,20 @@
+<div class="col-md-6">
+	<div class="card card-block">
+		<div class="card-body">
+
+			<h4 class="card-title">Sign Out</h4>
+
+			<form #signOutForm="ngForm" (ngSubmit)="onSubmit()">
+				<button
+					type="submit"
+					class="btn btn-primary">
+					Sign Out
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="col-md-6">
+	<app-output [data]="output"></app-output>
+</div>

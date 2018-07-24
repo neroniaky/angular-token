@@ -1,0 +1,32 @@
+{
+  "name": "angular-token",
+  "version": "6.0.0-rc.3",
+  "repository": "https://github.com/neroniaky/angular-token.git",
+  "author": {
+    "name": "Jan-Philipp Riethmacher",
+    "email": "neroniaky@gmail.com",
+    "url": "https://github.com/neroniaky"
+  },
+  "contributors": [
+    {
+      "name": "Arjen Brandenburgh",
+      "email": "mail@arjenbrandenburgh.nl",
+      "url": "https://github.com/arjenbrandenburgh"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/neroniaky/angular-token/issues"
+  },
+  "homepage": "https://github.com/neroniaky/angular-token#readme",
+  "keywords": [
+    "angular",
+    "devise token auth",
+    "token authentication"
+  ],
+
+  "peerDependencies": {
+    "@angular/common": "^6.0.0",
+    "@angular/core": "^6.0.0"
+  }
+}
