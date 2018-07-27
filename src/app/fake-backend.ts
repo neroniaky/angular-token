@@ -29,36 +29,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // Check if password matches password confimation
         if (body.password !== body.password_confirmation) {
-
-          const mybody = {
-            status: 'error',
-            data: {
-              id: null,
-              provider: 'email',
-              uid: '',
-              name: null,
-              nickname: null,
-              image: null,
-              email: "test@test.de",
-              created_at: null,
-              updated_at: null
-            }
-          }
-
-          return of(new HttpResponse({ status: 422 , body: mybody }));
-        }
-
-        // Check if login is email
-        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (re.test(body.email)) {
           return of(this.registerError(body.email));
         }
 
-        console.log("test");
-
+        // Check if login is email
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if (!re.test(body.email)) {
+          return of(this.registerError(body.email));
+        }
 
         // Check if login already exists
-        let duplicateUser = users.filter(user => { return user.email === body.email; }).length;
+        const duplicateUser = users.filter(user => { return user.email === body.email; }).length;
         if (duplicateUser) {
           return of(this.registerError(body.email));
         }
@@ -67,19 +48,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           uid: body.email,
           id: users.length + 1,
           email: body.email,
-          provider: "email",
+          provider: 'email',
           name: null,
           nickname: null,
           image: null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
-        }
+        };
 
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
 
         // respond 200 OK
-        return of(new HttpResponse({ body: newUser, status: 200 }));
+        return of(new HttpResponse({ body: newUser, url: 'http://localhost:3000/auth', status: 200 }));
       }
 
         /*
@@ -175,7 +156,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   registerError(email: string) {
-    return new HttpResponse({ status: 422 , body: {
+    return new HttpResponse({ status: 422, url: 'http://localhost:3000/auth', body: {
       status: 'error',
       data: {
         id: null,
