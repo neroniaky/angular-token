@@ -72,16 +72,36 @@ describe('AngularTokenService', () => {
     passwordConfirmation: 'password'
   };
 
+  // Register test data
+  const registerCustomFieldsData: RegisterData = {
+    login: 'test@test.de',
+    first_name: 'John',
+    last_name: 'Doe',
+    password: 'password',
+    passwordConfirmation: 'password'
+  };
+
+  const registerCustomFieldsDataOutput = {
+    email: 'test@test.de',
+    first_name: 'John',
+    last_name: 'Doe',
+    password: 'password',
+    password_confirmation: 'password',
+    confirm_success_url: 	window.location.href
+  };
+
   const registerDataOutput = {
     email: 'test@test.de',
     password: 'password',
-    password_confirmation: 'password'
+    password_confirmation: 'password',
+    confirm_success_url: 	window.location.href
   };
 
   const registerCustomDataOutput = {
     username: 'test@test.de',
     password: 'password',
-    password_confirmation: 'password'
+    password_confirmation: 'password',
+    confirm_success_url: 	window.location.href
   };
 
   // Update password data
@@ -236,16 +256,31 @@ describe('AngularTokenService', () => {
       });
     });
 
-    it('registerAccount should POST data', () => {
+    describe('registerAccount should POST data', () => {
+      it('with standard fields', () => {
 
-      service.registerAccount(registerData).subscribe();
+        service.registerAccount(registerData).subscribe();
 
-      const req = backend.expectOne({
-        url: 'auth',
-        method: 'POST'
+        const req = backend.expectOne({
+          url: 'auth',
+          method: 'POST'
+        });
+
+        expect(req.request.body).toEqual(registerDataOutput);
       });
 
-      expect(req.request.body).toEqual(registerDataOutput);
+      it('with custom fields', () => {
+
+        service.registerAccount(registerCustomFieldsData).subscribe();
+
+        const req = backend.expectOne({
+          url: 'auth',
+          method: 'POST'
+        });
+
+        expect(req.request.body).toEqual(registerCustomFieldsDataOutput);
+      });
+
     });
 
     it('validateToken should GET', () => {

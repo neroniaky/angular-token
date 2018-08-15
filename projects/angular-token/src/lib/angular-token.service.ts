@@ -135,6 +135,8 @@ export class AngularTokenService implements CanActivate {
   // Register request
   registerAccount(registerData: RegisterData): Observable<any> {
 
+    registerData = Object.assign({}, registerData);
+
     if (registerData.userType == null) {
       this.userType = null;
     } else {
@@ -146,19 +148,17 @@ export class AngularTokenService implements CanActivate {
       registerData.password_confirmation == null &&
       registerData.passwordConfirmation != null
     ) {
-      registerData.password_confirmation  = registerData.passwordConfirmation;
+      registerData.password_confirmation = registerData.passwordConfirmation;
       delete registerData.passwordConfirmation;
     }
 
-    const body = {
-      [this.options.loginField]: registerData.login,
-      password: registerData.password,
-      password_confirmation: registerData.password_confirmation,
-    };
+    const login = registerData.login;
+    delete registerData.login;
+    registerData[this.options.loginField] = login;
 
     registerData.confirm_success_url = this.options.registerAccountCallback;
 
-    return this.http.post(this.getServerPath() + this.options.registerAccountPath, body);
+    return this.http.post(this.getServerPath() + this.options.registerAccountPath, registerData);
   }
 
   // Delete Account
