@@ -25,10 +25,18 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: process.env.CI
+      ? ['ChromeCi']
+      : ['ChromeNoSandbox'],
 
     //--- Custom Config for Travis CI ---
     customLaunchers: {
+      ChromeCi: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox'
+        ]
+      },
       ChromeNoSandbox: {
         base: 'Chrome',
         flags: ['--no-sandbox']
