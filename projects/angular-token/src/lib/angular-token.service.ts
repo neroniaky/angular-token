@@ -1,9 +1,10 @@
-import { Injectable, Optional, Inject } from '@angular/core';
+import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, CanActivate } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformServer } from '@angular/common';
 
 import { Observable, fromEvent, interval } from 'rxjs';
-import { pluck, filter, tap, share, finalize } from 'rxjs/operators';
+import { pluck, filter, share, finalize } from 'rxjs/operators';
 
 import { ANGULAR_TOKEN_OPTIONS } from './angular-token.token';
 
@@ -53,9 +54,20 @@ export class AngularTokenService implements CanActivate {
   constructor(
     private http: HttpClient,
     @Inject(ANGULAR_TOKEN_OPTIONS) config: any,
+    @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() private activatedRoute: ActivatedRoute,
     @Optional() private router: Router
   ) {
+    if (isPlatformServer(platformId)) {
+      window = {
+        open: () => null,
+        location: {
+          href: '/',
+          origin: '/'
+        }
+      } as Window;
+    }
+
     const defaultOptions: AngularTokenOptions = {
       apiPath:                    null,
       apiBase:                    null,
