@@ -165,7 +165,7 @@ export class AngularTokenService implements CanActivate {
     }
 
     if (
-      additionalData != null
+      additionalData != undefined
     ) {
       registerData.additionalData = additionalData;
     }
@@ -187,12 +187,23 @@ export class AngularTokenService implements CanActivate {
   // Sign in request and set storage
   signIn(signInData: SignInData, additionalData?: any): Observable<any> {
     this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
-
-    const body = {
-      [this.options.loginField]: signInData.login,
-      password: signInData.password,
-      additionalData: additionalData
-    };
+    
+    if (
+      additionalData != undefined
+    ){
+      const body = {
+        [this.options.loginField]: signInData.login,
+        password: signInData.password,
+        additionalData: additionalData
+      };
+      
+    } else {
+      const body = {
+        [this.options.loginField]: signInData.login,
+        password: signInData.password
+      };
+    }
+    
 
     const observ = this.http.post(this.getServerPath() + this.options.signInPath, body, { observe: 'response' }).pipe(share());
 
