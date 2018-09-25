@@ -188,20 +188,15 @@ export class AngularTokenService implements CanActivate {
   signIn(signInData: SignInData, additionalData?: any): Observable<any> {
     this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
     
+    const body = {
+      [this.options.loginField]: signInData.login,
+      password: signInData.password
+    };
+
     if (
       additionalData != undefined
-    ){
-      const body = {
-        [this.options.loginField]: signInData.login,
-        password: signInData.password,
-        additionalData: additionalData
-      };
-      
-    } else {
-      const body = {
-        [this.options.loginField]: signInData.login,
-        password: signInData.password
-      };
+    ) {
+      body.additionalData = additionalData
     }
     
 
