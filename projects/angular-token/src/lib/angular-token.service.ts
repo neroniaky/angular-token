@@ -145,7 +145,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Register request
-  registerAccount(registerData: RegisterData, additionalData?: [key: string]: number | string): Observable<any> {
+  registerAccount(registerData: RegisterData, additionalData?: any): Observable<any> {
 
     registerData = Object.assign({}, registerData);
 
@@ -185,7 +185,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Sign in request and set storage
-  signIn(signInData: SignInData, additionalData?: [key: string]: number | string): Observable<any> {
+  signIn(signInData: SignInData, additionalData?: any): Observable<any> {
     this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
 
     const body = {
