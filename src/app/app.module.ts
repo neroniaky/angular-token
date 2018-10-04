@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { AngularTokenModule } from 'angular-token';
+import { AngularTokenModule } from '../../projects/angular-token/src/public_api';
 
 import { AppComponent } from './app.component';
 import { ExampleModule } from './example/example.module';

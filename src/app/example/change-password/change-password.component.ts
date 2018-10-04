@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-import { AngularTokenService, UpdatePasswordData } from 'angular-token';
+import { Component } from '@angular/core';
+import { AngularTokenService, UpdatePasswordData } from '../../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-change-password',

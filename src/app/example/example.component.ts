@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AngularTokenService } from 'angular-token';
+import { AngularTokenService } from '../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-example',
