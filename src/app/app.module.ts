@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { ExampleModule } from './example/example.module';
 import { RestrictedModule } from './restricted/restricted.module';
 import { routes } from './app.routes';
+import { fakeBackendProvider } from './fake-backend';
+
 
 @NgModule({
   imports: [
@@ -22,7 +24,8 @@ import { routes } from './app.routes';
     })
   ],
   providers: [
-    AngularTokenModule
+    AngularTokenModule,
+    fakeBackendProvider
   ],
   declarations: [ AppComponent ],
   bootstrap: [ AppComponent ]
