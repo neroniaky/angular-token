@@ -112,6 +112,14 @@ export class AngularTokenService implements CanActivate {
     this.tryLoadAuthData();
   }
 
+  setTokenOptions(options: any) {
+    this.options = (<any>Object).assign(this.options, options);
+  }
+
+  getTokenOption(key: string): string {
+    return this.options[key]
+  }
+
   userSignedIn(): boolean {
       return !!this.authData;
   }
