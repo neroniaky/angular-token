@@ -50,6 +50,9 @@ export class AngularTokenService implements CanActivate {
   private userType: UserType;
   private authData: AuthData;
   private userData: UserData;
+  private global: Window | any;
+
+  private localStorage: Storage | any = {};
 
   constructor(
     private http: HttpClient,
@@ -58,14 +61,22 @@ export class AngularTokenService implements CanActivate {
     @Optional() private activatedRoute: ActivatedRoute,
     @Optional() private router: Router
   ) {
+    this.global = (typeof window !== 'undefined') ? window : {};
+
     if (isPlatformServer(platformId)) {
-      window = {
+      this.global = {
         open: () => null,
         location: {
           href: '/',
           origin: '/'
         }
-      } as Window;
+      };
+
+      this.localStorage.setItem = () => null;
+      this.localStorage.getItem = () => null;
+      this.localStorage.removeItem = () => null;
+    } else {
+      this.localStorage = localStorage;
     }
 
     const defaultOptions: AngularTokenOptions = {
@@ -82,17 +93,17 @@ export class AngularTokenService implements CanActivate {
 
       registerAccountPath:        'auth',
       deleteAccountPath:          'auth',
-      registerAccountCallback:    window.location.href,
+      registerAccountCallback:    this.global.location.href,
 
       updatePasswordPath:         'auth',
 
       resetPasswordPath:          'auth/password',
-      resetPasswordCallback:      window.location.href,
+      resetPasswordCallback:      this.global.location.href,
 
       userTypes:                  null,
       loginField:                 'email',
 
-      oAuthBase:                  window.location.origin,
+      oAuthBase:                  this.global.location.origin,
       oAuthPaths: {
         github:                   'auth/github'
       },
@@ -122,7 +133,7 @@ export class AngularTokenService implements CanActivate {
     } else {
       // Store current location in storage (usefull for redirection after signing in)
       if (this.options.signInStoredUrlStorageKey) {
-        localStorage.setItem(
+        this.localStorage.setItem(
           this.options.signInStoredUrlStorageKey,
           state.url
         );
@@ -197,7 +208,7 @@ export class AngularTokenService implements CanActivate {
   signInOAuth(oAuthType: string) {
 
     const oAuthPath: string = this.getOAuthPath(oAuthType);
-    const callbackUrl = `${window.location.origin}/${this.options.oAuthCallbackPath}`;
+    const callbackUrl = `${this.global.location.origin}/${this.options.oAuthCallbackPath}`;
     const oAuthWindowType: string = this.options.oAuthWindowType;
     const authUrl: string = this.getOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
@@ -220,7 +231,7 @@ export class AngularTokenService implements CanActivate {
       );
       return this.requestCredentialsViaPostMessage(popup);
     } else if (oAuthWindowType === 'sameWindow') {
-      window.location.href = authUrl;
+      this.global.location.href = authUrl;
     } else {
       throw new Error(`Unsupported oAuthWindowType "${oAuthWindowType}"`);
     }
@@ -233,14 +244,14 @@ export class AngularTokenService implements CanActivate {
   // Sign out request and delete storage
   signOut(): Observable<any> {
     const observ = this.http.delete<any>(this.getServerPath() + this.options.signOutPath)
-          // Only remove the localStorage and clear the data after the call
+	  // Only remove the localStorage and clear the data after the call
           .pipe(
             finalize(() => {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('client');
-                localStorage.removeItem('expiry');
-                localStorage.removeItem('tokenType');
-                localStorage.removeItem('uid');
+                this.localStorage.removeItem('accessToken');
+                this.localStorage.removeItem('client');
+                this.localStorage.removeItem('expiry');
+                this.localStorage.removeItem('tokenType');
+                this.localStorage.removeItem('uid');
 
                 this.authData = null;
                 this.userType = null;
@@ -375,7 +386,7 @@ export class AngularTokenService implements CanActivate {
   // Try to load auth data
   private tryLoadAuthData(): void {
 
-    const userType = this.getUserTypeByName(localStorage.getItem('userType'));
+    const userType = this.getUserTypeByName(this.localStorage.getItem('userType'));
 
     if (userType) {
       this.userType = userType;
@@ -424,11 +435,11 @@ export class AngularTokenService implements CanActivate {
   public getAuthDataFromStorage(): void {
 
     const authData: AuthData = {
-      accessToken:    localStorage.getItem('accessToken'),
-      client:         localStorage.getItem('client'),
-      expiry:         localStorage.getItem('expiry'),
-      tokenType:      localStorage.getItem('tokenType'),
-      uid:            localStorage.getItem('uid')
+      accessToken:    this.localStorage.getItem('accessToken'),
+      client:         this.localStorage.getItem('client'),
+      expiry:         this.localStorage.getItem('expiry'),
+      tokenType:      this.localStorage.getItem('tokenType'),
+      uid:            this.localStorage.getItem('uid')
     };
 
     if (this.checkAuthData(authData)) {
@@ -465,14 +476,14 @@ export class AngularTokenService implements CanActivate {
 
       this.authData = authData;
 
-      localStorage.setItem('accessToken', authData.accessToken);
-      localStorage.setItem('client', authData.client);
-      localStorage.setItem('expiry', authData.expiry);
-      localStorage.setItem('tokenType', authData.tokenType);
-      localStorage.setItem('uid', authData.uid);
+      this.localStorage.setItem('accessToken', authData.accessToken);
+      this.localStorage.setItem('client', authData.client);
+      this.localStorage.setItem('expiry', authData.expiry);
+      this.localStorage.setItem('tokenType', authData.tokenType);
+      this.localStorage.setItem('uid', authData.uid);
 
       if (this.userType != null) {
-        localStorage.setItem('userType', this.userType.name);
+        this.localStorage.setItem('userType', this.userType.name);
       }
 
     }
@@ -515,7 +526,7 @@ export class AngularTokenService implements CanActivate {
   private requestCredentialsViaPostMessage(authWindow: any): Observable<any> {
     const pollerObserv = interval(500);
 
-    const responseObserv = fromEvent(window, 'message').pipe(
+    const responseObserv = fromEvent(this.global, 'message').pipe(
       pluck('data'),
       filter(this.oAuthWindowResponseFilter)
     );
