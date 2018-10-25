@@ -27,19 +27,19 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: process.env.CI
       ? ['ChromeCi']
-      : ['ChromeNoSandbox'],
+      : ['Chrome'],
 
     //--- Custom Config for Travis CI ---
     customLaunchers: {
       ChromeCi: {
         base: 'ChromeHeadless',
         flags: [
-          '--no-sandbox'
+          '--no-sandbox',
+          '--disable-gpu'
         ]
       },
-      ChromeNoSandbox: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
+      Chrome: {
+        base: 'Chrome'
       }
     },
     //---
