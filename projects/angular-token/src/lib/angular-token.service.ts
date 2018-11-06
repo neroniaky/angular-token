@@ -46,6 +46,14 @@ export class AngularTokenService implements CanActivate {
     return this.options.apiBase;
   }
 
+  get tokenOptions(): AngularTokenOptions {
+    return this.options
+  }
+
+  set tokenOptions(options) {
+    this.options = (<any>Object).assign(this.options, options);
+  }
+
   private options: AngularTokenOptions;
   private userType: UserType;
   private authData: AuthData;
@@ -110,14 +118,6 @@ export class AngularTokenService implements CanActivate {
     }
 
     this.tryLoadAuthData();
-  }
-
-  setTokenOptions(options: any) {
-    this.options = (<any>Object).assign(this.options, options);
-  }
-
-  getTokenOption(key: string): string {
-    return this.options[key]
   }
 
   userSignedIn(): boolean {
