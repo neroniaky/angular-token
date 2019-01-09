@@ -41,7 +41,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (body.password !== body.password_confirmation) {
           return of(this.registerError(
             body.email,
-            { password_confirmation: ["doesn't match Password"] }
+            { password_confirmation: ['does not match Password'] }
           ));
         }
 
@@ -76,7 +76,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         localStorage.setItem('users', JSON.stringify(this.users));
 
         // respond 200 OK
-        return of(new HttpResponse({
+        return of(new HttpResponse<any>({
           status: 200,
           url: 'http://localhost:3000/auth',
           body: {
@@ -129,7 +129,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             'uid': filteredUsers[0].email
           });
 
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 200,
             url: 'http://localhost:3000/auth/sign_in',
             body: body,
@@ -137,7 +137,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           }));
         } else {
           // else return 400 bad request
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 401,
             url: 'http://localhost:3000/auth/sign_in',
             body: {
@@ -156,7 +156,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       if (request.url.match('http://localhost:3000/auth/sign_out') && request.method === 'DELETE') {
         if (request.headers.get('access-token') === 'fake-access-token') {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 200,
             url: 'http://localhost:3000/auth/sign_out',
             body: {
@@ -164,7 +164,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
           }));
         } else {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 404,
             url: 'http://localhost:3000/auth/sign_out',
             body: {
@@ -186,7 +186,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const user = this.getAuthUser(request);
 
         if (user) {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 200,
             url: 'http://localhost:3000/auth/validate_token',
             body: {
@@ -203,7 +203,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
           }));
         } else {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 401,
             url: 'http://localhost:3000/auth/validate_token',
             body: {
@@ -226,7 +226,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (request.body.password !== request.body.password_confirmation) {
           return of(this.registerError(
             request.body.email,
-            { password_confirmation: ["doesn't match Password"] }
+            { password_confirmation: ['does not match Password'] }
           ));
         }
 
@@ -238,7 +238,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
           localStorage.setItem('users', JSON.stringify(this.users));
 
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 200,
             url: 'http://localhost:3000/auth',
             body: {
@@ -257,7 +257,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
           }));
         } else {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 401,
             url: 'http://localhost:3000/auth',
             body: {
@@ -279,7 +279,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const user = this.getAuthUser(request);
 
         if (user) {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 200,
             url: 'http://localhost:3000/auth/private_resource',
             body: {
@@ -287,7 +287,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
           }));
         } else {
-          return of(new HttpResponse({
+          return of(new HttpResponse<any>({
             status: 401,
             url: 'http://localhost:3000/auth/private_resource',
             body: {
@@ -299,7 +299,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       // pass through any requests not handled above
-      // return next.handle(request);
+      return next.handle(request);
     }))
 
     // call materialize and dematerialize to ensure delay even if an
@@ -320,7 +320,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   }
 
   registerError(email: string, errorMsg?) {
-    return new HttpResponse({
+    return new HttpResponse<any>({
       status: 422, url: 'http://localhost:3000/auth', body: {
         status: 'error',
         data: {
