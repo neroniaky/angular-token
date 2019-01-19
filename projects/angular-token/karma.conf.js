@@ -27,7 +27,7 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: process.env.CI
       ? ['ChromeCi']
-      : ['Chrome'],
+      : ['ChromeLocal'],
 
     //--- Custom Config for Travis CI ---
     customLaunchers: {
@@ -38,7 +38,7 @@ module.exports = function (config) {
           '--disable-gpu'
         ]
       },
-      Chrome: {
+      ChromeLocal: {
         base: 'Chrome'
       }
     },

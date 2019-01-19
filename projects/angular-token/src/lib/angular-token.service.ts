@@ -42,15 +42,15 @@ export class AngularTokenService implements CanActivate {
     return this.authData;
   }
 
-  get apiBase(): any {
+  get apiBase(): string {
     return this.options.apiBase;
   }
 
   get tokenOptions(): AngularTokenOptions {
-    return this.options
+    return this.options;
   }
 
-  set tokenOptions(options) {
+  set tokenOptions(options: AngularTokenOptions) {
     this.options = (<any>Object).assign(this.options, options);
   }
 
@@ -252,7 +252,7 @@ export class AngularTokenService implements CanActivate {
   // Sign out request and delete storage
   signOut(): Observable<any> {
     const observ = this.http.delete<any>(this.getServerPath() + this.options.signOutPath)
-	  // Only remove the localStorage and clear the data after the call
+    // Only remove the localStorage and clear the data after the call
           .pipe(
             finalize(() => {
                 this.localStorage.removeItem('accessToken');
