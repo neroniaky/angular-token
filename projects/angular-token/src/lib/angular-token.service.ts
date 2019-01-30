@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, CanActivate } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
-import { Observable, fromEvent, interval } from 'rxjs';
+import { Observable, fromEvent, interval, BehaviorSubject } from 'rxjs';
 import { pluck, filter, share, finalize } from 'rxjs/operators';
 
 import { ANGULAR_TOKEN_OPTIONS } from './angular-token.token';
@@ -34,10 +34,6 @@ export class AngularTokenService implements CanActivate {
     }
   }
 
-  get currentUserData(): UserData {
-    return this.userData;
-  }
-
   get currentAuthData(): AuthData {
     return this.authData;
   }
@@ -59,7 +55,7 @@ export class AngularTokenService implements CanActivate {
   private options: AngularTokenOptions;
   private userType: UserType;
   private authData: AuthData;
-  private userData: UserData;
+  public userData: BehaviorSubject<UserData>;
   private global: Window | any;
 
   private localStorage: Storage | any = {};
@@ -129,6 +125,8 @@ export class AngularTokenService implements CanActivate {
       console.warn(`[angular-token] You have not configured 'apiBase', which may result in security issues. ` +
                    `Please refer to the documentation at https://github.com/neroniaky/angular-token/wiki`);
     }
+
+    this.userData = new BehaviorSubject<UserData>(null);
 
     this.tryLoadAuthData();
   }
@@ -210,7 +208,7 @@ export class AngularTokenService implements CanActivate {
 
     const observ = this.http.post(this.getServerPath() + this.options.signInPath, body, { observe: 'response' }).pipe(share());
 
-    observ.subscribe(res => this.userData = res.body['data']);
+    observ.subscribe(res => this.userData.next(res.body['data']));
 
     return observ;
   }
@@ -253,22 +251,19 @@ export class AngularTokenService implements CanActivate {
 
   // Sign out request and delete storage
   signOut(): Observable<any> {
-    const observ = this.http.delete<any>(this.getServerPath() + this.options.signOutPath)
+    const observ = this.http.delete<any>(this.getServerPath() + this.options.signOutPath).pipe(
     // Only remove the localStorage and clear the data after the call
-          .pipe(
-            finalize(() => {
-                this.localStorage.removeItem('accessToken');
-                this.localStorage.removeItem('client');
-                this.localStorage.removeItem('expiry');
-                this.localStorage.removeItem('tokenType');
-                this.localStorage.removeItem('uid');
+      finalize(() => {
+          this.localStorage.removeItem('accessToken');
+          this.localStorage.removeItem('client');
+          this.localStorage.removeItem('expiry');
+          this.localStorage.removeItem('tokenType');
+          this.localStorage.removeItem('uid');
 
-                this.authData = null;
-                this.userType = null;
-                this.userData = null;
-              }
-            )
-          );
+          this.authData = null;
+          this.userType = null;
+          this.userData.next(null);
+    }));
 
     return observ;
   }
@@ -278,7 +273,7 @@ export class AngularTokenService implements CanActivate {
     const observ = this.http.get(this.getServerPath() + this.options.validateTokenPath).pipe(share());
 
     observ.subscribe(
-      (res) => this.userData = res['data'],
+      (res) => this.userData.next(res['data']),
       (error) => {
         if (error.status === 401 && this.options.signOutFailedValidate) {
           this.signOut();
