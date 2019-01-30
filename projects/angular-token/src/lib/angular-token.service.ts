@@ -43,6 +43,8 @@ export class AngularTokenService implements CanActivate {
   }
 
   get apiBase(): string {
+    console.warn('[angular-token] The attribute .apiBase will be removed in the next major release, please use' +
+    '.tokenOptions.apiBase instead');
     return this.options.apiBase;
   }
 
