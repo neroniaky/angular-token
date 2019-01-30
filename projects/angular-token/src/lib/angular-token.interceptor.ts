@@ -20,7 +20,8 @@ export class AngularTokenInterceptor implements HttpInterceptor {
     this.tokenService.getAuthDataFromStorage();
 
     // Add the headers if the request is going to the configured server
-    if (this.tokenService.currentAuthData && (this.tokenService.apiBase === null || req.url.match(this.tokenService.apiBase))) {
+    if (this.tokenService.currentAuthData &&
+      (this.tokenService.tokenOptions.apiBase === null || req.url.match(this.tokenService.tokenOptions.apiBase))) {
 
       const headers = {
         'access-token': this.tokenService.currentAuthData.accessToken,
@@ -45,7 +46,7 @@ export class AngularTokenInterceptor implements HttpInterceptor {
   // Parse Auth data from response
   private handleResponse(res: any): void {
     if (res instanceof HttpResponse || res instanceof HttpErrorResponse) {
-      if (this.tokenService.apiBase === null || (res.url && res.url.match(this.tokenService.apiBase))) {
+      if (this.tokenService.tokenOptions.apiBase === null || (res.url && res.url.match(this.tokenService.tokenOptions.apiBase))) {
         this.tokenService.getAuthHeadersFromResponse(<any>res);
       }
     }
