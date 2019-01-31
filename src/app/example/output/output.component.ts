@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Response } from '@angular/http';
 
 import { AuthResponse } from './auth.model';
 
@@ -10,13 +9,10 @@ import { AuthResponse } from './auth.model';
 })
 export class OutputComponent {
 
-  output: AuthResponse;
+  output: AuthResponse = <AuthResponse>{};
 
   @Input()
-  set data(res) {
-
-    this.output = <AuthResponse>{};
-
+  set data(res: AuthResponse) {
     if (res != null) {
       this.output.status = res.statusText + ' (' + res.status + ')';
 

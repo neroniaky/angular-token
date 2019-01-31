@@ -1,5 +1,6 @@
 export interface AuthResponse {
   status: string;
+  statusText?: string;
   data: any;
-  errors?: string[];
+  errors?: any;
 }

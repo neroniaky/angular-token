@@ -11,6 +11,14 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es5",
+
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+
     "typeRoots": [
       "node_modules/@types"
     ],

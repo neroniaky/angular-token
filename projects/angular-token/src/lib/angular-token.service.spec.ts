@@ -472,15 +472,11 @@ describe('AngularTokenService', () => {
     });
 
     it('AuthData should return null', () => {
-      service.authData.subscribe(
-        data => expect(data).toEqual(null)
-      );
+      expect(service.authData.value).toEqual(null);
     });
 
     it('userData should return null', () => {
-      service.userData.subscribe(
-        data => expect(data).toEqual(null)
-      );
+      expect(service.userData.value).toEqual(null);
     });
 
     it('userType should return null', () => {
@@ -512,10 +508,7 @@ describe('AngularTokenService', () => {
 
     it('currentUserData should return current user data', () => {
       service.signIn(signInData).subscribe(
-        data => {
-          expect(service.userData.value).toEqual(userData);
-          console.log(service.userData);
-        }
+        data => expect(service.userData.value).toEqual(userData)
       );
 
       const req = backend.expectOne({
