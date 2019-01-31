@@ -40,7 +40,7 @@ export class AngularTokenService implements CanActivate {
   ) {
     this.global = (typeof window !== 'undefined') ? window : {};
 
-    if (isPlatformServer(platformId)) {
+    if (isPlatformServer(this.platformId)) {
       this.global = {
         open: () => null,
         location: {
