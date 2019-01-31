@@ -163,10 +163,13 @@ export class AngularTokenService implements CanActivate {
       registerData.password_confirmation = registerData.passwordConfirmation;
       delete registerData.passwordConfirmation;
     }
-    
-    //inject optional additionalData param (recaptcha, OTP second authentication, etc...)
-    registerData.additionalData = additionalData;
-    
+
+    if (
+      additionalData != undefined
+    ) {
+      registerData.additionalData = additionalData;
+    }
+
     const login = registerData.login;
     delete registerData.login;
     registerData[this.options.loginField] = login;
@@ -189,9 +192,13 @@ export class AngularTokenService implements CanActivate {
       [this.options.loginField]: signInData.login,
       password: signInData.password
     };
+
+    if (
+      additionalData != undefined
+    ) {
+      body.additionalData = additionalData
+    }
     
-    //inject optional additionalData param (recaptcha, OTP second authentication, etc...)
-    body.additionalData = additionalData;
 
     const observ = this.http.post(this.getServerPath() + this.options.signInPath, body, { observe: 'response' }).pipe(share());
 
