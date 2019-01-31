@@ -1,33 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpInterceptor, HttpHandler, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
-import { AngularTokenOptions } from './angular-token.model';
-import { AngularTokenService } from './angular-token.service';
-
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { AngularTokenService } from './angular-token.service';
+
 @Injectable()
 export class AngularTokenInterceptor implements HttpInterceptor {
-  private atOptions: AngularTokenOptions;
 
-  constructor( private tokenService: AngularTokenService ) {
-  }
+  constructor( private tokenService: AngularTokenService ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    // Get auth data from local storage
-    this.tokenService.getAuthDataFromStorage();
+    // Skip header add if request is not going to apiBase Server
+    if (
+      this.tokenService.tokenOptions.apiBase !== null &&
+      req.url.match(this.tokenService.tokenOptions.apiBase) === null
+    ) {
+      return next.handle(req);
+    }
 
-    // Add the headers if the request is going to the configured server
-    if (this.tokenService.currentAuthData && (this.tokenService.apiBase === null || req.url.match(this.tokenService.apiBase))) {
+    // Add the headers if request is not going to apiBase Server
 
+    const authData = this.tokenService.authData.value;
+
+    if (authData) {
       const headers = {
-        'access-token': this.tokenService.currentAuthData.accessToken,
-        'client':       this.tokenService.currentAuthData.client,
-        'expiry':       this.tokenService.currentAuthData.expiry,
-        'token-type':   this.tokenService.currentAuthData.tokenType,
-        'uid':          this.tokenService.currentAuthData.uid
+        'access-token': authData.accessToken,
+        'client':       authData.client,
+        'expiry':       authData.expiry,
+        'token-type':   authData.tokenType,
+        'uid':          authData.uid
       };
 
       req = req.clone({
@@ -36,18 +40,15 @@ export class AngularTokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(req).pipe(tap(
-        res => this.handleResponse(res),
-        err => this.handleResponse(err)
+      res => this.handleResponse(res),
+      err => this.handleResponse(err)
     ));
   }
-
 
   // Parse Auth data from response
   private handleResponse(res: any): void {
     if (res instanceof HttpResponse || res instanceof HttpErrorResponse) {
-      if (this.tokenService.apiBase === null || (res.url && res.url.match(this.tokenService.apiBase))) {
-        this.tokenService.getAuthHeadersFromResponse(<any>res);
-      }
+      this.tokenService.getAuthHeadersFromResponse(<any>res);
     }
   }
 }

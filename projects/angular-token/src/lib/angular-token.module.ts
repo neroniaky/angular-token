@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, Optional, SkipSelf, Provider } from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AngularTokenOptions } from './angular-token.model';

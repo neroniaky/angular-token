@@ -250,10 +250,12 @@ describe('AngularTokenService', () => {
         expect(localStorage.getItem('uid')).toBe(null);
       });
 
-      backend.expectOne({
+      const req = backend.expectOne({
         url: 'auth/sign_out',
         method: 'DELETE'
       });
+
+      expect(req.request.method).toEqual('DELETE');
     });
 
     describe('registerAccount should POST data', () => {
@@ -287,10 +289,12 @@ describe('AngularTokenService', () => {
 
       service.validateToken();
 
-      backend.expectOne({
+      const req = backend.expectOne({
         url: 'auth/validate_token',
         method: 'GET'
       });
+
+      expect(req.request.method).toEqual('GET');
     });
 
     it('validateToken should not call signOut when it returns status 401', () => {
@@ -378,10 +382,11 @@ describe('AngularTokenService', () => {
 
       service.signOut().subscribe();
 
-      backend.expectOne({
-        url: 'https://localhost/myapi/myauth/mysignout',
-        method: 'DELETE'
+      const req = backend.expectOne({
+        url: 'https://localhost/myapi/myauth/mysignout'
       });
+
+      expect(req.request.method).toEqual('DELETE');
     });
 
     it('registerAccount should POST data', () => {
@@ -400,10 +405,11 @@ describe('AngularTokenService', () => {
 
       service.validateToken();
 
-      backend.expectOne({
+      const req = backend.expectOne({
         url: 'https://localhost/myapi/myauth/myvalidate',
-        method: 'GET'
       });
+
+      expect(req.request.method).toEqual('GET');
     });
 
     it('updatePassword should PUT', () => {
@@ -465,8 +471,10 @@ describe('AngularTokenService', () => {
       initService({});
     });
 
-    it('currentAuthData should return undefined', () => {
-      expect(service.currentAuthData).toEqual(undefined);
+    it('AuthData should return null', () => {
+      service.authData.subscribe(
+        data => expect(data).toEqual(null)
+      );
     });
 
     it('userData should return null', () => {
@@ -489,9 +497,9 @@ describe('AngularTokenService', () => {
       initService({});
     });
 
-    it('currentAuthData should return current auth data', () => {
+    it('AuthData should return current auth data', () => {
       service.signIn(signInData).subscribe(
-        data => expect(service.currentAuthData).toEqual(authData)
+        data => expect(service.authData.value).toEqual(authData)
       );
 
       const req = backend.expectOne({
@@ -502,9 +510,12 @@ describe('AngularTokenService', () => {
       req.flush( userData, { headers: tokenHeaders } );
     });
 
-    /*it('currentUserData should return current user data', () => {
+    it('currentUserData should return current user data', () => {
       service.signIn(signInData).subscribe(
-        data => expect(service.currentUserData).toEqual(userData)
+        data => {
+          expect(service.userData.value).toEqual(userData);
+          console.log(service.userData);
+        }
       );
 
       const req = backend.expectOne({
@@ -512,8 +523,8 @@ describe('AngularTokenService', () => {
         method: 'POST'
       });
 
-      req.flush( userData, { headers: tokenHeaders } );
-    });*/
+      req.flush( {status: 'success', data: userData}, { headers: tokenHeaders } );
+    });
 
     it('userSignedIn should true', () => {
       service.signIn(signInData).subscribe(

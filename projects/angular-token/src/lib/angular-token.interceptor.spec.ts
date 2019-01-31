@@ -101,8 +101,8 @@ describe('AngularTokenInterceptor', () => {
         http.get(testUrl).subscribe(response => expect(response).toBeTruthy());
 
         const req = backend.expectOne({
-            url: testUrl,
-            method: 'GET'
+          url: testUrl,
+          method: 'GET'
         });
         req.flush({data: 'test'});
 
@@ -132,8 +132,8 @@ describe('AngularTokenInterceptor', () => {
         http.get(testUrl).subscribe(response => expect(response).toBeTruthy());
 
         const req = backend.expectOne({
-            url: testUrl,
-            method: 'GET'
+          url: testUrl,
+          method: 'GET'
         });
         req.flush({data: 'test'});
 
@@ -147,7 +147,7 @@ describe('AngularTokenInterceptor', () => {
 
     describe('handleResponse', () => {
       beforeEach(() => {
-          initService({});
+        initService({});
       });
 
       it('should handle headers from a request', inject([HttpClient], (http: HttpClient) => {
@@ -156,8 +156,8 @@ describe('AngularTokenInterceptor', () => {
         http.get(testUrl).subscribe(response => expect(response).toBeTruthy());
 
         const req = backend.expectOne({
-            url: testUrl,
-            method: 'GET'
+          url: testUrl,
+          method: 'GET'
         });
         req.flush({data: 'test'}, {
           headers: {
