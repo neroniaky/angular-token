@@ -15,8 +15,8 @@ export class AngularTokenInterceptor implements HttpInterceptor {
 
     // Skip header add if request is not going to apiBase Server
     if (
-      this.tokenService.tokenOptions.apiBase !== null &&
-      req.url.match(this.tokenService.tokenOptions.apiBase) === null
+      this.tokenService.options.value.apiBase !== null &&
+      req.url.match(this.tokenService.options.value.apiBase) === null
     ) {
       return next.handle(req);
     }
