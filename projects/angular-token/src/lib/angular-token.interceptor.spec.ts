@@ -4,6 +4,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { AngularTokenModule } from './angular-token.module';
 import { AngularTokenService } from './angular-token.service';
+import { AngularTokenOptions } from 'angular-token/public_api';
 
 describe('AngularTokenInterceptor', () => {
 
@@ -17,7 +18,7 @@ describe('AngularTokenInterceptor', () => {
   // let service: AngularTokenService;
   let backend: HttpTestingController;
 
-  function initService(serviceConfig) {
+  function initService(serviceConfig: AngularTokenOptions) {
     // Inject HTTP and AngularTokenService
     TestBed.configureTestingModule({
       imports: [
@@ -36,7 +37,7 @@ describe('AngularTokenInterceptor', () => {
 
   beforeEach(() => {
     // Fake Local Storage
-    let store = {};
+    let store: { [key: string]: string; } = {};
 
     spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
       return store[key] || null;

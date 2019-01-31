@@ -1,5 +1,5 @@
 import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router, CanActivate } from '@angular/router';
+import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
@@ -15,6 +15,7 @@ import {
   UserType,
   UserData,
   AuthData,
+  ApiResponse,
   AngularTokenOptions
 } from './angular-token.model';
 
@@ -41,7 +42,7 @@ export class AngularTokenService implements CanActivate {
     this.global = (typeof window !== 'undefined') ? window : {};
 
     if (isPlatformServer(this.platformId)) {
-      this.global = {
+      /*this.global = {
         open: () => null,
         location: {
           href: '/',
@@ -51,7 +52,7 @@ export class AngularTokenService implements CanActivate {
 
       this.localStorage.setItem = () => null;
       this.localStorage.getItem = () => null;
-      this.localStorage.removeItem = () => null;
+      this.localStorage.removeItem = () => null;*/
     } else {
       this.localStorage = localStorage;
     }
@@ -104,7 +105,7 @@ export class AngularTokenService implements CanActivate {
     return !!this.authData.value;
   }
 
-  canActivate(route, state): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.userSignedIn()) {
       return true;
     } else {
@@ -175,9 +176,11 @@ export class AngularTokenService implements CanActivate {
       password: signInData.password
     };
 
-    const observ = this.http.post(this.getServerPath() + this.options.value.signInPath, body, { observe: 'response' }).pipe(share());
+    const observ = this.http.post<ApiResponse<UserData>>(
+      this.getServerPath() + this.options.value.signInPath, body, { observe: 'response' }
+    ).pipe(share());
 
-    observ.subscribe(res => {this.userData.next(res.body['data']); console.log(res.body); });
+    observ.subscribe( res => this.userData.next(res.body.data));
 
     return observ;
   }
@@ -209,6 +212,7 @@ export class AngularTokenService implements CanActivate {
       return this.requestCredentialsViaPostMessage(popup);
     } else if (oAuthWindowType === 'sameWindow') {
       this.global.location.href = authUrl;
+      return null;
     } else {
       throw new Error(`Unsupported oAuthWindowType "${oAuthWindowType}"`);
     }
@@ -220,18 +224,18 @@ export class AngularTokenService implements CanActivate {
 
   // Sign out request and delete storage
   signOut(): Observable<any> {
-    const observ = this.http.delete<any>(this.getServerPath() + this.options.value.signOutPath).pipe(
+    const observ = this.http.delete(this.getServerPath() + this.options.value.signOutPath).pipe(
     // Only remove the localStorage and clear the data after the call
       finalize(() => {
-          this.localStorage.removeItem('accessToken');
-          this.localStorage.removeItem('client');
-          this.localStorage.removeItem('expiry');
-          this.localStorage.removeItem('tokenType');
-          this.localStorage.removeItem('uid');
+        this.localStorage.removeItem('accessToken');
+        this.localStorage.removeItem('client');
+        this.localStorage.removeItem('expiry');
+        this.localStorage.removeItem('tokenType');
+        this.localStorage.removeItem('uid');
 
-          this.authData.next(null);
-          this.userType.next(null);
-          this.userData.next(null);
+        this.authData.next(null);
+        this.userType.next(null);
+        this.userData.next(null);
     }));
 
     return observ;
@@ -239,10 +243,10 @@ export class AngularTokenService implements CanActivate {
 
   // Validate token request
   validateToken(): Observable<any> {
-    const observ = this.http.get(this.getServerPath() + this.options.value.validateTokenPath).pipe(share());
+    const observ = this.http.get<ApiResponse<UserData>>(this.getServerPath() + this.options.value.validateTokenPath).pipe(share());
 
     observ.subscribe(
-      (res) => this.userData.next(res['data']),
+      (res) => this.userData.next(res.data),
       (error) => {
         if (error.status === 401 && this.options.value.signOutFailedValidate) {
           this.signOut();
@@ -502,7 +506,7 @@ export class AngularTokenService implements CanActivate {
       filter(this.oAuthWindowResponseFilter)
     );
 
-    const responseSubscription = responseObserv.subscribe(
+    responseObserv.subscribe(
       this.getAuthDataFromPostMessage.bind(this)
     );
 

@@ -52,6 +52,15 @@ export interface UserData {
   login:          string;
 }
 
+// API Response Types
+export interface ApiResponse<T> {
+  status?: string;
+  success?: boolean;
+  statusText?: string;
+  data?: T;
+  errors?: any;
+}
+
 // Configuration Options
 
 export interface UserType {
