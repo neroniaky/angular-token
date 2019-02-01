@@ -14,7 +14,7 @@
 ### Quick Links
 
 - 🚀 View to demo on [Stackblitz](https://stackblitz.com/github/neroniaky/angular-token)
-- ✨ Learn about it on the [docs site](https://angular-token.gitbooks.io/docs)
+- ✨ Learn about it on the [docs site](https://angular-token.gitbook.io/docs)
 - 🔧 Support us by [contributing](https://angular-token.gitbook.io/docs/contribute.md)
 
 ---
