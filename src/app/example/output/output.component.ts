@@ -9,10 +9,10 @@ import { AuthResponse } from './auth.model';
 })
 export class OutputComponent {
 
-  output: AuthResponse;
+  output: AuthResponse = <AuthResponse>{};
 
   @Input()
-  set data(res) {
+  set data(res: AuthResponse) {
 
     this.output = <AuthResponse>{};
 

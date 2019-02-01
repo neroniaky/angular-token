@@ -116,9 +116,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
               email: filteredUsers[0].email,
               provider: 'email',
               uid: filteredUsers[0].email,
-              name: null,
-              nickname: null,
-              image: null
+              name: 'John Doe',
+              nickname: 'Doey',
+              image: '/assets/image.png'
             }
           };
           const headers = new HttpHeaders({
@@ -309,7 +309,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     .pipe(dematerialize());
   }
 
-  getAuthUser(request) {
+  getAuthUser(request: HttpRequest<any>) {
     const filteredUsers = this.users.filter(user => user.email === request.headers.get('uid'));
 
     if (filteredUsers.length && request.headers.get('access-token') === 'fake-access-token') {
@@ -319,7 +319,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
   }
 
-  registerError(email: string, errorMsg?) {
+  registerError(email: string, errorMsg?: {[key: string]: string[]} | string) {
     return new HttpResponse<any>({
       status: 422, url: 'http://localhost:3000/auth', body: {
         status: 'error',

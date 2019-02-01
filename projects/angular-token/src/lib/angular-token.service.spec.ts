@@ -10,7 +10,8 @@ import {
   UpdatePasswordData,
   ResetPasswordData,
   AuthData,
-  UserData
+  UserData,
+  AngularTokenOptions
 } from './angular-token.model';
 
 describe('AngularTokenService', () => {
@@ -135,7 +136,7 @@ describe('AngularTokenService', () => {
   let service: AngularTokenService;
   let backend: HttpTestingController;
 
-  function initService(serviceConfig) {
+  function initService(serviceConfig: AngularTokenOptions) {
     // Inject HTTP and AngularTokenService
     TestBed.configureTestingModule({
       imports: [
@@ -154,7 +155,7 @@ describe('AngularTokenService', () => {
 
   beforeEach(() => {
     // Fake Local Storage
-    let store = {};
+    let store: { [key: string]: string; } = {};
 
     spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
       return store[key] || null;

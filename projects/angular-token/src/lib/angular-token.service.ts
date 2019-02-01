@@ -1,5 +1,5 @@
 import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router, CanActivate } from '@angular/router';
+import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
@@ -17,6 +17,7 @@ import {
   UserType,
   UserData,
   AuthData,
+  ApiResponse,
 
   AngularTokenOptions
 } from './angular-token.model';
@@ -74,17 +75,20 @@ export class AngularTokenService implements CanActivate {
     this.global = (typeof window !== 'undefined') ? window : {};
 
     if (isPlatformServer(this.platformId)) {
+
+      // Bad pratice, needs fixing
       this.global = {
-        open: () => null,
+        open: (): void => null,
         location: {
           href: '/',
           origin: '/'
         }
       };
 
-      this.localStorage.setItem = () => null;
-      this.localStorage.getItem = () => null;
-      this.localStorage.removeItem = () => null;
+      // Bad pratice, needs fixing
+      this.localStorage.setItem = (): void => null;
+      this.localStorage.getItem = (): void => null;
+      this.localStorage.removeItem = (): void => null;
     } else {
       this.localStorage = localStorage;
     }
@@ -137,7 +141,7 @@ export class AngularTokenService implements CanActivate {
       return !!this.authData;
   }
 
-  canActivate(route, state): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.userSignedIn()) {
       return true;
     } else {
@@ -216,9 +220,11 @@ export class AngularTokenService implements CanActivate {
       body.additionalData = additionalData;
     }
 
-    const observ = this.http.post(this.getServerPath() + this.options.signInPath, body, { observe: 'response' }).pipe(share());
+    const observ = this.http.post<ApiResponse<UserData>>(
+      this.getServerPath() + this.options.signInPath, body, { observe: 'response' }
+    ).pipe(share());
 
-    observ.subscribe(res => this.userData = res.body['data']);
+    observ.subscribe(res => this.userData = res.body.data);
 
     return observ;
   }
@@ -284,10 +290,10 @@ export class AngularTokenService implements CanActivate {
 
   // Validate token request
   validateToken(): Observable<any> {
-    const observ = this.http.get(this.getServerPath() + this.options.validateTokenPath).pipe(share());
+    const observ = this.http.get<ApiResponse<UserData>>(this.getServerPath() + this.options.validateTokenPath).pipe(share());
 
     observ.subscribe(
-      (res) => this.userData = res['data'],
+      (res) => this.userData = res.data,
       (error) => {
         if (error.status === 401 && this.options.signOutFailedValidate) {
           this.signOut();

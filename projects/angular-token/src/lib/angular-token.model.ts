@@ -32,6 +32,16 @@ export interface ResetPasswordData {
   userType?:              string;
 }
 
+// API Response Format
+
+export interface ApiResponse<T> {
+  status?: string;
+  success?: boolean;
+  statusText?: string;
+  data?: T;
+  errors?: any;
+}
+
 // State Data
 
 export interface AuthData {

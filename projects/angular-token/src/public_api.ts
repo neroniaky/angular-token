@@ -7,6 +7,7 @@ export {
   UserType,
   UserData,
   AuthData,
+  ApiResponse,
 
   AngularTokenOptions
 } from './lib/angular-token.model';

@@ -13,6 +13,7 @@
     "target": "es5",
 
     "noImplicitThis": true,
+    "noImplicitAny": true,
     "alwaysStrict": true,
 
     "forceConsistentCasingInFileNames": true,
