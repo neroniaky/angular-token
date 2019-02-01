@@ -14,7 +14,7 @@ describe('AngularTokenInterceptor', () => {
   const client      = '5dayGs4hWTi4eKwSifu_mg';
   const expiry      = '1472108318';
 
-  let service: AngularTokenService;
+  // let service: AngularTokenService;
   let backend: HttpTestingController;
 
   function initService(serviceConfig) {
@@ -30,7 +30,6 @@ describe('AngularTokenInterceptor', () => {
       ]
     });
 
-    service = TestBed.get(AngularTokenService);
     backend = TestBed.get(HttpTestingController);
   }
 

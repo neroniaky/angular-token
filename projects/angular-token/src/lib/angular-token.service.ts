@@ -73,7 +73,7 @@ export class AngularTokenService implements CanActivate {
   ) {
     this.global = (typeof window !== 'undefined') ? window : {};
 
-    if (isPlatformServer(platformId)) {
+    if (isPlatformServer(this.platformId)) {
       this.global = {
         open: () => null,
         location: {
@@ -185,9 +185,7 @@ export class AngularTokenService implements CanActivate {
       delete registerData.passwordConfirmation;
     }
 
-    if (
-      additionalData != undefined
-    ) {
+    if (additionalData !== undefined) {
       registerData.additionalData = additionalData;
     }
 
@@ -208,18 +206,15 @@ export class AngularTokenService implements CanActivate {
   // Sign in request and set storage
   signIn(signInData: SignInData, additionalData?: any): Observable<any> {
     this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
-    
+
     const body = {
       [this.options.loginField]: signInData.login,
       password: signInData.password
     };
 
-    if (
-      additionalData != undefined
-    ) {
-      body.additionalData = additionalData
+    if (additionalData !== undefined) {
+      body.additionalData = additionalData;
     }
-    
 
     const observ = this.http.post(this.getServerPath() + this.options.signInPath, body, { observe: 'response' }).pipe(share());
 
@@ -255,6 +250,7 @@ export class AngularTokenService implements CanActivate {
       return this.requestCredentialsViaPostMessage(popup);
     } else if (oAuthWindowType === 'sameWindow') {
       this.global.location.href = authUrl;
+      return undefined;
     } else {
       throw new Error(`Unsupported oAuthWindowType "${oAuthWindowType}"`);
     }
@@ -554,7 +550,7 @@ export class AngularTokenService implements CanActivate {
       filter(this.oAuthWindowResponseFilter)
     );
 
-    const responseSubscription = responseObserv.subscribe(
+    responseObserv.subscribe(
       this.getAuthDataFromPostMessage.bind(this)
     );
 

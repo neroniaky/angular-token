@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpRequest, HttpInterceptor, HttpHandler, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
-import { AngularTokenOptions } from './angular-token.model';
 import { AngularTokenService } from './angular-token.service';
 
 import { Observable } from 'rxjs';
@@ -9,10 +8,8 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AngularTokenInterceptor implements HttpInterceptor {
-  private atOptions: AngularTokenOptions;
 
-  constructor( private tokenService: AngularTokenService ) {
-  }
+  constructor( private tokenService: AngularTokenService ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
