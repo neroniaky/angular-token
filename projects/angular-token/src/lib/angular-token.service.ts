@@ -170,7 +170,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Register request
-  registerAccount(registerData: RegisterData, additionalData?: any): Observable<any> {
+  registerAccount(registerData: RegisterData, additionalData?: any): Observable<ApiResponse> {
 
     registerData = Object.assign({}, registerData);
 
@@ -199,16 +199,18 @@ export class AngularTokenService implements CanActivate {
 
     registerData.confirm_success_url = this.options.registerAccountCallback;
 
-    return this.http.post(this.getServerPath() + this.options.registerAccountPath, registerData);
+    return this.http.post<ApiResponse>(
+      this.getServerPath() + this.options.registerAccountPath, registerData
+    );
   }
 
   // Delete Account
-  deleteAccount(): Observable<any> {
-    return this.http.delete(this.getServerPath() + this.options.deleteAccountPath);
+  deleteAccount(): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.getServerPath() + this.options.deleteAccountPath);
   }
 
   // Sign in request and set storage
-  signIn(signInData: SignInData, additionalData?: any): Observable<any> {
+  signIn(signInData: SignInData, additionalData?: any): Observable<ApiResponse> {
     this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
 
     const body = {
@@ -220,11 +222,11 @@ export class AngularTokenService implements CanActivate {
       body.additionalData = additionalData;
     }
 
-    const observ = this.http.post<ApiResponse<UserData>>(
-      this.getServerPath() + this.options.signInPath, body, { observe: 'response' }
+    const observ = this.http.post<ApiResponse>(
+      this.getServerPath() + this.options.signInPath, body
     ).pipe(share());
 
-    observ.subscribe(res => this.userData = res.body.data);
+    observ.subscribe(res => this.userData = res.data);
 
     return observ;
   }
@@ -267,30 +269,30 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Sign out request and delete storage
-  signOut(): Observable<any> {
-    const observ = this.http.delete<any>(this.getServerPath() + this.options.signOutPath)
-    // Only remove the localStorage and clear the data after the call
-          .pipe(
-            finalize(() => {
-                this.localStorage.removeItem('accessToken');
-                this.localStorage.removeItem('client');
-                this.localStorage.removeItem('expiry');
-                this.localStorage.removeItem('tokenType');
-                this.localStorage.removeItem('uid');
+  signOut(): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(this.getServerPath() + this.options.signOutPath)
+      // Only remove the localStorage and clear the data after the call
+      .pipe(
+        finalize(() => {
+            this.localStorage.removeItem('accessToken');
+            this.localStorage.removeItem('client');
+            this.localStorage.removeItem('expiry');
+            this.localStorage.removeItem('tokenType');
+            this.localStorage.removeItem('uid');
 
-                this.authData = null;
-                this.userType = null;
-                this.userData = null;
-              }
-            )
-          );
-
-    return observ;
+            this.authData = null;
+            this.userType = null;
+            this.userData = null;
+          }
+        )
+      );
   }
 
   // Validate token request
-  validateToken(): Observable<any> {
-    const observ = this.http.get<ApiResponse<UserData>>(this.getServerPath() + this.options.validateTokenPath).pipe(share());
+  validateToken(): Observable<ApiResponse> {
+    const observ = this.http.get<ApiResponse>(
+      this.getServerPath() + this.options.validateTokenPath
+    ).pipe(share());
 
     observ.subscribe(
       (res) => this.userData = res.data,
@@ -304,7 +306,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Update password request
-  updatePassword(updatePasswordData: UpdatePasswordData): Observable<any> {
+  updatePassword(updatePasswordData: UpdatePasswordData): Observable<ApiResponse> {
 
     if (updatePasswordData.userType != null) {
       this.userType = this.getUserTypeByName(updatePasswordData.userType);
@@ -330,11 +332,11 @@ export class AngularTokenService implements CanActivate {
     }
 
     const body = args;
-    return this.http.put(this.getServerPath() + this.options.updatePasswordPath, body);
+    return this.http.put<ApiResponse>(this.getServerPath() + this.options.updatePasswordPath, body);
   }
 
   // Reset password request
-  resetPassword(resetPasswordData: ResetPasswordData): Observable<any> {
+  resetPassword(resetPasswordData: ResetPasswordData): Observable<ApiResponse> {
 
     this.userType = (resetPasswordData.userType == null) ? null : this.getUserTypeByName(resetPasswordData.userType);
 
@@ -343,7 +345,7 @@ export class AngularTokenService implements CanActivate {
       redirect_url: this.options.resetPasswordCallback
     };
 
-    return this.http.post(this.getServerPath() + this.options.resetPasswordPath, body);
+    return this.http.post<ApiResponse>(this.getServerPath() + this.options.resetPasswordPath, body);
   }
 
 

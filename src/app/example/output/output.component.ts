@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-import { AuthResponse } from './auth.model';
+import { ApiResponse} from '../../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-output',
@@ -9,12 +8,12 @@ import { AuthResponse } from './auth.model';
 })
 export class OutputComponent {
 
-  output: AuthResponse = <AuthResponse>{};
+  output: ApiResponse = <ApiResponse>{};
 
   @Input()
-  set data(res: AuthResponse) {
+  set data(res: ApiResponse) {
 
-    this.output = <AuthResponse>{};
+    this.output = <ApiResponse>{};
 
     if (res != null) {
       this.output.status = res.statusText + ' (' + res.status + ')';

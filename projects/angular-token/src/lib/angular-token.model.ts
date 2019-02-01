@@ -34,11 +34,11 @@ export interface ResetPasswordData {
 
 // API Response Format
 
-export interface ApiResponse<T> {
+export interface ApiResponse {
   status?: string;
   success?: boolean;
   statusText?: string;
-  data?: T;
+  data?: UserData;
   errors?: any;
 }
 
