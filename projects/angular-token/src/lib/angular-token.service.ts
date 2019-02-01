@@ -166,7 +166,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Register request
-  registerAccount(registerData: RegisterData): Observable<any> {
+  registerAccount(registerData: RegisterData, additionalData?: any): Observable<any> {
 
     registerData = Object.assign({}, registerData);
 
@@ -185,6 +185,12 @@ export class AngularTokenService implements CanActivate {
       delete registerData.passwordConfirmation;
     }
 
+    if (
+      additionalData != undefined
+    ) {
+      registerData.additionalData = additionalData;
+    }
+
     const login = registerData.login;
     delete registerData.login;
     registerData[this.options.loginField] = login;
@@ -200,13 +206,20 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Sign in request and set storage
-  signIn(signInData: SignInData): Observable<any> {
+  signIn(signInData: SignInData, additionalData?: any): Observable<any> {
     this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
-
+    
     const body = {
       [this.options.loginField]: signInData.login,
       password: signInData.password
     };
+
+    if (
+      additionalData != undefined
+    ) {
+      body.additionalData = additionalData
+    }
+    
 
     const observ = this.http.post(this.getServerPath() + this.options.signInPath, body, { observe: 'response' }).pipe(share());
 
