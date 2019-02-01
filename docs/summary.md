@@ -4,4 +4,5 @@
 - [Routing](routing.md)
 - [Service Methods](service-methods.md)
 - [Common Problems](common-problems.md)
-- [Development](development.md)
+- [Contribute](contribute.md)
+- [Migrate to Angular-Token 7.x](migrate-to-7.md)
