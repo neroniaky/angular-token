@@ -5,8 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { AngularTokenModule } from 'projects/angular-token/src/public_api';
+import { AngularTokenModule } from '../../projects/angular-token/src/public_api';
 
 import { AppComponent } from './app.component';
 import { ExampleModule } from './example/example.module';
@@ -22,9 +23,6 @@ import { fakeBackendProvider } from './fake-backend';
     routes,
     BrowserModule,
     HttpClientModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
 
     ExampleModule,
     RestrictedModule,
@@ -33,7 +31,11 @@ import { fakeBackendProvider } from './fake-backend';
       apiBase: 'http://localhost:3000',
     }),
 
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatToolbarModule
   ],
   providers: [
     AngularTokenModule,
