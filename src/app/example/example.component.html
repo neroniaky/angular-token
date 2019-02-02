@@ -1,77 +1,39 @@
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card card-block card-success card-inverse">
-                <div class="card-body">
-
-                    <h4 class="card-title">Current User Status</h4>
-
-                    <div class="row current-user">
-                        <div class="col-md-4">
-                            <p><b>Signed In?</b> {{tokenService.currentUserData != null}} </p>
-                        </div>
-                        <div class="col-md-4">
-                            <p><b>Email:</b> {{tokenService.currentUserData?.login}} </p>
-                        </div>
-                        <div class="col-md-4">
-                            <p><b>UserType:</b> {{tokenService.currentUserType}} </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <app-register class="row"></app-register>
 </div>
 
-<div class="background-row">
-    <div class="container">
-        <app-register class="row"></app-register>
-    </div>
-</div>
+<mat-divider></mat-divider>
 
 <div class="container">
-    <app-sign-in class="row"></app-sign-in>
+  <app-sign-in class="row"></app-sign-in>
 </div>
 
-<div class="background-row">
-    <div class="container">
-        <app-sign-in-oauth class="row"></app-sign-in-oauth>
-    </div>
-</div>
+<mat-divider></mat-divider>
 
 <div class="container">
-    <app-access-resource class="row"></app-access-resource>
+  <app-access-resource class="row"></app-access-resource>
 </div>
 
-<div class="background-row">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card card-block">
-                    <div class="card-body">
-                        <h4 class="card-title">Can Activate</h4>
-                        <a routerLink="/restricted" routerLinkActive="active">
-                            <button type="submit" class="btn btn-primary">
-                                Go To Restricted Site
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<mat-divider></mat-divider>
 
 <div class="container">
-    <app-change-password class="row"></app-change-password>
+  <app-can-activate class="row"></app-can-activate>
 </div>
 
-<div class="background-row">
-    <div class="container">
-        <app-validate-token class="row"></app-validate-token>
-    </div>
-</div>
+<mat-divider></mat-divider>
 
 <div class="container">
-    <app-sign-out class="row"></app-sign-out>
+  <app-change-password class="row"></app-change-password>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="container">
+  <app-validate-token class="row"></app-validate-token>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="container">
+  <app-sign-out class="row"></app-sign-out>
 </div>

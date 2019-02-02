@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { AngularTokenService, SignInData } from '../../../../projects/angular-token/src/public_api';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AngularTokenService, SignInData, ApiResponse } from '../../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-sign-in',
@@ -7,8 +8,10 @@ import { AngularTokenService, SignInData } from '../../../../projects/angular-to
 })
 export class SignInComponent {
 
+  @ViewChild('signInForm') signInForm: NgForm;
+
   signInData: SignInData = <SignInData>{};
-  output: any;
+  output: ApiResponse;
 
   constructor(private tokenService: AngularTokenService) { }
 
@@ -19,11 +22,11 @@ export class SignInComponent {
 
     this.tokenService.signIn(this.signInData).subscribe(
       res => {
-        this.signInData     = <SignInData>{};
-        this.output         = res;
+        this.output = res;
+        this.signInForm.resetForm();
       }, error => {
-        this.signInData     = <SignInData>{};
-        this.output         = error;
+        this.output = error;
+        this.signInForm.resetForm();
       }
     );
   }

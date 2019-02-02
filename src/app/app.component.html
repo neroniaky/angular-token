@@ -1,19 +1,48 @@
-<div class="header">
-    <div class="container">
-
-        <h1 class="display-4">Angular-Token</h1>
-
-        <p>
-            This is an example for Angular-Token. Angular-Token is a token based authentication service for Angular with multiple user support. It works best with the devise token auth gem for Rails.
-        </p>
-
-        <a href="https://github.com/neroniaky/angular-token">
-            <button type="button" class="btn btn-secondary">
-                <i class="fa fa-github" aria-hidden="true"></i>
-                Github
-            </button>
-        </a>
+<div class="header title mat-elevation-z6">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+          <a>Angular-Token Example</a>
+          <a mat-stroked-button href="https://github.com/neroniaky/angular-token">
+            <mat-icon>assignment</mat-icon>
+            View on Github
+          </a>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="header current-user mat-elevation-z6">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="row current-user">
+          <div class="col-md-3">
+            <p class="title">Current User Status</p>
+          </div>
+          <div class="col-md-3">
+            <p>Signed In?: <code>{{tokenService.userSignedIn()}}</code></p>
+          </div>
+          <div class="col-md-3" *ngIf="tokenService.currentUserData">
+            <p>Email: <code>{{tokenService.currentUserData.email}}</code></p>
+          </div>
+          <div class="col-md-3"*ngIf="tokenService.currentUserType">
+            <p>UserType: <code>{{tokenService.currentUserType}}</code></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container header-text">
+  <div class="row">
+      <div class="col">
+      <p>
+        This is an example for Angular-Token. Angular-Token is a token based authentication service for Angular with multiple user support. It works best with the devise token auth gem for Rails.
+      </p>
+    </div>
+  </div>
 </div>
 
 <router-outlet></router-outlet>

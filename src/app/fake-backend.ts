@@ -110,17 +110,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         if (filteredUsers.length) {
           // if login details are valid return 200 OK with user details and fake jwt token
-          const body = {
-            data: {
-              id: filteredUsers[0].id,
-              email: filteredUsers[0].email,
-              provider: 'email',
-              uid: filteredUsers[0].email,
-              name: 'John Doe',
-              nickname: 'Doey',
-              image: '/assets/image.png'
-            }
-          };
           const headers = new HttpHeaders({
             'access-token': 'fake-access-token',
             'client': 'fake-client-id',
@@ -132,7 +121,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return of(new HttpResponse<any>({
             status: 200,
             url: 'http://localhost:3000/auth/sign_in',
-            body: body,
+            body:  {
+              data: {
+                id: filteredUsers[0].id,
+                email: filteredUsers[0].email,
+                provider: 'email',
+                uid: filteredUsers[0].email,
+                name: null,
+                nickname: null,
+                image: null
+              }
+            },
             headers: headers
           }));
         } else {

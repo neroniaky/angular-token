@@ -1,18 +1,42 @@
-<div class="card card-block">
-    <div class="card-body">
+<mat-card>
 
-        <h4 class="card-title">Response</h4>
-        <p>
-            <b>Status:</b>
-            <code>{{output?.status}}</code>
-        </p>
-        <p *ngIf="output?.data != null">
-            <b>Data:</b>
-            <code>{{output?.data | json}}</code>
-        <p>
-        <p *ngFor="let error of output?.errors; let i = index">
-            <b>Error {{i + 1}}:</b>
-            <code>{{error}}</code>
-        </p>
+  <mat-card-title>Response</mat-card-title>
+  <mat-card-subtitle>
+    Display the reponse for the request
+  </mat-card-subtitle>
+
+  <mat-card-footer>
+
+    <div *ngIf="response">
+      <div *ngIf="response.status != null">
+        <p>Status</p>
+        <pre><code>{{response.status}}</code></pre>
+      </div>
+
+      <div *ngIf="response.success != null">
+        <p>Success</p>
+        <pre><code>{{response.success}}</code></pre>
+      </div>
+
+      <div *ngIf="response.statusText != null">
+        <p>Status Text</p>
+        <pre><code>{{response.statusText}}</code></pre>
+      </div>
+
+      <div *ngIf="response.data">
+          <p>Data</p>
+        <pre><code>{{response.data | json}}</code></pre>
+      </div>
+
+      <div *ngIf="response.errors">
+        <p>Errors</p>
+        <pre><code>{{response.errors | json}}</code></pre>
+      </div>
     </div>
-</div>
+
+    <div *ngIf="!response">
+      <p class="empty-icon"><mat-icon>block</mat-icon></p>
+      <p class="empty-icon">Nothing to display</p>
+    </div>
+  </mat-card-footer>
+</mat-card>

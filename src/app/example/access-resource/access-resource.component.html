@@ -1,23 +1,26 @@
 <div class="col-md-6">
-	<div class="card card-block">
-		<div class="card-body">
+	<mat-card>
+		<mat-card-title>
+			<mat-icon color="primary">lock</mat-icon>
+			Access Private Resource
+		</mat-card-title>
+		<mat-card-subtitle>
+			Try to access a private Rescource
+		</mat-card-subtitle>
 
-			<h4 class="card-title">Access Private Resource</h4>
-
+		<mat-card-content>
 			<form #accessResourceForm="ngForm" (ngSubmit)="onSubmit()">
-
 				<button
-					type="submit"
-					class="btn btn-primary">
+					mat-raised-button
+					color="primary"
+					type="submit">
 					Access Private Resource
 				</button>
-
 			</form>
-
-		</div>
-	</div>
+		</mat-card-content>
+	</mat-card>
 </div>
 
 <div class="col-md-6">
-	<app-output [data]="output"></app-output>
+	<app-output [response]="output"></app-output>
 </div>

@@ -1,5 +1,53 @@
 .header {
-  background-color: #eee;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  position: fixed;
+  left: 0;
+  width: 100%;
+
+  &.title {
+    color: white;
+    z-index: 999;
+    background-color: #3f51b5;
+    top: 0;
+    height: 60px;
+
+    .col {
+      display: flex;
+      height: 60px;
+
+      a {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: auto;
+        margin-bottom: auto;
+
+        &.mat-stroked-button {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+
+  &.current-user {
+    z-index: 998;
+    top: 60px;
+    background-color: #333;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    p {
+      color: #999;
+      font-size: 14px;
+      line-height: 24px;
+      margin-block-start: 0;
+      margin-block-end: 0;
+
+      &.title {
+        color: white;
+      }
+    }
+  }
+}
+
+.header-text {
+  padding-top: 140px;
 }

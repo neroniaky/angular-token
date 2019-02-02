@@ -1,45 +1,55 @@
 <div class="col-md-6">
-	<div class="card card-block">
-		<div class="card-body">
+	<mat-card>
+		<mat-card-title>
+			<mat-icon color="primary">account_circle</mat-icon>
+			Register
+		</mat-card-title>
+		<mat-card-subtitle>
+			Register a new Account
+		</mat-card-subtitle>
 
-			<h4 class="card-title">Register</h4>
-
+		<mat-card-content>
 			<form #registerForm="ngForm" (ngSubmit)="onSubmit()">
-				<div class="form-group">
-					<label for="formGroupExampleInput">Login</label>
-					<input type="text"
-						class="form-control"
-						placeholder="Login"
+				<mat-form-field>
+					<input
+						matInput
+						type="text"
+						placeholder="Email"
 						required
 						[(ngModel)]="registerData.login"
 						name="login">
-				</div>
-				<div class="form-group">
-					<label for="formGroupExampleInput">Password</label>
-					<input type="password"
-						class="form-control"
+				</mat-form-field>
+				
+				<mat-form-field>
+					<input
+						matInput
+						type="password"
 						placeholder="Password"
 						required
 						[(ngModel)]="registerData.password"
 						name="password">
-				</div>
-				<div class="form-group">
-					<label for="formGroupExampleInput">Password Confirmation</label>
-					<input type="password"
-						class="form-control"
+				</mat-form-field>
+				
+				<mat-form-field>
+					<input
+						matInput
+						type="password"
 						placeholder="Password Confirmation"
 						required
 						[(ngModel)]="registerData.passwordConfirmation"
 						name="passwordConfirmation">
-				</div>
+				</mat-form-field>
+
 				<button
+					mat-raised-button
+					color="primary"
 					type="submit"
-					class="btn btn-primary"
 					[disabled]="!registerForm.form.valid">Register</button>
 			</form>
-		</div>
-	</div>
+		</mat-card-content>
+	</mat-card>
 </div>
+
 <div class="col-md-6">
-	<app-output [data]="output"></app-output>
+	<app-output [response]="output"></app-output>
 </div>

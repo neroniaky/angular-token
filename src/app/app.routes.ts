@@ -9,4 +9,4 @@ const routerConfig: Routes = [
   { path: 'restricted', component: RestrictedComponent, canActivate: [AngularTokenService] }
 ];
 
-export const routes = RouterModule.forRoot(routerConfig, { useHash: true });
+export const routes = RouterModule.forRoot(routerConfig);
