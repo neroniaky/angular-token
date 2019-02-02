@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStat
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
-import { Observable, fromEvent, interval } from 'rxjs';
+import { Observable, fromEvent, interval, BehaviorSubject } from 'rxjs';
 import { pluck, filter, share, finalize } from 'rxjs/operators';
 
 import { ANGULAR_TOKEN_OPTIONS } from './angular-token.token';
@@ -36,7 +36,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   get currentUserData(): UserData {
-    return this.userData;
+    return this.userData.value;
   }
 
   get currentAuthData(): AuthData {
@@ -60,7 +60,7 @@ export class AngularTokenService implements CanActivate {
   private options: AngularTokenOptions;
   private userType: UserType;
   private authData: AuthData;
-  private userData: UserData;
+  public userData: BehaviorSubject<UserData> = new BehaviorSubject<UserData>(null);
   private global: Window | any;
 
   private localStorage: Storage | any = {};
@@ -226,7 +226,7 @@ export class AngularTokenService implements CanActivate {
       this.getServerPath() + this.options.signInPath, body
     ).pipe(share());
 
-    observ.subscribe(res => this.userData = res.data);
+    observ.subscribe(res => this.userData.next(res.data));
 
     return observ;
   }
@@ -282,7 +282,7 @@ export class AngularTokenService implements CanActivate {
 
             this.authData = null;
             this.userType = null;
-            this.userData = null;
+            this.userData.next(null);
           }
         )
       );
@@ -295,7 +295,7 @@ export class AngularTokenService implements CanActivate {
     ).pipe(share());
 
     observ.subscribe(
-      (res) => this.userData = res.data,
+      (res) => this.userData.next(res.data),
       (error) => {
         if (error.status === 401 && this.options.signOutFailedValidate) {
           this.signOut();

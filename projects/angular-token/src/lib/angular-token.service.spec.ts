@@ -471,7 +471,7 @@ describe('AngularTokenService', () => {
     });
 
     it('currentUserData should return undefined', () => {
-      expect(service.currentUserData).toEqual(undefined);
+      expect(service.currentUserData).toEqual(null);
     });
 
     it('currentUserType should return undefined', () => {
