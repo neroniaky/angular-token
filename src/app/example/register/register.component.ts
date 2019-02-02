@@ -26,11 +26,11 @@ export class RegisterComponent {
 
     this.tokenService.registerAccount(this.registerData).subscribe(
       res => {
-        this.registerForm.resetForm();
         this.output = res;
-      }, error => {
         this.registerForm.resetForm();
+      }, error => {
         this.output = error;
+        this.registerForm.resetForm();
       }
     );
   }

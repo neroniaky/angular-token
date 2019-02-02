@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { AngularTokenService, UpdatePasswordData } from '../../../../projects/angular-token/src/public_api';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+import {
+  AngularTokenService,
+  UpdatePasswordData,
+  ApiResponse
+} from '../../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-change-password',
@@ -7,23 +13,25 @@ import { AngularTokenService, UpdatePasswordData } from '../../../../projects/an
 })
 export class ChangePasswordComponent {
 
-  updatePasswordData: UpdatePasswordData = <UpdatePasswordData>{};
-  output:             any;
+  @ViewChild('changePasswordForm') changePasswordForm: NgForm;
 
-  constructor(private _tokenService: AngularTokenService) { }
+  updatePasswordData: UpdatePasswordData = <UpdatePasswordData>{};
+  output: ApiResponse;
+
+  constructor(private tokenService: AngularTokenService) { }
 
   // Submit Data to Backend
   onSubmit() {
 
     this.output = null;
 
-    this._tokenService.updatePassword(this.updatePasswordData).subscribe(
+    this.tokenService.updatePassword(this.updatePasswordData).subscribe(
       res => {
-        this.updatePasswordData    = <UpdatePasswordData>{};
-        this.output                = res;
+        this.output = res;
+        this.changePasswordForm.resetForm();
       }, error => {
-        this.updatePasswordData    = <UpdatePasswordData>{};
-        this.output                = error;
+        this.output = error;
+        this.changePasswordForm.resetForm();
       }
     );
   }
