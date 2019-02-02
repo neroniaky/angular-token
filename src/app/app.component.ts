@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-import { AngularTokenService } from 'projects/angular-token/src/public_api';
+import { AngularTokenService } from '../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-root',
