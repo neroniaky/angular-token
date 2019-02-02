@@ -7,6 +7,7 @@ html, body {
 }
 body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #eee;
 }
 
 mat-form-field {
@@ -14,6 +15,9 @@ mat-form-field {
 }
 
 .col-md-6 {
-  padding-top: 20px;
   padding-bottom: 20px;
+}
+
+code {
+  color: #9dbef2;
 }

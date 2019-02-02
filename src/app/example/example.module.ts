@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+
 import { MatIconModule } from '@angular/material/icon';
 
 import { ExampleComponent } from './example.component';
@@ -26,7 +28,8 @@ import { CanActivateComponent } from './can-activate/can-activate.component';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
   ],
   declarations: [
     ExampleComponent,

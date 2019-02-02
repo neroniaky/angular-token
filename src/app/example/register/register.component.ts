@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { AngularTokenService, RegisterData } from '../../../../projects/angular-token/src/public_api';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import {
+  AngularTokenService,
+  RegisterData,
+  ApiResponse
+} from '../../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-register',
@@ -7,8 +12,10 @@ import { AngularTokenService, RegisterData } from '../../../../projects/angular-
 })
 export class RegisterComponent {
 
+  @ViewChild('registerForm') registerForm: NgForm;
+
   registerData: RegisterData = <RegisterData>{};
-  output: any;
+  output: ApiResponse;
 
   constructor(private tokenService: AngularTokenService) { }
 
@@ -19,11 +26,11 @@ export class RegisterComponent {
 
     this.tokenService.registerAccount(this.registerData).subscribe(
       res => {
-        this.registerData  = <RegisterData>{};
-        this.output        = res;
+        this.registerForm.resetForm();
+        this.output = res;
       }, error => {
-        this.registerData  = <RegisterData>{};
-        this.output        = error;
+        this.registerForm.resetForm();
+        this.output = error;
       }
     );
   }

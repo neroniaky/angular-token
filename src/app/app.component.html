@@ -1,41 +1,46 @@
-<div class="header">
+<div class="header title mat-elevation-z6">
   <div class="container">
     <div class="row">
-        <div class="col">
-
-        <h1>Example Angular-Token App</h1>
-
-        <p>
-          This is an example for Angular-Token. Angular-Token is a token based authentication service for Angular with multiple user support. It works best with the devise token auth gem for Rails.
-        </p>
-
-        <a mat-stroked-button href="https://github.com/neroniaky/angular-token">
-          <mat-icon>assignment</mat-icon>
-          View on Github
-        </a>
+      <div class="col">
+          <a>Angular-Token Example</a>
+          <a mat-stroked-button href="https://github.com/neroniaky/angular-token">
+            <mat-icon>assignment</mat-icon>
+            View on Github
+          </a>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="row" style="padding-top: 30px;">
+<div class="header current-user mat-elevation-z6">
+  <div class="container">
+    <div class="row">
       <div class="col">
-        <mat-card>
-          <mat-card-title>Current User Status</mat-card-title>
-          
-          <mat-card-content>
-            <div class="row current-user">
-              <div class="col-md-4">
-                <p><b>Signed In?</b> {{tokenService.currentUserData != null}} </p>
-              </div>
-              <div class="col-md-4">
-                <p><b>Email:</b> {{tokenService.currentUserData?.login}} </p>
-              </div>
-              <div class="col-md-4">
-                <p><b>UserType:</b> {{tokenService.currentUserType}} </p>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+        <div class="row current-user">
+          <div class="col-md-3">
+            <p class="title">Current User Status</p>
+          </div>
+          <div class="col-md-3">
+            <p>Signed In?: <code>{{tokenService.userSignedIn()}}</code></p>
+          </div>
+          <div class="col-md-3" *ngIf="tokenService.currentUserData">
+            <p>Email: <code>{{tokenService.currentUserData.email}}</code></p>
+          </div>
+          <div class="col-md-3"*ngIf="tokenService.currentUserType">
+            <p>UserType: <code>{{tokenService.currentUserType}}</code></p>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="container header-text">
+  <div class="row">
+      <div class="col">
+      <p>
+        This is an example for Angular-Token. Angular-Token is a token based authentication service for Angular with multiple user support. It works best with the devise token auth gem for Rails.
+      </p>
     </div>
   </div>
 </div>
