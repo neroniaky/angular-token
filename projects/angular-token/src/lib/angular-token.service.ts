@@ -40,7 +40,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   get currentAuthData(): AuthData {
-    return this.authData;
+    return this.authData.value;
   }
 
   get apiBase(): string {
@@ -59,7 +59,7 @@ export class AngularTokenService implements CanActivate {
 
   private options: AngularTokenOptions;
   private userType: UserType;
-  private authData: AuthData;
+  public authData: BehaviorSubject<AuthData> = new BehaviorSubject<AuthData>(null);
   public userData: BehaviorSubject<UserData> = new BehaviorSubject<UserData>(null);
   private global: Window | any;
 
@@ -138,7 +138,11 @@ export class AngularTokenService implements CanActivate {
   }
 
   userSignedIn(): boolean {
-      return !!this.authData;
+    if (this.authData.value == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -470,7 +474,7 @@ export class AngularTokenService implements CanActivate {
     };
 
     if (this.checkAuthData(authData)) {
-      this.authData = authData;
+      this.authData.next(authData);
     }
   }
 
@@ -486,7 +490,7 @@ export class AngularTokenService implements CanActivate {
       };
 
       if (this.checkAuthData(authData)) {
-        this.authData = authData;
+        this.authData.next(authData);
       }
     });
   }
@@ -501,7 +505,7 @@ export class AngularTokenService implements CanActivate {
   private setAuthData(authData: AuthData): void {
     if (this.checkAuthData(authData)) {
 
-      this.authData = authData;
+      this.authData.next(authData);
 
       this.localStorage.setItem('accessToken', authData.accessToken);
       this.localStorage.setItem('client', authData.client);
@@ -533,14 +537,12 @@ export class AngularTokenService implements CanActivate {
       authData.tokenType != null &&
       authData.uid != null
     ) {
-      if (this.authData != null) {
-        return authData.expiry >= this.authData.expiry;
-      } else {
-        return true;
+      if (this.authData.value != null) {
+        return authData.expiry >= this.authData.value.expiry;
       }
-    } else {
-      return false;
+      return true;
     }
+    return false;
   }
 
 
