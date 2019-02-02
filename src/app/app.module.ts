@@ -15,9 +15,6 @@ import { RestrictedModule } from './restricted/restricted.module';
 import { routes } from './app.routes';
 import { fakeBackendProvider } from './fake-backend';
 
-
-
-
 @NgModule({
   imports: [
     routes,
