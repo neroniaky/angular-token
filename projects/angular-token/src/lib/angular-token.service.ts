@@ -1,6 +1,6 @@
 import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
 import { Observable, fromEvent, interval } from 'rxjs';
@@ -431,7 +431,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Parse Auth data from response
-  public getAuthHeadersFromResponse(data: any): void {
+  public getAuthHeadersFromResponse(data: HttpResponse<any> | HttpErrorResponse): void {
     const headers = data.headers;
 
     const authData: AuthData = {
