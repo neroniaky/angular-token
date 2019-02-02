@@ -1,18 +1,24 @@
 <div class="col-md-6">
-	<div class="card card-block">
-		<div class="card-body">
+	<mat-card>
+		<mat-card-title>
+			<mat-icon color="primary">lock</mat-icon>
+			Sign Out
+		</mat-card-title>
+		<mat-card-subtitle>
+			Sign out current user
+		</mat-card-subtitle>
 
-			<h4 class="card-title">Sign Out</h4>
-
+		<mat-card-content>
 			<form #signOutForm="ngForm" (ngSubmit)="onSubmit()">
 				<button
-					type="submit"
-					class="btn btn-primary">
+					mat-raised-button
+					color="primary"
+					type="submit">
 					Sign Out
 				</button>
 			</form>
-		</div>
-	</div>
+		</mat-card-content>
+	</mat-card>
 </div>
 
 <div class="col-md-6">

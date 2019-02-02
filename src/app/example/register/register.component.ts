@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularTokenService, RegisterData } from '../../../../projects/angular-token/src/public_api';
+import { AngularTokenService, RegisterData } from 'projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-register',

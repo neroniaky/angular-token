@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularTokenService } from '../../../projects/angular-token/src/public_api';
 
 @Component({
   selector: 'app-example',
@@ -8,5 +7,5 @@ import { AngularTokenService } from '../../../projects/angular-token/src/public_
 })
 export class ExampleComponent {
 
-  constructor(public tokenService: AngularTokenService) { }
+  constructor() { }
 }

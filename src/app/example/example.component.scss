@@ -1,33 +1,33 @@
 .current-user {
-    color: white;
+  color: white;
 
-    p {
-        margin-bottom: 0;
-    }
+  p {
+    margin-bottom: 0;
+  }
 }
 
 .row {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .background-row {
-    background-color: #eee;
+  background-color: #eee;
 }
 
 footer {
-    margin-top: 50px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #eee;
+  margin-top: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #eee;
 
-    .imprint:hover {
-        cursor: pointer;
+  .imprint:hover {
+    cursor: pointer;
 
-        &:hover {
-            text-decoration: underline;
-        }
+    &:hover {
+      text-decoration: underline;
     }
+  }
 }

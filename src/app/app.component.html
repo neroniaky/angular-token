@@ -1,19 +1,43 @@
 <div class="header">
-    <div class="container">
+  <div class="container">
+    <div class="row">
+        <div class="col">
 
-        <h1 class="display-4">Angular-Token</h1>
+        <h1 class="display-4">Example Angular-Token App</h1>
 
         <p>
-            This is an example for Angular-Token. Angular-Token is a token based authentication service for Angular with multiple user support. It works best with the devise token auth gem for Rails.
+          This is an example for Angular-Token. Angular-Token is a token based authentication service for Angular with multiple user support. It works best with the devise token auth gem for Rails.
         </p>
 
-        <a href="https://github.com/neroniaky/angular-token">
-            <button type="button" class="btn btn-secondary">
-                <i class="fa fa-github" aria-hidden="true"></i>
-                Github
-            </button>
+        <a mat-stroked-button href="https://github.com/neroniaky/angular-token">
+          <mat-icon>assignment</mat-icon>
+          View on Github
         </a>
+      </div>
     </div>
+
+    <div class="row" style="padding-top: 30px;">
+      <div class="col">
+        <mat-card>
+          <mat-card-title>Current User Status</mat-card-title>
+          
+          <mat-card-content>
+            <div class="row current-user">
+              <div class="col-md-4">
+                <p><b>Signed In?</b> {{tokenService.currentUserData != null}} </p>
+              </div>
+              <div class="col-md-4">
+                <p><b>Email:</b> {{tokenService.currentUserData?.login}} </p>
+              </div>
+              <div class="col-md-4">
+                <p><b>UserType:</b> {{tokenService.currentUserType}} </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
