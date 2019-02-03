@@ -21,4 +21,5 @@ install:
   - npm install
 
 script:
-  - xvfb-run -a npm run test:lib -- --watch=false --no-progress
+  - npm run test:lib -- --watch=false --no-progress
+  - npm run lint
