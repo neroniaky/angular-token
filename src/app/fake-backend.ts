@@ -24,7 +24,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       *
       */
 
-      if (request.url === 'http://localhost:3000/auth' && request.method === 'POST') {
+      if (request.url === 'https://mock-api-server/auth' && request.method === 'POST') {
 
         // Get new user object from post body
         const body = request.body;
@@ -46,8 +46,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         // Check if login is email
-        const re = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]' +
-          '{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/');
+        const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
         if (!re.test(body.email)) {
           return of(this.registerError(
@@ -80,7 +79,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // respond 200 OK
         return of(new HttpResponse<any>({
           status: 200,
-          url: 'http://localhost:3000/auth',
+          url: 'https://mock-api-server/auth',
           body: {
             status: 'success',
             data: {
@@ -104,7 +103,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       *
       */
 
-      if (request.url.match('http://localhost:3000/auth/sign_in') && request.method === 'POST') {
+      if (request.url.match('https://mock-api-server/auth/sign_in') && request.method === 'POST') {
 
         const filteredUsers = this.users.filter(user => {
           return user.email === request.body.email && user.password === request.body.password;
@@ -122,7 +121,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
           return of(new HttpResponse<any>({
             status: 200,
-            url: 'http://localhost:3000/auth/sign_in',
+            url: 'https://mock-api-server/auth/sign_in',
             body:  {
               data: {
                 id: filteredUsers[0].id,
@@ -140,7 +139,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           // else return 400 bad request
           return of(new HttpResponse<any>({
             status: 401,
-            url: 'http://localhost:3000/auth/sign_in',
+            url: 'https://mock-api-server/auth/sign_in',
             body: {
               status: 'false',
               errors: ['Invalid login credentials. Please try again.']
@@ -155,11 +154,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       *
       */
 
-      if (request.url.match('http://localhost:3000/auth/sign_out') && request.method === 'DELETE') {
+      if (request.url.match('https://mock-api-server/auth/sign_out') && request.method === 'DELETE') {
         if (request.headers.get('access-token') === 'fake-access-token') {
           return of(new HttpResponse<any>({
             status: 200,
-            url: 'http://localhost:3000/auth/sign_out',
+            url: 'https://mock-api-server/auth/sign_out',
             body: {
               success: true
             }
@@ -167,7 +166,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         } else {
           return of(new HttpResponse<any>({
             status: 404,
-            url: 'http://localhost:3000/auth/sign_out',
+            url: 'https://mock-api-server/auth/sign_out',
             body: {
               status: 'false',
               errors: ['User was not found or was not logged in.']
@@ -182,14 +181,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       *
       */
 
-      if (request.url.match('http://localhost:3000/auth/validate_token') && request.method === 'GET') {
+      if (request.url.match('https://mock-api-server/auth/validate_token') && request.method === 'GET') {
 
         const user = this.getAuthUser(request);
 
         if (user) {
           return of(new HttpResponse<any>({
             status: 200,
-            url: 'http://localhost:3000/auth/validate_token',
+            url: 'https://mock-api-server/auth/validate_token',
             body: {
               success: true,
               data: {
@@ -206,7 +205,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         } else {
           return of(new HttpResponse<any>({
             status: 401,
-            url: 'http://localhost:3000/auth/validate_token',
+            url: 'https://mock-api-server/auth/validate_token',
             body: {
               success: false,
               errors: ['Invalid login credentials']
@@ -221,7 +220,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       *
       */
 
-      if (request.url.match('http://localhost:3000/auth') && request.method === 'PUT') {
+      if (request.url.match('https://mock-api-server/auth') && request.method === 'PUT') {
 
         // Check if password matches password confimation
         if (request.body.password !== request.body.password_confirmation) {
@@ -241,7 +240,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
           return of(new HttpResponse<any>({
             status: 200,
-            url: 'http://localhost:3000/auth',
+            url: 'https://mock-api-server/auth',
             body: {
               status: 'success',
               data: {
@@ -260,7 +259,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         } else {
           return of(new HttpResponse<any>({
             status: 401,
-            url: 'http://localhost:3000/auth',
+            url: 'https://mock-api-server/auth',
             body: {
               success: false,
               errors: ['Invalid login credentials']
@@ -275,14 +274,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       *
       */
 
-      if (request.url.match('http://localhost:3000/private_resource') && request.method === 'GET') {
+      if (request.url.match('https://mock-api-server/private_resource') && request.method === 'GET') {
 
         const user = this.getAuthUser(request);
 
         if (user) {
           return of(new HttpResponse<any>({
             status: 200,
-            url: 'http://localhost:3000/auth/private_resource',
+            url: 'https://mock-api-server/auth/private_resource',
             body: {
               data: 'Private Content for ' + user.email
             }
@@ -290,7 +289,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         } else {
           return of(new HttpResponse<any>({
             status: 401,
-            url: 'http://localhost:3000/auth/private_resource',
+            url: 'https://mock-api-server/auth/private_resource',
             body: {
               success: false,
               errors: ['Invalid login credentials']
@@ -322,7 +321,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
   registerError(email: string, errorMsg?: {[key: string]: string[]} | string) {
     return new HttpResponse<any>({
-      status: 422, url: 'http://localhost:3000/auth', body: {
+      status: 422, url: 'https://mock-api-server/auth', body: {
         status: 'error',
         data: {
           id: null,
