@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStat
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
-import { Observable, fromEvent, interval } from 'rxjs';
+import { Observable, fromEvent, interval, BehaviorSubject } from 'rxjs';
 import { pluck, filter, share, finalize } from 'rxjs/operators';
 
 import { ANGULAR_TOKEN_OPTIONS } from './angular-token.token';
@@ -28,19 +28,19 @@ import {
 export class AngularTokenService implements CanActivate {
 
   get currentUserType(): string {
-    if (this.userType != null) {
-      return this.userType.name;
+    if (this.userType.value != null) {
+      return this.userType.value.name;
     } else {
       return undefined;
     }
   }
 
   get currentUserData(): UserData {
-    return this.userData;
+    return this.userData.value;
   }
 
   get currentAuthData(): AuthData {
-    return this.authData;
+    return this.authData.value;
   }
 
   get apiBase(): string {
@@ -58,9 +58,9 @@ export class AngularTokenService implements CanActivate {
   }
 
   private options: AngularTokenOptions;
-  private userType: UserType;
-  private authData: AuthData;
-  private userData: UserData;
+  public userType: BehaviorSubject<UserType> = new BehaviorSubject<UserType>(null);
+  public authData: BehaviorSubject<AuthData> = new BehaviorSubject<AuthData>(null);
+  public userData: BehaviorSubject<UserData> = new BehaviorSubject<UserData>(null);
   private global: Window | any;
 
   private localStorage: Storage | any = {};
@@ -138,7 +138,11 @@ export class AngularTokenService implements CanActivate {
   }
 
   userSignedIn(): boolean {
-      return !!this.authData;
+    if (this.authData.value == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -175,9 +179,9 @@ export class AngularTokenService implements CanActivate {
     registerData = Object.assign({}, registerData);
 
     if (registerData.userType == null) {
-      this.userType = null;
+      this.userType.next(null);
     } else {
-      this.userType = this.getUserTypeByName(registerData.userType);
+      this.userType.next(this.getUserTypeByName(registerData.userType));
       delete registerData.userType;
     }
 
@@ -211,7 +215,7 @@ export class AngularTokenService implements CanActivate {
 
   // Sign in request and set storage
   signIn(signInData: SignInData, additionalData?: any): Observable<ApiResponse> {
-    this.userType = (signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType);
+    this.userType.next((signInData.userType == null) ? null : this.getUserTypeByName(signInData.userType));
 
     const body = {
       [this.options.loginField]: signInData.login,
@@ -226,7 +230,7 @@ export class AngularTokenService implements CanActivate {
       this.getServerPath() + this.options.signInPath, body
     ).pipe(share());
 
-    observ.subscribe(res => this.userData = res.data);
+    observ.subscribe(res => this.userData.next(res.data));
 
     return observ;
   }
@@ -280,9 +284,9 @@ export class AngularTokenService implements CanActivate {
             this.localStorage.removeItem('tokenType');
             this.localStorage.removeItem('uid');
 
-            this.authData = null;
-            this.userType = null;
-            this.userData = null;
+            this.authData.next(null);
+            this.userType.next(null);
+            this.userData.next(null);
           }
         )
       );
@@ -295,7 +299,7 @@ export class AngularTokenService implements CanActivate {
     ).pipe(share());
 
     observ.subscribe(
-      (res) => this.userData = res.data,
+      (res) => this.userData.next(res.data),
       (error) => {
         if (error.status === 401 && this.options.signOutFailedValidate) {
           this.signOut();
@@ -309,7 +313,7 @@ export class AngularTokenService implements CanActivate {
   updatePassword(updatePasswordData: UpdatePasswordData): Observable<ApiResponse> {
 
     if (updatePasswordData.userType != null) {
-      this.userType = this.getUserTypeByName(updatePasswordData.userType);
+      this.userType.next(this.getUserTypeByName(updatePasswordData.userType));
     }
 
     let args: any;
@@ -338,7 +342,9 @@ export class AngularTokenService implements CanActivate {
   // Reset password request
   resetPassword(resetPasswordData: ResetPasswordData): Observable<ApiResponse> {
 
-    this.userType = (resetPasswordData.userType == null) ? null : this.getUserTypeByName(resetPasswordData.userType);
+    this.userType.next(
+      (resetPasswordData.userType == null) ? null : this.getUserTypeByName(resetPasswordData.userType)
+    );
 
     const body = {
       [this.options.loginField]: resetPasswordData.login,
@@ -356,7 +362,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   private getUserPath(): string {
-    return (this.userType == null) ? '' : this.userType.path + '/';
+    return (this.userType.value == null) ? '' : this.userType.value.path + '/';
   }
 
   private getApiPath(): string {
@@ -396,8 +402,8 @@ export class AngularTokenService implements CanActivate {
     url +=  `?omniauth_window_type=${windowType}`;
     url +=  `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
 
-    if (this.userType != null) {
-      url += `&resource_class=${this.userType.name}`;
+    if (this.userType.value != null) {
+      url += `&resource_class=${this.userType.value.name}`;
     }
 
     return url;
@@ -416,7 +422,7 @@ export class AngularTokenService implements CanActivate {
     const userType = this.getUserTypeByName(this.localStorage.getItem('userType'));
 
     if (userType) {
-      this.userType = userType;
+      this.userType.next(userType);
     }
 
     this.getAuthDataFromStorage();
@@ -470,7 +476,7 @@ export class AngularTokenService implements CanActivate {
     };
 
     if (this.checkAuthData(authData)) {
-      this.authData = authData;
+      this.authData.next(authData);
     }
   }
 
@@ -486,7 +492,7 @@ export class AngularTokenService implements CanActivate {
       };
 
       if (this.checkAuthData(authData)) {
-        this.authData = authData;
+        this.authData.next(authData);
       }
     });
   }
@@ -501,7 +507,7 @@ export class AngularTokenService implements CanActivate {
   private setAuthData(authData: AuthData): void {
     if (this.checkAuthData(authData)) {
 
-      this.authData = authData;
+      this.authData.next(authData);
 
       this.localStorage.setItem('accessToken', authData.accessToken);
       this.localStorage.setItem('client', authData.client);
@@ -509,8 +515,8 @@ export class AngularTokenService implements CanActivate {
       this.localStorage.setItem('tokenType', authData.tokenType);
       this.localStorage.setItem('uid', authData.uid);
 
-      if (this.userType != null) {
-        this.localStorage.setItem('userType', this.userType.name);
+      if (this.userType.value != null) {
+        this.localStorage.setItem('userType', this.userType.value.name);
       }
 
     }
@@ -533,14 +539,12 @@ export class AngularTokenService implements CanActivate {
       authData.tokenType != null &&
       authData.uid != null
     ) {
-      if (this.authData != null) {
-        return authData.expiry >= this.authData.expiry;
-      } else {
-        return true;
+      if (this.authData.value != null) {
+        return authData.expiry >= this.authData.value.expiry;
       }
-    } else {
-      return false;
+      return true;
     }
+    return false;
   }
 
 
