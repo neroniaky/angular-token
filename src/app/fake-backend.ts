@@ -110,16 +110,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         });
 
         if (filteredUsers.length) {
-          // if login details are valid return 200 OK with user details and fake jwt token
-          const headers = new HttpHeaders({
-            'access-token': 'fake-access-token',
-            'client': 'fake-client-id',
-            'expiry': '2000000000',
-            'token-type': 'Bearer',
-            'uid': filteredUsers[0].email
-          });
-
           return of(new HttpResponse<any>({
+            headers: this.getHeaders(filteredUsers[0].email),
             status: 200,
             url: 'https://mock-api-server/auth/sign_in',
             body:  {
@@ -132,8 +124,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 nickname: null,
                 image: null
               }
-            },
-            headers: headers
+            }
           }));
         } else {
           // else return 400 bad request
@@ -187,6 +178,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         if (user) {
           return of(new HttpResponse<any>({
+            headers: this.getHeaders(user.email),
             status: 200,
             url: 'https://mock-api-server/auth/validate_token',
             body: {
@@ -239,6 +231,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           localStorage.setItem('users', JSON.stringify(this.users));
 
           return of(new HttpResponse<any>({
+            headers: this.getHeaders(user.email),
             status: 200,
             url: 'https://mock-api-server/auth',
             body: {
@@ -280,6 +273,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         if (user) {
           return of(new HttpResponse<any>({
+            headers: this.getHeaders(user.email),
             status: 200,
             url: 'https://mock-api-server/auth/private_resource',
             body: {
@@ -317,6 +311,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     } else {
       return undefined;
     }
+  }
+
+  getHeaders(uid: string): HttpHeaders {
+    const timestamp = String(Math.floor(Date.now() / 1000) + 600);
+
+    // if login details are valid return 200 OK with user details and fake jwt token
+    return new HttpHeaders({
+      'access-token': 'fake-access-token',
+      'client': 'fake-client-id',
+      'expiry': timestamp,
+      'token-type': 'Bearer',
+      'uid': uid
+    });
   }
 
   registerError(email: string, errorMsg?: {[key: string]: string[]} | string) {
