@@ -11,15 +11,15 @@ Once initialized `AngularTokenService` offers methods for session management:
 - [`.processOAuthCallback()`](#processoauthcallback)
 
 ## .signIn()
-The signIn method is used to sign in the user with email address and password.
+The signIn method is used to sign in the user with login (e.g. email address) and password.
 The optional parameter `type` specifies the name of UserType used for this session.
 
-`signIn({email: string, password: string, userType?: string}): Observable<Response>`
+`signIn({login: string, password: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
 this.tokenService.signIn({
-  email:    'example@example.org',
+  login:    'example@example.org',
   password: 'secretPassword'
 }).subscribe(
   res =>      console.log(res),
@@ -43,12 +43,12 @@ this.tokenService.signOut().subscribe(
 ## .registerAccount()
 Sends a new user registration request to the Server.
 
-`registerAccount({email: string, password: string, passwordConfirmation: string, userType?: string}): Observable<Response>`
+`registerAccount({login: string, password: string, passwordConfirmation: string, userType?: string}): Observable<Response>`
 
 #### Example:
 ```javascript
 this.tokenService.registerAccount({
-  email:                'example@example.org',
+  login:                'example@example.org',
   password:             'secretPassword',
   passwordConfirmation: 'secretPassword'
 }).subscribe(
