@@ -25,7 +25,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class AngularTokenService implements CanActivate {
+export class AngularTokenService implements CanActivate CanLoad {
 
   get currentUserType(): string {
     if (this.userType.value != null) {
