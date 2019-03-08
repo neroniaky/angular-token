@@ -1,5 +1,5 @@
 import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, Router, CanLoad, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
@@ -142,6 +142,18 @@ export class AngularTokenService implements CanActivate {
       return false;
     } else {
       return true;
+    }
+  }
+
+  canLoad(route: Route, segments: UrlSegment[]): boolean {
+    if (this.userSignedIn()) {
+      return true;
+    } else {
+      // Redirect user to sign in if signInRedirect is set
+      if (this.router && this.options.signInRedirect) {
+        this.router.navigate([this.options.signInRedirect]);
+      }
+      return false;
     }
   }
 
