@@ -1,6 +1,6 @@
 import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router, CanLoad, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, 
-         Route, UrlSegment } from '@angular/router';
+import { ActivatedRoute, Router, CanLoad, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot,
+Route, UrlSegment } from '@angular/router';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
