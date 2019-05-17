@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { AngularTokenModule } from './angular-token.module';
 import { AngularTokenService } from './angular-token.service';
@@ -145,7 +146,11 @@ describe('AngularTokenService', () => {
         AngularTokenModule.forRoot(serviceConfig)
       ],
       providers: [
-        AngularTokenService
+        AngularTokenService,
+        {
+          provide: Router,
+          useValue: jasmine.createSpyObj('Router', ['navigate'])
+        }
       ]
     });
 
@@ -525,6 +530,56 @@ describe('AngularTokenService', () => {
       });
 
       req.flush( userData, { headers: tokenHeaders } );
+    });
+  });
+
+  describe('#canActivate', () => {
+    let router: Router;
+
+    beforeEach(() => {
+      initService({
+        signInRedirect: '/'
+      });
+
+      router = TestBed.get(Router);
+    });
+
+    describe('when the user is thought to be authenticated', () => {
+      beforeEach(() => {
+        (service as any).authData.next({ ...service.currentAuthData, ...{ expiry: Date.now() + 100_000_000 } });
+      });
+
+       it('returns true', () => {
+        expect(service.canActivate(null, null)).toBeTruthy();
+      });
+    });
+
+     describe('when the user is thought to be unauthenticated', () => {
+      it('returns false', () => {
+        expect(service.canActivate(null, { url: '/some/route' } as any)).toBeFalsy();
+      });
+
+       it('redirects to the configured route', () => {
+        service.canActivate(null, { url: '/some/route' } as any);
+
+         expect(router.navigate).toHaveBeenCalledWith([service.tokenOptions.signInRedirect]);
+      });
+
+       it('adds the desired route to local storage when configured', () => {
+         const url = '/some/route';
+         service.tokenOptions = { ...service.tokenOptions, ...{ signInStoredUrlStorageKey: 'redirectTo' }};
+         service.canActivate(null, { url } as any);
+
+         expect(localStorage.setItem).toHaveBeenCalledWith(service.tokenOptions.signInStoredUrlStorageKey, url);
+      });
+
+       it('does not add the desired route to local storage when not configured', () => {
+        const url = '/some/route';
+        service.tokenOptions = { ...service.tokenOptions, ...{ signInStoredUrlStorageKey: null }};
+        service.canActivate(null, { url } as any);
+
+         expect(localStorage.setItem).not.toHaveBeenCalled();
+      });
     });
   });
 });
