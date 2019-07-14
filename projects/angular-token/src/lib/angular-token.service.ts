@@ -19,7 +19,10 @@ import {
   AuthData,
   ApiResponse,
 
-  AngularTokenOptions
+  AngularTokenOptions,
+
+  TokenPlatform,
+  TokenInAppBrowser,
 } from './angular-token.model';
 
 @Injectable({
@@ -124,6 +127,10 @@ export class AngularTokenService implements CanActivate {
       oAuthCallbackPath:          'oauth_callback',
       oAuthWindowType:            'newWindow',
       oAuthWindowOptions:         null,
+
+      oAuthBrowserCallbacks: {
+        github:                   'auth/github/callback',
+      },
     };
 
     const mergedOptions = (<any>Object).assign(defaultOptions, config);
@@ -235,14 +242,15 @@ export class AngularTokenService implements CanActivate {
     return observ;
   }
 
-  signInOAuth(oAuthType: string) {
+  signInOAuth(oAuthType: string, inAppBrowser?: TokenInAppBrowser<any, any>, platform?: TokenPlatform) {
 
     const oAuthPath: string = this.getOAuthPath(oAuthType);
     const callbackUrl = `${this.global.location.origin}/${this.options.oAuthCallbackPath}`;
     const oAuthWindowType: string = this.options.oAuthWindowType;
     const authUrl: string = this.getOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
-    if (oAuthWindowType === 'newWindow') {
+    if (oAuthWindowType === 'newWindow' || 
+      (oAuthWindowType == 'inAppBrowser' && (!platform || !platform.is('cordova') || !(platform.is('ios') || platform.is('android'))))) {
       const oAuthWindowOptions = this.options.oAuthWindowOptions;
       let windowOptions = '';
 
@@ -260,6 +268,56 @@ export class AngularTokenService implements CanActivate {
           `closebuttoncaption=Cancel${windowOptions}`
       );
       return this.requestCredentialsViaPostMessage(popup);
+    } else if (oAuthWindowType == 'inAppBrowser') {
+      let oAuthBrowserCallback = this.options.oAuthBrowserCallbacks[oAuthType];
+      if (!oAuthBrowserCallback) {
+        throw new Error(`To login with oAuth provider ${oAuthType} using inAppBrowser the callback (in oAuthBrowserCallbacks) is required.`);
+      }
+      // let oAuthWindowOptions = this.options.oAuthWindowOptions;
+      // let windowOptions = '';
+
+      //  if (oAuthWindowOptions) {
+      //     for (let key in oAuthWindowOptions) {
+      //         windowOptions += `,${key}=${oAuthWindowOptions[key]}`;
+      //     }
+      // }
+
+      let browser = inAppBrowser.create(
+          authUrl,
+          '_blank',
+          'location=no'
+      );
+      
+      return new Observable((observer) => {
+        browser.on('loadstop').subscribe((ev: any) => {
+          if (ev.url.indexOf(oAuthBrowserCallback) > -1) {
+            browser.executeScript({code: "requestCredentials();"}).then((credentials: any) => {
+              this.getAuthDataFromPostMessage(credentials[0]);
+
+              let pollerObserv = interval(400);
+
+              let pollerSubscription = pollerObserv.subscribe(() => {
+                if (this.userSignedIn()) {
+                  observer.next(this.authData);
+                  observer.complete();
+
+                  pollerSubscription.unsubscribe();
+                  browser.close();
+                }
+              }, (error: any) => {
+                observer.error(error);
+                observer.complete();
+             });
+            }, (error: any) => {
+              observer.error(error);
+              observer.complete();
+           });
+          }
+        }, (error: any) => {
+          observer.error(error);
+          observer.complete();
+        });
+      })
     } else if (oAuthWindowType === 'sameWindow') {
       this.global.location.href = authUrl;
       return undefined;

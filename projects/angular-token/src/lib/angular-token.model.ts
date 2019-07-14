@@ -69,6 +69,14 @@ export interface UserType {
   path:           string;
 }
 
+export interface TokenInAppBrowser<T extends {}, Y extends {}> {
+  create(url: string, target?: string, options?: string | Y): T;
+}
+
+export interface TokenPlatform {
+  is(platformName: string): boolean;
+}
+
 export interface AngularTokenOptions {
   angularTokenOptionsProvider?: Provider;
 
@@ -100,4 +108,5 @@ export interface AngularTokenOptions {
   oAuthCallbackPath?:         string;
   oAuthWindowType?:           string;
   oAuthWindowOptions?:        { [key: string]: string; };
+  oAuthBrowserCallbacks?:     { [key: string]: string; };
 }
