@@ -23,10 +23,12 @@ get currentUserData(): UserData
 ```
 
 ## .currentAuthData
-Returns current authentication data which are used to set auth headers.
+Sets or returns current authentication data which are used to set auth headers.
 
 ```js
 get currentAuthData(): AuthData
+
+set currentAuthData(authData: AuthData)
 ```
 
 ## .tokenOptions

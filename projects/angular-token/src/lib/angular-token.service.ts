@@ -46,6 +46,12 @@ export class AngularTokenService implements CanActivate {
     return this.authData.value;
   }
 
+  set currentAuthData(authData: AuthData) {
+    if (this.checkAuthData(authData)) {
+      this.authData.next(authData);
+    }
+  }
+
   get apiBase(): string {
     console.warn('[angular-token] The attribute .apiBase will be removed in the next major release, please use' +
     '.tokenOptions.apiBase instead');

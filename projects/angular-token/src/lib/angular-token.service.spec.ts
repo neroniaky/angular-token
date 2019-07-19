@@ -481,6 +481,11 @@ describe('AngularTokenService', () => {
     it('userSignedIn should return false', () => {
       expect(service.userSignedIn()).toEqual(false);
     });
+
+    it('currentUserdata should return auth data after setting them', () => {
+      service.currentAuthData = authData;
+      expect(service.currentAuthData).toEqual(authData);
+    });
   });
 
   describe('user signed in', () => {
