@@ -17,3 +17,5 @@ export { ANGULAR_TOKEN_OPTIONS } from './lib/angular-token.token';
 export { AngularTokenService } from './lib/angular-token.service';
 
 export { AngularTokenModule } from './lib/angular-token.module';
+
+export { AngularTokenInterceptor } from './lib/angular-token.interceptor';

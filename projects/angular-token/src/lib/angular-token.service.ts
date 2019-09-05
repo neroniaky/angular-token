@@ -150,6 +150,12 @@ export class AngularTokenService implements CanActivate {
     this.tryLoadAuthData();
   }
 
+  updateCurrentAuthData(authData: AuthData) {
+    if (this.checkAuthData(authData)) {
+      this.authData.next(authData);
+    }
+  }
+
   userSignedIn(): boolean {
     if (this.authData.value == null) {
       return false;
