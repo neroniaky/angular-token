@@ -6,3 +6,12 @@ More information can be found [here](https://github.com/lynndylanhurley/devise_t
 ```ruby
 :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client']
 ```
+
+## Missing "@angular/core" and/or "rxjs"
+
+I got the following error
+`You seem to not be depending on "@angular/core" and/or "rxjs". This is an error.`
+
+To fix it
+`npm link`
+`ng serve`
