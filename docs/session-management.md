@@ -117,7 +117,25 @@ this.tokenService.updatePassword({
 ```
 
 ## .resetPassword()
-Request a password reset from the server (aka "forgot password" flow). This only asks the server to issue an email with a reset password link it. Once that link is clicked, the server will auth against the reset token in the link, and redirect to your configured resetPasswordCallback url, which should be a component that asks for the new password and confirmation. At that point you are effectively logged into the server with a temporary session and this lib will have valid auth headers ready to be added to the final step which is to issue an updatePassword to actually do the change. The addition of auth headers to that updatePassword request is handled automatically by this lib, you don't need to do anything in your component other than issue the update request. The server side library Devise Token Auth has a useful description of the flow at [https://devise-token-auth.gitbook.io/devise-token-auth/usage/reset_password](https://devise-token-auth.gitbook.io/devise-token-auth/usage/reset_password)
+Request a password reset from the server (aka "forgot password" flow). This only asks the server to issue an email with a reset password link it. Once that link is clicked, the server will auth against the reset token in the link, and redirect to your configured resetPasswordCallback url, which should be a component that asks for the new password and confirmation. At that point you are effectively logged into the server with a temporary session and this lib will have valid auth headers ready to be added to the final step which is to issue an updatePassword to actually do the change. The addition of auth headers to that updatePassword request is handled automatically by this lib, you don't need to do anything in your component other than issue the update request. The server side library Devise Token Auth has a useful description of the flow at [https://devise-token-auth.gitbook.io/devise-token-auth/usage/reset_password](https://devise-token-auth.gitbook.io/devise-token-auth/usage/reset_password). 
+
+********
+See the .resetPassword() documentation above for a possible issue with the "forgot password" flow for Angular apps using HashLocationStrategy. For apps using the default PathLocationStrategy everything should work correctly, but be aware of one potentional issue. The redirect after clicking the email link goes through the server under PathLocationStrategy. It is important that the server allows the redirect to flow through to the Angular app without adding any auth tokens. For some servers that "catch all unknown" can be done via low level config, to send any unknown routes into index.html (the start of the Angular app). For example this is usually done via the .htaccess file for an Apache server. For a rails back end, the usual approach is at a higher level, by putting in catch-all final route and rendering that to index.html. It is important the controller used to do that render does not inherit from a controller that has the Devise Token Auth's "concerns" added. In general that means do not base the render controller on the ApplicationController but instead go a level up to the ActionController. For example:
+
+Catch any unmatched routes in routes.rb:
+
+`match "*path", to: 'errors#angular' , via: :all`
+ 
+ Then make sure ErrorsController inherits from ActionController (or somewhere that doesn't have the Devise Auth Token "concerns"). Note the public/index.html is server specifc, yours might be in ,e.g., dist/index.html:
+ 
+```ruby 
+class ErrosController < ActionController
+   def angular
+   render file: 'public/index.html', :layout => false
+   end
+end
+```
+********
 
 `resetPassword({login: string, userType?: string}): Observable<Response>`
 
