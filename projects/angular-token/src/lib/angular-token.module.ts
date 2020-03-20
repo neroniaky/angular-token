@@ -1,9 +1,7 @@
-import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { AngularTokenOptions } from './angular-token.model';
-import { AngularTokenService } from './angular-token.service';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { AngularTokenInterceptor } from './angular-token.interceptor';
+import { AngularTokenOptions } from './angular-token.model';
 import { ANGULAR_TOKEN_OPTIONS } from './angular-token.token';
 
 export * from './angular-token.service';
@@ -16,7 +14,7 @@ export class AngularTokenModule {
       throw new Error('AngularToken is already loaded. It should only be imported in your application\'s main module.');
     }
   }
-  static forRoot(options: AngularTokenOptions): ModuleWithProviders {
+  static forRoot(options: AngularTokenOptions): ModuleWithProviders<AngularTokenModule> {
     return {
       ngModule: AngularTokenModule,
       providers: [
@@ -29,8 +27,7 @@ export class AngularTokenModule {
         {
           provide: ANGULAR_TOKEN_OPTIONS,
           useValue: options
-        },
-        AngularTokenService
+        }
       ]
     };
   }

@@ -10,13 +10,14 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/angular-token-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -54,6 +55,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -150,7 +155,8 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/angular-token/ng-package.prod.json"
+              "project": "projects/angular-token/ng-package.prod.json",
+              "tsConfig": "projects/angular-token/tsconfig.lib.prod.json"
             }
           }
         },

@@ -36,7 +36,6 @@ import { fakeBackendProvider } from './fake-backend';
     MatToolbarModule
   ],
   providers: [
-    AngularTokenModule,
     fakeBackendProvider
   ],
   declarations: [ AppComponent ],

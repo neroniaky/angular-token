@@ -31,7 +31,7 @@ describe('AngularTokenInterceptor', () => {
       ]
     });
 
-    backend = TestBed.get(HttpTestingController);
+    backend = TestBed.inject(HttpTestingController);
   }
 
   beforeEach(() => {

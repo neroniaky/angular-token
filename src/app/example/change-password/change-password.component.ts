@@ -13,7 +13,7 @@ import {
 })
 export class ChangePasswordComponent {
 
-  @ViewChild('changePasswordForm') changePasswordForm: NgForm;
+  @ViewChild('changePasswordForm', { static: true }) changePasswordForm: NgForm;
 
   updatePasswordData: UpdatePasswordData = <UpdatePasswordData>{};
   output: ApiResponse;

@@ -12,7 +12,7 @@ import {
 })
 export class RegisterComponent {
 
-  @ViewChild('registerForm') registerForm: NgForm;
+  @ViewChild('registerForm', { static: true }) registerForm: NgForm;
 
   registerData: RegisterData = <RegisterData>{};
   output: ApiResponse;
