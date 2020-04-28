@@ -40,13 +40,21 @@
             })
         ],
         declarations: [ ... ],
-        providers:    [ AngularTokenModule ],
         bootstrap:    [ ... ]
     })
     ```
+
+3. (Maybe Optional) Fix injection context runtime error
+After installing this package, if you get an `Error: inject() must be called from an injection context` when running your app, add the following to your typescript path config in the `tsconfig[.app].json` file:
+    ```json
+    "paths": {
+      "@angular/*": [ "./node_modules/@angular/*" ]
+    }
+    ```
+
 ## Use
 
-3. Register your user
+1. Register your user
     ```javascript
     constructor(private tokenService: AngularTokenService) { }
 
@@ -60,7 +68,7 @@
     );
     ```
 
-4. Sign in your user
+2. Sign in your user
     ```javascript
     constructor(private tokenService: AngularTokenService) { }
 
@@ -73,7 +81,7 @@
     );
     ```
 
-5. Now you can use HttpClient to access private resources
+3. Now you can use HttpClient to access private resources
     ```javascript
     constructor(http: HttpClient) { }
 

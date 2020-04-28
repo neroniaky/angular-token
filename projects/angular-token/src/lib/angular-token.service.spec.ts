@@ -149,8 +149,8 @@ describe('AngularTokenService', () => {
       ]
     });
 
-    service = TestBed.get(AngularTokenService);
-    backend = TestBed.get(HttpTestingController);
+    service = TestBed.inject(AngularTokenService);
+    backend = TestBed.inject(HttpTestingController);
   }
 
   beforeEach(() => {

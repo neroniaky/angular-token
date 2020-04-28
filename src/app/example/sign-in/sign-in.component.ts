@@ -8,7 +8,7 @@ import { AngularTokenService, SignInData, ApiResponse } from '../../../../projec
 })
 export class SignInComponent {
 
-  @ViewChild('signInForm') signInForm: NgForm;
+  @ViewChild('signInForm', { static: true }) signInForm: NgForm;
 
   signInData: SignInData = <SignInData>{};
   output: ApiResponse;

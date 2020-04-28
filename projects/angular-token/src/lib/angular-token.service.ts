@@ -249,7 +249,7 @@ export class AngularTokenService implements CanActivate {
     const oAuthWindowType: string = this.options.oAuthWindowType;
     const authUrl: string = this.getOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
-    if (oAuthWindowType === 'newWindow' || 
+    if (oAuthWindowType === 'newWindow' ||
       (oAuthWindowType == 'inAppBrowser' && (!platform || !platform.is('cordova') || !(platform.is('ios') || platform.is('android'))))) {
       const oAuthWindowOptions = this.options.oAuthWindowOptions;
       let windowOptions = '';
@@ -287,7 +287,7 @@ export class AngularTokenService implements CanActivate {
           '_blank',
           'location=no'
       );
-      
+
       return new Observable((observer) => {
         browser.on('loadstop').subscribe((ev: any) => {
           if (ev.url.indexOf(oAuthBrowserCallback) > -1) {
