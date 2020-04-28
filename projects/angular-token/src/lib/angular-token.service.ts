@@ -398,7 +398,12 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Reset password request
-  resetPassword(resetPasswordData: ResetPasswordData): Observable<ApiResponse> {
+  resetPassword(resetPasswordData: ResetPasswordData, additionalData?: any): Observable<ApiResponse> {
+    
+    
+    if (additionalData !== undefined) {
+      resetPasswordData.additionalData = additionalData;
+    }
 
     this.userType.next(
       (resetPasswordData.userType == null) ? null : this.getUserTypeByName(resetPasswordData.userType)
