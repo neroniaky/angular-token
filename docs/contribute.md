@@ -15,7 +15,7 @@ npm install
 
 4. Build Library
 ```bash
-npm build:lib
+npm run-script build:lib
 ```
 
 5. Run example project
