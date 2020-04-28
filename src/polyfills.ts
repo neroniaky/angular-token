@@ -80,7 +80,7 @@
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 // Polyfill added for Stackblitz compatibility
-import 'core-js/es7/reflect';
+import 'core-js/es/reflect';
 // *************
 
 /***************************************************************************************************

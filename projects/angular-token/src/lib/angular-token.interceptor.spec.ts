@@ -37,19 +37,18 @@ describe('AngularTokenInterceptor', () => {
   beforeEach(() => {
     // Fake Local Storage
     let store: { [key: string]: string; } = {};
+    
+    const fakeSessionStorage = {
+      setItem: (key: string, value: string) => store[key] = `${value}`,
+      getItem: (key: string): string => key in store ? store[key] : null,
+      removeItem: (key: string) => delete store[key],
+      clear: () => store = {}
+    };
 
-    spyOn(localStorage, 'getItem').and.callFake((key: string): String => {
-      return store[key] || null;
-    });
-    spyOn(localStorage, 'removeItem').and.callFake((key: string): void => {
-      delete store[key];
-    });
-    spyOn(localStorage, 'setItem').and.callFake((key: string, value: string): string => {
-      return store[key] = <string>value;
-    });
-    spyOn(localStorage, 'clear').and.callFake(() => {
-      store = {};
-    });
+    spyOn(Storage.prototype, 'setItem').and.callFake(fakeSessionStorage.setItem);
+    spyOn(Storage.prototype, 'getItem').and.callFake(fakeSessionStorage.getItem);
+    spyOn(Storage.prototype, 'removeItem').and.callFake(fakeSessionStorage.removeItem);
+    spyOn(Storage.prototype, 'clear').and.callFake(fakeSessionStorage.clear);
   });
 
   afterEach(() => {
