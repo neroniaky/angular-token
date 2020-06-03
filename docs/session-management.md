@@ -12,16 +12,18 @@ Once initialized `AngularTokenService` offers methods for session management:
 
 ## .signIn()
 The signIn method is used to sign in the user with login (e.g. email address) and password.
-The optional parameter `type` specifies the name of UserType used for this session.
+The optional parameter `userType` specifies the name of UserType used for this session.
 
-`signIn({login: string, password: string, userType?: string}): Observable<Response>`
+The optional parameter `additionalData` allows to pass custom data for the login logic (Example use case: Recaptcha).
+
+`signIn({login: string, password: string, userType?: string}, additionalData?: any): Observable<Response>`
 
 #### Example:
 ```javascript
 this.tokenService.signIn({
-  login:    'example@example.org',
-  password: 'secretPassword'
-}).subscribe(
+    login:    'example@example.org',
+    password: 'secretPassword',
+  }, additionalData).subscribe(
   res =>      console.log(res),
   error =>    console.log(error)
 );
@@ -43,7 +45,9 @@ this.tokenService.signOut().subscribe(
 ## .registerAccount()
 Sends a new user registration request to the Server.
 
-`registerAccount({login: string, password: string, passwordConfirmation: string, userType?: string}): Observable<Response>`
+The optional parameter `additionalData` allows to pass custom data for the registration logic (Example use case: Recaptcha).
+
+`registerAccount({login: string, password: string, passwordConfirmation: string, userType?: string}, additionalData?: any): Observable<Response>`
 
 #### Example:
 ```javascript
@@ -51,7 +55,7 @@ this.tokenService.registerAccount({
   login:                'example@example.org',
   password:             'secretPassword',
   passwordConfirmation: 'secretPassword'
-}).subscribe(
+}, additionalData).subscribe(
   res =>      console.log(res),
   error =>    console.log(error)
 );
@@ -137,13 +141,13 @@ end
 ```
 ********
 
-`resetPassword({login: string, userType?: string}): Observable<Response>`
+`resetPassword({login: string, userType?: string}, additionalData?: any): Observable<Response>`
 
 #### Example:
 ```javascript
 this.tokenService.resetPassword({
   login: 'example@example.org',
-}).subscribe(
+}, additionalData).subscribe(
   res =>      console.log(res),
   error =>    console.log(error)
 );
