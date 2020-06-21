@@ -428,15 +428,21 @@ export class AngularTokenService implements CanActivate {
     return (this.userType.value == null) ? '' : this.userType.value.path + '/';
   }
 
+  private addTrailingSlashIfNeeded(url: string): string {
+    const lastChar = url[url.length - 1];
+
+    return lastChar === '/' ? url : url + '/';
+  }
+
   private getApiPath(): string {
     let constructedPath = '';
 
     if (this.options.apiBase != null) {
-      constructedPath += this.options.apiBase + '/';
+      constructedPath += this.addTrailingSlashIfNeeded(this.options.apiBase);
     }
 
     if (this.options.apiPath != null) {
-      constructedPath += this.options.apiPath + '/';
+      constructedPath += this.addTrailingSlashIfNeeded(this.options.apiPath);
     }
 
     return constructedPath;
