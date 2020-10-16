@@ -30,6 +30,7 @@ export interface UpdatePasswordData {
 export interface ResetPasswordData {
   login:                  string;
   userType?:              string;
+  additionalData?:        any;
 }
 
 // API Response Format
