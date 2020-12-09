@@ -145,32 +145,22 @@ export class AngularTokenService implements CanActivate {
   }
 
   userSignedIn(): boolean {
-    if (this.authData.value == null) {
-      return false;
-    } else {
-      return true;
-    }
+    return !!this.authData.value;
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.userSignedIn()) {
-      return true;
-    } else {
-      // Store current location in storage (usefull for redirection after signing in)
-      if (this.options.signInStoredUrlStorageKey) {
-        this.localStorage.setItem(
-          this.options.signInStoredUrlStorageKey,
-          state.url
-        );
+  canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const expiration = this.userSignedIn() && !!this.authData.value.expiry ? (+this.authData.value.expiry * 1000) : 0;
+    const authenticated = Date.now() < expiration;
+
+    if (!authenticated) {
+      if (!!this.options.signInStoredUrlStorageKey) {
+        localStorage.setItem(this.options.signInStoredUrlStorageKey, state.url);
       }
 
-      // Redirect user to sign in if signInRedirect is set
-      if (this.router && this.options.signInRedirect) {
-        this.router.navigate([this.options.signInRedirect]);
-      }
-
-      return false;
+      this.router.navigate([this.options.signInRedirect]);
     }
+
+    return authenticated;
   }
 
 
