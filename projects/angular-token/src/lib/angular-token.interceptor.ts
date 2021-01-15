@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class AngularTokenInterceptor implements HttpInterceptor {
 
-  constructor( private tokenService: AngularTokenService ) { }
+  constructor( protected tokenService: AngularTokenService ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -43,7 +43,7 @@ export class AngularTokenInterceptor implements HttpInterceptor {
 
 
   // Parse Auth data from response
-  private handleResponse(res: HttpResponse<any> | HttpErrorResponse | HttpEvent<any>): void {
+  protected handleResponse(res: HttpResponse<any> | HttpErrorResponse | HttpEvent<any>): void {
     if (res instanceof HttpResponse || res instanceof HttpErrorResponse) {
       if (this.tokenService.tokenOptions.apiBase === null || (res.url && res.url.match(this.tokenService.tokenOptions.apiBase))) {
         this.tokenService.getAuthHeadersFromResponse(res);

@@ -60,20 +60,20 @@ export class AngularTokenService implements CanActivate {
     this.options = (<any>Object).assign(this.options, options);
   }
 
-  private options: AngularTokenOptions;
+  protected options: AngularTokenOptions;
   public userType: BehaviorSubject<UserType> = new BehaviorSubject<UserType>(null);
   public authData: BehaviorSubject<AuthData> = new BehaviorSubject<AuthData>(null);
   public userData: BehaviorSubject<UserData> = new BehaviorSubject<UserData>(null);
-  private global: Window | any;
+  protected global: Window | any;
 
-  private localStorage: Storage | any = {};
+  protected localStorage: Storage | any = {};
 
   constructor(
-    private http: HttpClient,
+    protected http: HttpClient,
     @Inject(ANGULAR_TOKEN_OPTIONS) config: any,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    @Optional() private activatedRoute: ActivatedRoute,
-    @Optional() private router: Router
+    @Inject(PLATFORM_ID) protected platformId: Object,
+    @Optional() protected activatedRoute: ActivatedRoute,
+    @Optional() protected router: Router
   ) {
     this.global = (typeof window !== 'undefined') ? window : {};
 
@@ -399,8 +399,8 @@ export class AngularTokenService implements CanActivate {
 
   // Reset password request
   resetPassword(resetPasswordData: ResetPasswordData, additionalData?: any): Observable<ApiResponse> {
-    
-    
+
+
     if (additionalData !== undefined) {
       resetPasswordData.additionalData = additionalData;
     }
@@ -424,11 +424,11 @@ export class AngularTokenService implements CanActivate {
    *
    */
 
-  private getUserPath(): string {
+  protected getUserPath(): string {
     return (this.userType.value == null) ? '' : this.userType.value.path + '/';
   }
 
-  private getApiPath(): string {
+  protected getApiPath(): string {
     let constructedPath = '';
 
     if (this.options.apiBase != null) {
@@ -442,11 +442,11 @@ export class AngularTokenService implements CanActivate {
     return constructedPath;
   }
 
-  private getServerPath(): string {
+  protected getServerPath(): string {
     return this.getApiPath() + this.getUserPath();
   }
 
-  private getOAuthPath(oAuthType: string): string {
+  protected getOAuthPath(oAuthType: string): string {
     let oAuthPath: string;
 
     oAuthPath = this.options.oAuthPaths[oAuthType];
@@ -458,7 +458,7 @@ export class AngularTokenService implements CanActivate {
     return oAuthPath;
   }
 
-  private getOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
+  protected getOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
     let url: string;
 
     url =   `${this.options.oAuthBase}/${oAuthPath}`;
@@ -480,7 +480,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Try to load auth data
-  private tryLoadAuthData(): void {
+  protected tryLoadAuthData(): void {
 
     const userType = this.getUserTypeByName(this.localStorage.getItem('userType'));
 
@@ -515,7 +515,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Parse Auth data from post message
-  private getAuthDataFromPostMessage(data: any): void {
+  protected getAuthDataFromPostMessage(data: any): void {
     const authData: AuthData = {
       accessToken:    data['auth_token'],
       client:         data['client_id'],
@@ -544,7 +544,7 @@ export class AngularTokenService implements CanActivate {
   }
 
   // Try to get auth data from url parameters.
-  private getAuthDataFromParams(): void {
+  protected getAuthDataFromParams(): void {
     this.activatedRoute.queryParams.subscribe(queryParams => {
       const authData: AuthData = {
         accessToken:    queryParams['token'] || queryParams['auth_token'],
@@ -567,7 +567,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Write auth data to storage
-  private setAuthData(authData: AuthData): void {
+  protected setAuthData(authData: AuthData): void {
     if (this.checkAuthData(authData)) {
 
       this.authData.next(authData);
@@ -593,7 +593,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Check if auth data complete and if response token is newer
-  private checkAuthData(authData: AuthData): boolean {
+  protected checkAuthData(authData: AuthData): boolean {
 
     if (
       authData.accessToken != null &&
@@ -617,7 +617,7 @@ export class AngularTokenService implements CanActivate {
    *
    */
 
-  private requestCredentialsViaPostMessage(authWindow: any): Observable<any> {
+  protected requestCredentialsViaPostMessage(authWindow: any): Observable<any> {
     const pollerObserv = interval(500);
 
     const responseObserv = fromEvent(this.global, 'message').pipe(
@@ -640,7 +640,7 @@ export class AngularTokenService implements CanActivate {
     return responseObserv;
   }
 
-  private oAuthWindowResponseFilter(data: any): any {
+  protected oAuthWindowResponseFilter(data: any): any {
     if (data.message === 'deliverCredentials' || data.message === 'authFailure') {
       return data;
     }
@@ -654,7 +654,7 @@ export class AngularTokenService implements CanActivate {
    */
 
   // Match user config by user config name
-  private getUserTypeByName(name: string): UserType {
+  protected getUserTypeByName(name: string): UserType {
     if (name == null || this.options.userTypes == null) {
       return null;
     }
