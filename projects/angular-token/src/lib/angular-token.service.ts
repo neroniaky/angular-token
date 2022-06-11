@@ -64,13 +64,15 @@ export class AngularTokenService implements CanActivate {
   public userType: BehaviorSubject<UserType> = new BehaviorSubject<UserType>(null);
   public authData: BehaviorSubject<AuthData> = new BehaviorSubject<AuthData>(null);
   public userData: BehaviorSubject<UserData> = new BehaviorSubject<UserData>(null);
-  private global: Window | any;
+  private global: Partial<Window>;
 
   private localStorage: Storage | any = {};
 
   constructor(
     private http: HttpClient,
-    private window: Window,
+    // "any" used here to assuage environments where type Window does not exist at build time.
+    // It's assigned to global in the constructor which has the proper typing.
+    @Inject('Window') private window: any,
     @Inject(ANGULAR_TOKEN_OPTIONS) config: any,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() private activatedRoute: ActivatedRoute,
@@ -82,11 +84,11 @@ export class AngularTokenService implements CanActivate {
 
       // Bad pratice, needs fixing
       this.global = {
-        open: (): void => null,
+        open: (): Window => null,
         location: {
           href: '/',
           origin: '/'
-        }
+        } as any
       };
 
       // Bad pratice, needs fixing
@@ -620,7 +622,7 @@ export class AngularTokenService implements CanActivate {
   private requestCredentialsViaPostMessage(authWindow: any): Observable<any> {
     const pollerObserv = interval(500);
 
-    const responseObserv = fromEvent(this.global, 'message').pipe(
+    const responseObserv = fromEvent(this.global as any, 'message').pipe(
       pluck('data'),
       filter(this.oAuthWindowResponseFilter)
     );

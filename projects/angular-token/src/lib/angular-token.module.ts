@@ -19,7 +19,7 @@ export class AngularTokenModule {
       ngModule: AngularTokenModule,
       providers: [
         {
-          provide: Window,
+          provide: 'Window',
           useValue: window
         },
         {

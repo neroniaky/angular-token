@@ -147,7 +147,7 @@ describe('AngularTokenService', () => {
       ],
       providers: [
         AngularTokenService,
-        { provide: Window, useValue: fakeWindow }
+        { provide: 'Window', useValue: fakeWindow }
       ]
     });
 
