@@ -70,12 +70,13 @@ export class AngularTokenService implements CanActivate {
 
   constructor(
     private http: HttpClient,
+    private window: Window,
     @Inject(ANGULAR_TOKEN_OPTIONS) config: any,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Optional() private activatedRoute: ActivatedRoute,
     @Optional() private router: Router
   ) {
-    this.global = (typeof window !== 'undefined') ? window : {};
+    this.global = (typeof this.window !== 'undefined') ? this.window : {};
 
     if (isPlatformServer(this.platformId)) {
 
@@ -245,7 +246,7 @@ export class AngularTokenService implements CanActivate {
   signInOAuth(oAuthType: string, inAppBrowser?: TokenInAppBrowser<any, any>, platform?: TokenPlatform) {
 
     const oAuthPath: string = this.getOAuthPath(oAuthType);
-    const callbackUrl = `${this.global.location.origin}/${this.options.oAuthCallbackPath}`;
+    const callbackUrl: string = new URL(this.options.oAuthCallbackPath, this.global.location.origin).href;
     const oAuthWindowType: string = this.options.oAuthWindowType;
     const authUrl: string = this.getOAuthUrl(oAuthPath, callbackUrl, oAuthWindowType);
 
@@ -262,7 +263,7 @@ export class AngularTokenService implements CanActivate {
         }
       }
 
-      const popup = window.open(
+      const popup = this.window.open(
           authUrl,
           '_blank',
           `closebuttoncaption=Cancel${windowOptions}`
@@ -459,11 +460,10 @@ export class AngularTokenService implements CanActivate {
   }
 
   private getOAuthUrl(oAuthPath: string, callbackUrl: string, windowType: string): string {
-    let url: string;
-
-    url =   `${this.options.oAuthBase}/${oAuthPath}`;
-    url +=  `?omniauth_window_type=${windowType}`;
-    url +=  `&auth_origin_url=${encodeURIComponent(callbackUrl)}`;
+    let url = new URL(
+      `${oAuthPath}?omniauth_window_type=${windowType}&auth_origin_url=${encodeURIComponent(callbackUrl)}`,
+      this.options.oAuthBase
+    ).href
 
     if (this.userType.value != null) {
       url += `&resource_class=${this.userType.value.name}`;
