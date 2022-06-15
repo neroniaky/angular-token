@@ -19,6 +19,10 @@ export class AngularTokenModule {
       ngModule: AngularTokenModule,
       providers: [
         {
+          provide: 'Window',
+          useValue: window
+        },
+        {
           provide: HTTP_INTERCEPTORS,
           useClass: AngularTokenInterceptor,
           multi: true

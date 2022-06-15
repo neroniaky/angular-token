@@ -135,6 +135,7 @@ describe('AngularTokenService', () => {
 
   let service: AngularTokenService;
   let backend: HttpTestingController;
+  let fakeWindow = { open: (a: string, b:string, c: string): void => null, location: { href: window.location.href, origin: 'http://localhost:9876' } };
 
   function initService(serviceConfig: AngularTokenOptions) {
     // Inject HTTP and AngularTokenService
@@ -145,12 +146,14 @@ describe('AngularTokenService', () => {
         AngularTokenModule.forRoot(serviceConfig)
       ],
       providers: [
-        AngularTokenService
+        AngularTokenService,
+        { provide: 'Window', useValue: fakeWindow }
       ]
     });
 
     service = TestBed.inject(AngularTokenService);
     backend = TestBed.inject(HttpTestingController);
+
   }
 
   beforeEach(() => {
@@ -172,6 +175,7 @@ describe('AngularTokenService', () => {
 
   afterEach(() => {
     backend.verify();
+    fakeWindow = { open: (): void => null, location: { href: window.location.href, origin: 'http://localhost:9876' } };
   });
 
   /**
@@ -459,6 +463,54 @@ describe('AngularTokenService', () => {
 
     });
   });
+
+  describe('signInOauth', () => {
+    describe('in a new window', () => {
+      beforeEach(() => {
+        initService({
+          oAuthBase: 'https://www.example.com',
+          oAuthWindowType: 'newWindow'
+        })
+      })
+
+      it('opens a new window with the authentication URL', () => {
+        const openSpy = spyOn(fakeWindow, 'open');
+        service.signInOAuth('facebook')
+        expect(openSpy).toHaveBeenCalledWith(
+          'https://www.example.com/auth/facebook?omniauth_window_type=newWindow&auth_origin_url=http%3A%2F%2Flocalhost%3A9876%2Foauth_callback',
+          '_blank', 'closebuttoncaption=Cancel'
+        )
+      })
+    })
+
+    describe('in the same window', () => {
+      beforeEach(() => {
+        initService({
+          oAuthBase: 'https://www.example.com',
+          oAuthWindowType: 'sameWindow'
+        })
+      })
+
+      it('redirects to the authentication URL', () => {
+        service.signInOAuth('facebook')
+        expect(fakeWindow.location.href).toEqual(
+          'https://www.example.com/auth/facebook?omniauth_window_type=sameWindow&auth_origin_url=http%3A%2F%2Flocalhost%3A9876%2Foauth_callback'
+        )
+      })
+    })
+
+    describe('with an unsupported configuration', () => {
+      beforeEach(() => {
+        initService({
+          oAuthWindowType: 'wrongValue'
+        })
+      })
+
+      it ('throws an error', () => {
+        expect(() => service.signInOAuth('facebook')).toThrow(new Error('Unsupported oAuthWindowType "wrongValue"'))
+      })
+    })
+  })
 
   describe('user signed out', () => {
     beforeEach(() => {
