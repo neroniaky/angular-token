@@ -1,6 +1,6 @@
 {
   "name": "angular-token",
-  "version": "9.0.0-beta.0",
+  "version": "14.0.0-beta.0",
   "repository": "https://github.com/neroniaky/angular-token.git",
   "author": {
     "name": "Jan-Philipp Riethmacher",
@@ -25,11 +25,10 @@
     "token authentication"
   ],
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   },
-
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0"
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0"
   }
 }

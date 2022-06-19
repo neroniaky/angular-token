@@ -1,3 +1,4 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -8,33 +9,29 @@
     "declaration": false,
     "module": "es2020",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2020",
-
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "alwaysStrict": true,
-
     "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true,
+    // "strict": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
-
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "noFallthroughCasesInSwitch": true,
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ],
     "paths": {
       "angular-token": [
         "dist/angular-token"
-      ],
-      "angular-token/*": [
-        "dist/angular-token/*"
       ]
-    }
+    },
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }
