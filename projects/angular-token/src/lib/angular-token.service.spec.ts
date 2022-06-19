@@ -17,11 +17,11 @@ import {
 describe('AngularTokenService', () => {
 
   // Init common test data
-  const tokenType   = 'Bearer';
-  const uid         = 'test@test.com';
+  const tokenType = 'Bearer';
+  const uid = 'test@test.com';
   const accessToken = 'fJypB1ugmWHJfW6CELNfug';
-  const client      = '5dayGs4hWTi4eKwSifu_mg';
-  const expiry      = '1472108318';
+  const client = '5dayGs4hWTi4eKwSifu_mg';
+  const expiry = '1472108318';
 
   const tokenHeaders = {
     'content-Type': 'application/json',
@@ -41,41 +41,42 @@ describe('AngularTokenService', () => {
   };
 
   const userData: UserData = {
-    id:       1,
+    id: 1,
     provider: 'provider',
-    uid:      'uid',
-    name:     'name',
+    uid: 'uid',
+    name: 'name',
+    email: 'email',
     nickname: 'nickname',
-    image:    null,
-    login:    'test@test.de'
+    image: null,
+    login: 'test@example.com'
   };
 
   // SignIn test data
   const signInData: SignInData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
     password: 'password'
   };
 
   const signInDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     password: 'password'
   };
 
   const signInDataCustomOutput = {
-    username: 'test@test.de',
+    username: 'test@example.com',
     password: 'password'
   };
 
   // Register test data
   const registerData: RegisterData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
     password: 'password',
     passwordConfirmation: 'password'
   };
 
   // Register test data
   const registerCustomFieldsData: RegisterData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
     first_name: 'John',
     last_name: 'Doe',
     password: 'password',
@@ -83,26 +84,26 @@ describe('AngularTokenService', () => {
   };
 
   const registerCustomFieldsDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     first_name: 'John',
     last_name: 'Doe',
     password: 'password',
     password_confirmation: 'password',
-    confirm_success_url: 	window.location.href
+    confirm_success_url: window.location.href
   };
 
   const registerDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     password: 'password',
     password_confirmation: 'password',
-    confirm_success_url: 	window.location.href
+    confirm_success_url: window.location.href
   };
 
   const registerCustomDataOutput = {
-    username: 'test@test.de',
+    username: 'test@example.com',
     password: 'password',
     password_confirmation: 'password',
-    confirm_success_url: 	window.location.href
+    confirm_success_url: window.location.href
   };
 
   // Update password data
@@ -120,22 +121,22 @@ describe('AngularTokenService', () => {
 
   // Reset password data
   const resetPasswordData: ResetPasswordData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
   };
 
   const resetPasswordDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     redirect_url: 'http://localhost:9876/context.html'
   };
 
   const resetCustomPasswordDataOutput = {
-    username: 'test@test.de',
+    username: 'test@example.com',
     redirect_url: 'http://localhost:9876/context.html'
   };
 
   let service: AngularTokenService;
   let backend: HttpTestingController;
-  let fakeWindow = { open: (a: string, b:string, c: string): void => null, location: { href: window.location.href, origin: 'http://localhost:9876' } };
+  let fakeWindow = { open: (a: string, b: string, c: string): void => null, location: { href: window.location.href, origin: 'http://localhost:9876' } };
 
   function initService(serviceConfig: AngularTokenOptions) {
     // Inject HTTP and AngularTokenService
@@ -159,7 +160,7 @@ describe('AngularTokenService', () => {
   beforeEach(() => {
     // Fake Local Storage
     let store: { [key: string]: string; } = {};
-    
+
     const fakeSessionStorage = {
       setItem: (key: string, value: string) => store[key] = `${value}`,
       getItem: (key: string): string => key in store ? store[key] : null,
@@ -246,7 +247,7 @@ describe('AngularTokenService', () => {
       localStorage.setItem('client', client);
       localStorage.setItem('expiry', expiry);
 
-      service.signOut().subscribe( data => {
+      service.signOut().subscribe(data => {
         expect(localStorage.getItem('accessToken')).toBe(null);
         expect(localStorage.getItem('client')).toBe(null);
         expect(localStorage.getItem('expiry')).toBe(null);
@@ -301,7 +302,7 @@ describe('AngularTokenService', () => {
 
       const signOutSpy = spyOn(service, 'signOut');
 
-      service.validateToken().subscribe(() => {}, () => expect(signOutSpy).not.toHaveBeenCalled());
+      service.validateToken().subscribe(() => { }, () => expect(signOutSpy).not.toHaveBeenCalled());
 
       const req = backend.expectOne({
         url: 'auth/validate_token',
@@ -447,7 +448,7 @@ describe('AngularTokenService', () => {
 
       const signOutSpy = spyOn(service, 'signOut');
 
-      service.validateToken().subscribe(() => {}, () => expect(signOutSpy).toHaveBeenCalled() );
+      service.validateToken().subscribe(() => { }, () => expect(signOutSpy).toHaveBeenCalled());
 
       const req = backend.expectOne({
         url: 'auth/validate_token',
@@ -506,7 +507,7 @@ describe('AngularTokenService', () => {
         })
       })
 
-      it ('throws an error', () => {
+      it('throws an error', () => {
         expect(() => service.signInOAuth('facebook')).toThrow(new Error('Unsupported oAuthWindowType "wrongValue"'))
       })
     })
@@ -549,7 +550,7 @@ describe('AngularTokenService', () => {
         method: 'POST'
       });
 
-      req.flush( userData, { headers: tokenHeaders } );
+      req.flush(userData, { headers: tokenHeaders });
     });
 
     /*it('currentUserData should return current user data', () => {
@@ -575,7 +576,7 @@ describe('AngularTokenService', () => {
         method: 'POST'
       });
 
-      req.flush( userData, { headers: tokenHeaders } );
+      req.flush(userData, { headers: tokenHeaders });
     });
   });
 });
