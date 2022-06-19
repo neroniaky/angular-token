@@ -48,35 +48,35 @@ describe('AngularTokenService', () => {
     email: 'email',
     nickname: 'nickname',
     image: null,
-    login: 'test@test.de'
+    login: 'test@example.com'
   };
 
   // SignIn test data
   const signInData: SignInData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
     password: 'password'
   };
 
   const signInDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     password: 'password'
   };
 
   const signInDataCustomOutput = {
-    username: 'test@test.de',
+    username: 'test@example.com',
     password: 'password'
   };
 
   // Register test data
   const registerData: RegisterData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
     password: 'password',
     passwordConfirmation: 'password'
   };
 
   // Register test data
   const registerCustomFieldsData: RegisterData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
     first_name: 'John',
     last_name: 'Doe',
     password: 'password',
@@ -84,7 +84,7 @@ describe('AngularTokenService', () => {
   };
 
   const registerCustomFieldsDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     first_name: 'John',
     last_name: 'Doe',
     password: 'password',
@@ -93,14 +93,14 @@ describe('AngularTokenService', () => {
   };
 
   const registerDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     password: 'password',
     password_confirmation: 'password',
     confirm_success_url: window.location.href
   };
 
   const registerCustomDataOutput = {
-    username: 'test@test.de',
+    username: 'test@example.com',
     password: 'password',
     password_confirmation: 'password',
     confirm_success_url: window.location.href
@@ -121,16 +121,16 @@ describe('AngularTokenService', () => {
 
   // Reset password data
   const resetPasswordData: ResetPasswordData = {
-    login: 'test@test.de',
+    login: 'test@example.com',
   };
 
   const resetPasswordDataOutput = {
-    email: 'test@test.de',
+    email: 'test@example.com',
     redirect_url: 'http://localhost:9876/context.html'
   };
 
   const resetCustomPasswordDataOutput = {
-    username: 'test@test.de',
+    username: 'test@example.com',
     redirect_url: 'http://localhost:9876/context.html'
   };
 
