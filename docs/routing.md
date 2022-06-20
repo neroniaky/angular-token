@@ -33,3 +33,21 @@ this.tokenService.signIn({
   error =>    console.log(error)
 );
 ```
+
+Angular-Token implements the `CanLoad` interface, so it can directly be used as a route guard on lazy loading modules.
+If the `signInRedirect` option is set the user will be redirected on a failed (=false) CanLoad using `Router.navigate()`.
+It currently does not distinguish between user types.
+
+#### Example:
+```javascript
+const routerConfig: Routes = [
+  {
+    path: '',
+    component: PublicComponent
+  }, {
+    path: 'restricted',
+    loadChildren: './restrictedmodule_path/restricted.module#RestrictedModule',
+    canLoad: [AngularTokenService]
+  }
+];
+```
