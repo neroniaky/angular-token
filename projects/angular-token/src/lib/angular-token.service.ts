@@ -564,6 +564,7 @@ export class AngularTokenService implements CanActivate {
 
       if (this.checkAuthData(authData)) {
         this.authData.next(authData);
+        this.setAuthData(authData);
       }
     });
   }
