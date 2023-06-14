@@ -80,7 +80,7 @@
         }
       }
     },
-    "angular-token": {
+    "@effy-tech/angular-token": {
       "projectType": "library",
       "root": "projects/angular-token",
       "sourceRoot": "projects/angular-token/src",

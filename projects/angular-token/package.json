@@ -1,34 +1,15 @@
 {
-  "name": "angular-token",
-  "version": "14.0.0-beta.0",
-  "repository": "https://github.com/neroniaky/angular-token.git",
-  "author": {
-    "name": "Jan-Philipp Riethmacher",
-    "email": "neroniaky@gmail.com",
-    "url": "https://github.com/neroniaky"
-  },
-  "contributors": [
-    {
-      "name": "Arjen Brandenburgh",
-      "email": "mail@arjenbrandenburgh.nl",
-      "url": "https://github.com/arjenbrandenburgh"
-    }
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/neroniaky/angular-token/issues"
-  },
-  "homepage": "https://github.com/neroniaky/angular-token#readme",
-  "keywords": [
-    "angular",
-    "devise token auth",
-    "token authentication"
-  ],
   "dependencies": {
     "tslib": "^2.3.0"
   },
+  "name": "@effy-tech/angular-token",
   "peerDependencies": {
-    "@angular/common": "^14.0.0",
-    "@angular/core": "^14.0.0"
-  }
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/effy-tech/angular-token.git",
+  "version": "15.0.0"
 }

@@ -136,7 +136,12 @@ describe('AngularTokenService', () => {
 
   let service: AngularTokenService;
   let backend: HttpTestingController;
-  let fakeWindow = { open: (a: string, b: string, c: string): void => null, location: { href: window.location.href, origin: 'http://localhost:9876' } };
+  let fakeWindow = { 
+    open: (a: string, b: string, c: string): void => null,
+    location: { href: window.location.href, origin: 'http://localhost:9876' },
+    addEventListener: () => {},
+    removeEventListener: () => {}
+ };
 
   function initService(serviceConfig: AngularTokenOptions) {
     // Inject HTTP and AngularTokenService
@@ -176,7 +181,12 @@ describe('AngularTokenService', () => {
 
   afterEach(() => {
     backend.verify();
-    fakeWindow = { open: (): void => null, location: { href: window.location.href, origin: 'http://localhost:9876' } };
+    fakeWindow = { 
+      open: (): void => null, 
+      location: { href: window.location.href, origin: 'http://localhost:9876' },
+      addEventListener: () => {},
+      removeEventListener: () => {}
+    };
   });
 
   /**
