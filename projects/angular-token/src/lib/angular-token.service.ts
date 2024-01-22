@@ -1,5 +1,5 @@
 import { Injectable, Optional, Inject, PLATFORM_ID } from '@angular/core';
-import { ActivatedRoute, Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRoute, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 
@@ -28,7 +28,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class AngularTokenService implements CanActivate {
+export class AngularTokenService  {
 
   get currentUserType(): string {
     if (this.userType.value != null) {
